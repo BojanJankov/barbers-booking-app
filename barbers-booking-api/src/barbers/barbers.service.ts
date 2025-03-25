@@ -28,6 +28,10 @@ export class BarbersService {
     return this.barbersRepository.save(barber);
   }
 
+  async findAll(): Promise<Barber[]> {
+    return this.barberRepository.find();
+  }
+
   async findOne(id: number): Promise<Barber> {
     return this.barberRepository.findOne(id);
   }

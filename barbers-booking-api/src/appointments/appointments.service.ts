@@ -1,11 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Barber } from 'src/barbers/entities/barber.entity';
 import { Service } from 'src/services/entities/service.entity';
 import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { Appointment } from './entities/appointment.entity';
-import { UpdateAppointmentDto } from './dtos/update.appointment-dto';
+import {
+  UpdateAppointmentDto,
+  UpdateStatusDto,
+} from './dtos/update.appointment-dto';
 import { CreateAppointmentDto } from './dtos/create.appointment-dto';
 
 @Injectable()
@@ -19,12 +22,15 @@ export class AppointmentsService {
   async create(
     createAppointmentDto: CreateAppointmentDto,
   ): Promise<Appointment> {
-    const { userId, barberId, serviceId, dateTime } = createAppointmentDto;
-    const appointment = new Appointment();
-    appointment.user = { id: userId } as User;
-    appointment.barber = { id: barberId } as Barber;
-    appointment.service = { id: serviceId } as Service;
-    appointment.dateTime = dateTime;
+    const appointment = this.appointmentRepository.create({
+      ...createAppointmentDto,
+      status: 'pending',
+    });
+    // const appointment = new Appointment();
+    // appointment.user = { id: userId } as User;
+    // appointment.barber = { id: barberId } as Barber;
+    // appointment.service = { id: serviceId } as Service;
+    // appointment.dateTime = dateTime;
 
     return this.appointmentRepository.save(appointment);
   }
@@ -35,6 +41,16 @@ export class AppointmentsService {
 
   async findOne(id: number): Promise<Appointment> {
     return this.appointmentRepository.findOne(id);
+  }
+
+  async updateStatus(id: number, updateStatusDto: UpdateStatusDto) {
+    const appointment = await this.appointmentRepository.findOne({
+      where: { id },
+    });
+    if (!appointment) throw new NotFoundException('Appointment not found');
+
+    appointment.status = updateStatusDto.status;
+    return await this.appointmentRepository.save(appointment);
   }
 
   async update(
