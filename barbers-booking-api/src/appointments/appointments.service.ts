@@ -10,6 +10,7 @@ import {
   UpdateStatusDto,
 } from './dtos/update.appointment-dto';
 import { CreateAppointmentDto } from './dtos/create.appointment-dto';
+import { MailerService } from 'src/mailer/mailer.service';
 
 @Injectable()
 export class AppointmentsService {
@@ -17,20 +18,22 @@ export class AppointmentsService {
   constructor(
     @InjectRepository(Appointment)
     private readonly appointmentsRepository: Repository<Appointment>,
+    private readonly mailerService: MailerService,
   ) {}
 
   async create(
     createAppointmentDto: CreateAppointmentDto,
   ): Promise<Appointment> {
-    const appointment = this.appointmentRepository.create({
+    const appointment: Appointment = this.appointmentRepository.create({
       ...createAppointmentDto,
       status: 'pending',
     });
-    // const appointment = new Appointment();
-    // appointment.user = { id: userId } as User;
-    // appointment.barber = { id: barberId } as Barber;
-    // appointment.service = { id: serviceId } as Service;
-    // appointment.dateTime = dateTime;
+
+    await this.mailerService.sendEmail(
+      appointment.barber.email,
+      'New Appointment Request',
+      `You have a new appointment request from ${appointment.user.username} on ${appointment.dateTime}.`,
+    );
 
     return this.appointmentRepository.save(appointment);
   }
@@ -44,12 +47,19 @@ export class AppointmentsService {
   }
 
   async updateStatus(id: number, updateStatusDto: UpdateStatusDto) {
-    const appointment = await this.appointmentRepository.findOne({
+    const appointment: Appointment = await this.appointmentRepository.findOne({
       where: { id },
     });
     if (!appointment) throw new NotFoundException('Appointment not found');
 
     appointment.status = updateStatusDto.status;
+
+    await this.mailerService.sendEmail(
+      appointment.user.email,
+      `Your Appointment has been ${appointment.status}`,
+      `Your appointment on ${appointment.dateTime} has been ${appointment.status} by ${appointment.barber.name}.`,
+    );
+
     return await this.appointmentRepository.save(appointment);
   }
 
