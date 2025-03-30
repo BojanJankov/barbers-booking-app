@@ -1,11 +1,20 @@
 import "./App.css";
+import { Route, Routes } from "react-router-dom";
+import Footer from "./Layout/Footer/Footer";
+import Header from "./Layout/Header/Header";
 
 function App() {
   return (
     <>
-      <div>
-        <h1 className="mb-5 font-bold flex-items">Barbers App</h1>
-      </div>
+      <section className="min-h-screen bg-green-100">
+        <Header />
+        <main>
+          <Routes>
+            <Route path="/"></Route>
+          </Routes>
+        </main>
+        <Footer />
+      </section>
     </>
   );
 }
