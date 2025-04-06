@@ -17,6 +17,10 @@ function Navbar() {
       path: "/contact",
       text: "Contact",
     },
+    {
+      path: "/barbers",
+      text: "Barbers",
+    },
   ];
   return (
     <nav className="flex items-center justify-center gap-5">
@@ -25,7 +29,7 @@ function Navbar() {
           <li key={i}>
             <NavLink
               to={link.path}
-              className="ease-in-out duration-75 text-black hover:text-sky-700"
+              className="ease-in-out duration-75 text-white hover:text-sky-700"
             >
               {link.text}
             </NavLink>
