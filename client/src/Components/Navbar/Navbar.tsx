@@ -29,7 +29,7 @@ function Navbar() {
           <li key={i}>
             <NavLink
               to={link.path}
-              className="ease-in-out duration-75 text-white hover:text-sky-700"
+              className="ease-in-out duration-75 text-font hover:text-light"
             >
               {link.text}
             </NavLink>
