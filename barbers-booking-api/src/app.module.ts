@@ -11,6 +11,7 @@ import { AppointmentsModule } from './appointments/appointments.module';
 import { ServicesModule } from './services/services.module';
 import { MailerService } from './mailer/mailer.service';
 import { RatingsModule } from './ratings/ratings.module';
+import { ContactModule } from './contact/contact.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { RatingsModule } from './ratings/ratings.module';
     AppointmentsModule,
     ServicesModule,
     RatingsModule,
+    ContactModule,
   ],
 
   controllers: [AppController],
