@@ -1,5 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { api } from "../../services/api";
 
 interface IFormInput {
   name: string;
@@ -9,16 +10,24 @@ interface IFormInput {
 
 const ContactPage = () => {
   const {
-    control,
+    register,
     handleSubmit,
     formState,
     formState: { errors },
     reset,
   } = useForm<IFormInput>();
+  const [alert, setAlert] = useState("");
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    console.log("Form Submitted:", data);
-    // Handle form submission here (e.g., send data to a server)
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    try {
+      const response = await api.post("contact", data);
+
+      console.log("Form Submitted:", response);
+      setAlert("Thank you for your message, your message will be reviewed.");
+    } catch (error) {
+      console.log(error);
+      setAlert("Something went wrong, try again!");
+    }
   };
 
   useEffect(() => {
@@ -36,20 +45,11 @@ const ContactPage = () => {
             <label htmlFor="name" className="block text-lg font-medium mb-2">
               Full Name
             </label>
-            <Controller
-              name="name"
-              control={control}
-              rules={{ required: "Name is required" }}
-              render={({ field }) => (
-                <input
-                  type="text"
-                  id="name"
-                  className={`w-full p-3 rounded-md border-2 border-[var(--color-border)] bg-transparent text-[var(--color-font)] focus:outline-none focus:border-[var(--color-light)] ${
-                    errors.name ? "border-red-500" : ""
-                  }`}
-                  {...field}
-                />
-              )}
+            <input
+              className={`w-full p-3 rounded-md border-2 border-[var(--color-border)] bg-transparent text-[var(--color-font)] focus:outline-none focus:border-[var(--color-light)] ${
+                errors.name ? "border-red-500" : ""
+              }`}
+              {...register("name", { required: true })}
             />
             {errors.name && (
               <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
@@ -60,26 +60,19 @@ const ContactPage = () => {
             <label htmlFor="email" className="block text-lg font-medium mb-2">
               Email Address
             </label>
-            <Controller
-              name="email"
-              control={control}
-              rules={{
-                required: "Email is required",
+            <input
+              type="email"
+              id="email"
+              className={`w-full p-3 rounded-md border-2 border-[var(--color-border)] bg-transparent text-[var(--color-font)] focus:outline-none focus:border-[var(--color-light)] ${
+                errors.email ? "border-red-500" : ""
+              }`}
+              {...register("email", {
+                required: true,
                 pattern: {
                   value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
                   message: "Invalid email address",
                 },
-              }}
-              render={({ field }) => (
-                <input
-                  type="email"
-                  id="email"
-                  className={`w-full p-3 rounded-md border-2 border-[var(--color-border)] bg-transparent text-[var(--color-font)] focus:outline-none focus:border-[var(--color-light)] ${
-                    errors.email ? "border-red-500" : ""
-                  }`}
-                  {...field}
-                />
-              )}
+              })}
             />
             {errors.email && (
               <p className="text-red-500 text-sm mt-1">
@@ -92,20 +85,13 @@ const ContactPage = () => {
             <label htmlFor="message" className="block text-lg font-medium mb-2">
               Your Message
             </label>
-            <Controller
-              name="message"
-              control={control}
-              rules={{ required: "Message is required" }}
-              render={({ field }) => (
-                <textarea
-                  id="message"
-                  className={`w-full p-3 rounded-md border-2 border-[var(--color-border)] bg-transparent text-[var(--color-font)] focus:outline-none focus:border-[var(--color-light)] ${
-                    errors.message ? "border-red-500" : ""
-                  }`}
-                  rows={5}
-                  {...field}
-                />
-              )}
+            <textarea
+              rows={5}
+              id="message"
+              className={`w-full p-3 rounded-md border-2 border-[var(--color-border)] bg-transparent text-[var(--color-font)] focus:outline-none focus:border-[var(--color-light)] ${
+                errors.message ? "border-red-500" : ""
+              }`}
+              {...register("message", { required: true })}
             />
             {errors.message && (
               <p className="text-red-500 text-sm mt-1">
@@ -113,7 +99,7 @@ const ContactPage = () => {
               </p>
             )}
           </div>
-
+          <p>{alert ? alert : ""}</p>
           <div className="text-center">
             <button
               type="submit"
