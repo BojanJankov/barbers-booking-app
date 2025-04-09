@@ -20,23 +20,35 @@ const AuthProvider = ({ children }: any) => {
   const [user, setUser] = useState<UserModel | null>(null);
 
   useEffect(() => {
-    if (user && accessToken) {
-      localStorage.setItem("user", JSON.stringify(user));
-      localStorage.setItem("accessToken", accessToken);
-    } else {
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("user");
+    const storedUser = localStorage.getItem("user");
+    const storedToken = localStorage.getItem("accessToken");
+    if (storedUser && storedToken) {
+      setUser(JSON.parse(storedUser));
+      setAccessToken(storedToken);
     }
-  }, [user, accessToken]);
+  }, []);
+
+  // useEffect(() => {
+  //   if (user && accessToken) {
+  //     localStorage.setItem("user", JSON.stringify(user));
+  //     localStorage.setItem("accessToken", accessToken);
+  //   } else {
+  //     localStorage.removeItem("accessToken");
+  //     localStorage.removeItem("user");
+  //   }
+  // }, [accessToken]);
 
   const login = (user: UserModel, token: string) => {
     setUser(user);
     setAccessToken(token);
+    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("accessToken", token);
   };
 
   const logout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("user");
+    localStorage.clear();
     setAccessToken(null);
     setUser(null);
   };

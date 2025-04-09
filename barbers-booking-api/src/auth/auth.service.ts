@@ -38,10 +38,15 @@ export class AuthService {
 
     if (!foundUser) throw new UnauthorizedException('Invalid Credentials');
 
+    console.log(credentials.password);
+    console.log(foundUser.password);
+
     const isPasswordValid = await compare(
       credentials.password,
       foundUser.password,
     );
+
+    console.log(isPasswordValid);
 
     if (!isPasswordValid)
       throw new UnauthorizedException('Invalid Credentials');
