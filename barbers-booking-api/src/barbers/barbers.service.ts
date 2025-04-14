@@ -13,43 +13,63 @@ import { CreateBarberDto } from './dtos/create.barber-dto';
 
 @Injectable()
 export class BarbersService {
-  barberRepository: any;
   constructor(
     @InjectRepository(Barber)
-    private readonly barbersRepository: Repository<Barber>,
+    private barbersRepository: Repository<Barber>,
     @InjectRepository(Schedule)
-    private readonly schedulesRepository: Repository<Schedule>,
+    private schedulesRepository: Repository<Schedule>,
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    private userRepository: Repository<User>,
   ) {}
 
-  async createBarberProfile(
-    userId: string,
-    data: CreateBarberDto,
-  ): Promise<Barber> {
+  async findAll() {
+    return this.barbersRepository.find();
+  }
+
+  async createBarberProfile(data: CreateBarberDto) {
+    // const findedUser = await this.userRepository.findOne({
+    //   where: { id: data.userId },
+    // });
+
+    // console.log('User', findedUser);
+
+    // if (!findedUser) {
+    //   throw new NotFoundException('User not found');
+    // }
+
+    // if (findedUser.role !== 'barber') {
+    //   throw new ForbiddenException('Only barbers can create a profile');
+    // }
+
+    // if (findedUser.barber) {
+    //   throw new ForbiddenException('You already have a barber profile');
+    // }
+
+    // return await this.barbersRepository.save(data);
+
+    const { userId, ...barberData } = data;
+
     const user = await this.userRepository.findOne({ where: { id: userId } });
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException(`User with ID ${userId} not found`);
     }
 
-    if (user.role !== 'barber') {
-      throw new ForbiddenException('Only barbers can create a profile');
-    }
+    const newBarber = this.barbersRepository.create({
+      ...barberData,
+      user,
+    });
 
-    if (user.barber) {
-      throw new ForbiddenException('You already have a barber profile');
-    }
+    console.log(newBarber);
 
-    const barber = this.barberRepository.create({ ...data, user });
-    return this.barberRepository.save(barber);
+    return this.barbersRepository.save(newBarber);
   }
 
   async updateBarberProfile(
     userId: string,
     data: UpdateBarberDto,
   ): Promise<Barber> {
-    const barber = await this.barberRepository.findOne({
+    const barber = await this.barbersRepository.findOne({
       where: { user: { id: userId } },
     });
 
@@ -60,19 +80,19 @@ export class BarbersService {
     }
 
     Object.assign(barber, data);
-    return this.barberRepository.save(barber);
-  }
-
-  async findAll(): Promise<Barber[]> {
-    return this.barberRepository.find();
+    return this.barbersRepository.save(barber);
   }
 
   async findOne(id: number): Promise<Barber> {
-    return this.barberRepository.findOne(id);
+    return this.barbersRepository.findOne({
+      where: {
+        id,
+      },
+    });
   }
 
   async remove(id: number): Promise<void> {
-    await this.barberRepository.delete(id);
+    await this.barbersRepository.delete(id);
   }
 
   async addSchedule(

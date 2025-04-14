@@ -16,16 +16,22 @@ export class Barber {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ nullable: false })
   name: string;
 
-  @Column()
+  @Column({ nullable: false })
   email: string;
 
-  @Column()
+  @Column({ nullable: false })
   phoneNumber: string;
 
-  @OneToOne(() => User, { cascade: true, eager: true })
+  @Column({ nullable: false })
+  experience: number;
+
+  @Column({ nullable: false })
+  image: string;
+
+  @OneToOne(() => User, (user) => user.barber, { eager: true })
   @JoinColumn()
   user: User;
 

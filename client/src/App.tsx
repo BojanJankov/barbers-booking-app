@@ -7,6 +7,8 @@ import AboutUs from "./Pages/AboutUs/AboutUs";
 import ContactPage from "./Pages/Contact/Contact";
 import { LoginPage } from "./Pages/Login/Login";
 import { RegisterPage } from "./Pages/Register/Register";
+import BarbersPage from "./Pages/BarbersPage/BarbersPage";
+import AddBarberPage from "./Pages/AddBarberPage/AddBarberPage";
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
             <Route path="/contact" element={<ContactPage />}></Route>
             <Route path="/login" element={<LoginPage />}></Route>
             <Route path="/register" element={<RegisterPage />}></Route>
+            <Route path="/barbers" element={<BarbersPage />}></Route>
+            <Route path="/add-barber" element={<AddBarberPage />}></Route>
           </Routes>
         </main>
         <Footer />

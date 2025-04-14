@@ -6,7 +6,7 @@ import {
   Param,
   Post,
   Put,
-  Request,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { BarbersService } from './barbers.service';
@@ -24,16 +24,21 @@ import { RoleType } from 'src/roles/roles.model';
 export class BarbersController {
   constructor(private readonly barbersService: BarbersService) {}
 
-  @Roles(RoleType.BARBER)
-  @Post('create')
-  async createBarber(@Request() req, @Body() data: CreateBarberDto) {
-    return this.barbersService.createBarberProfile(req.user.id, data);
+  @Get('')
+  async findAllBarbers() {
+    return this.barbersService.findAll();
+  }
+
+  // @Roles(RoleType.BARBER)
+  @Post()
+  async create(@Body() createBarberDto: CreateBarberDto) {
+    return this.barbersService.createBarberProfile(createBarberDto);
   }
 
   @Roles(RoleType.BARBER)
-  @Put('update')
-  async updateBarber(@Request() req, @Body() data: UpdateBarberDto) {
-    return this.barbersService.updateBarberProfile(req.user.id, data);
+  @Put()
+  async updateBarber(userId: string, @Body() data: UpdateBarberDto) {
+    return this.barbersService.updateBarberProfile(userId, data);
   }
 
   @Get(':id')
