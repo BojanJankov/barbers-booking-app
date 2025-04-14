@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { api } from "../../services/api";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import BarberContext from "../../context/StateContext";
 
 export interface FormValuesModel {
   name: string;
@@ -16,6 +17,7 @@ export interface FormValuesModel {
 export default function AddBarberPage() {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
+  const { fetchBarbers } = useContext(BarberContext);
 
   const { register, handleSubmit, reset } = useForm<FormValuesModel>();
 
@@ -34,6 +36,7 @@ export default function AddBarberPage() {
       });
 
       reset();
+      fetchBarbers();
       navigate("/barbers");
     } catch (error) {
       console.log(error);

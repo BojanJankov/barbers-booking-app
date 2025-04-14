@@ -1,4 +1,5 @@
-import { IsEmail, IsString, Length } from 'class-validator';
+import { IsBoolean, IsEmail, IsString, Length } from 'class-validator';
+import { RoleType } from 'src/roles/roles.model';
 
 export class CreateUserDto {
   @IsString()
@@ -19,4 +20,7 @@ export class CreateUserDto {
   @IsString()
   @Length(6, 20)
   username: string;
+
+  @IsString()
+  role?: RoleType;
 }

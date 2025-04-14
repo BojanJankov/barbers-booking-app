@@ -11,6 +11,7 @@ interface RegisterFormValues {
   username: string;
   email: string;
   password: string;
+  role: "user" | "barber";
 }
 
 export const RegisterPage = () => {
@@ -24,6 +25,7 @@ export const RegisterPage = () => {
       username: "",
       email: "",
       password: "",
+      role: "user",
     },
   });
 
@@ -105,6 +107,14 @@ export const RegisterPage = () => {
             required
             {...register("password", { required: true })}
           />
+          <select
+            className={styles.input}
+            required
+            {...register("role", { required: true })}
+          >
+            <option value="user">Register as User</option>
+            <option value="barber">Register as Barber</option>
+          </select>
 
           <button type="submit" className={styles.button}>
             Register

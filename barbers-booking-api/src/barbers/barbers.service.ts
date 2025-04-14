@@ -27,32 +27,20 @@ export class BarbersService {
   }
 
   async createBarberProfile(data: CreateBarberDto) {
-    // const findedUser = await this.userRepository.findOne({
-    //   where: { id: data.userId },
-    // });
-
-    // console.log('User', findedUser);
-
-    // if (!findedUser) {
-    //   throw new NotFoundException('User not found');
-    // }
-
-    // if (findedUser.role !== 'barber') {
-    //   throw new ForbiddenException('Only barbers can create a profile');
-    // }
-
-    // if (findedUser.barber) {
-    //   throw new ForbiddenException('You already have a barber profile');
-    // }
-
-    // return await this.barbersRepository.save(data);
-
     const { userId, ...barberData } = data;
 
     const user = await this.userRepository.findOne({ where: { id: userId } });
 
     if (!user) {
       throw new NotFoundException(`User with ID ${userId} not found`);
+    }
+
+    if (user.role !== 'barber') {
+      throw new ForbiddenException('Only barbers can create a profile');
+    }
+
+    if (user.barber) {
+      throw new ForbiddenException('You already have a barber profile');
     }
 
     const newBarber = this.barbersRepository.create({

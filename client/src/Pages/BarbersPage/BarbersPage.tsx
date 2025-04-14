@@ -2,9 +2,11 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BarberContext from "../../context/StateContext";
 import { Barber } from "../../Models/barber.model";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function BarbersPage() {
   const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
   const { barbers } = useContext(BarberContext);
   const [displayBarbers, setDisplayBarbers] = useState<Barber[]>(barbers);
   const [search, setSearch] = useState("");
@@ -33,12 +35,14 @@ export default function BarbersPage() {
         />
       </div>
       <div className="flex justify-end mb-4">
-        <button
-          onClick={handleAddBarber}
-          className="flex items-center gap-2 bg-[#588157] text-[#dad7cd] px-4 py-2 rounded-lg hover:bg-[#3a5a40] transition cursor-pointer"
-        >
-          Add Barber
-        </button>
+        {user?.role === "barber" ? (
+          <button
+            onClick={handleAddBarber}
+            className="flex items-center gap-2 bg-[#588157] text-[#dad7cd] px-4 py-2 rounded-lg hover:bg-[#3a5a40] transition cursor-pointer"
+          >
+            Add your barber informations
+          </button>
+        ) : null}
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 overflow-y-auto max-h-[70vh] pb-4">
         {filteredBarbers.map((barber) => (
