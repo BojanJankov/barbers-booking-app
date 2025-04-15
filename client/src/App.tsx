@@ -9,6 +9,7 @@ import { LoginPage } from "./Pages/Login/Login";
 import { RegisterPage } from "./Pages/Register/Register";
 import BarbersPage from "./Pages/BarbersPage/BarbersPage";
 import AddBarberPage from "./Pages/AddBarberPage/AddBarberPage";
+import ProtectedRoutes from "./utils/ProtectedRoutes";
 
 function App() {
   return (
@@ -22,8 +23,10 @@ function App() {
             <Route path="/contact" element={<ContactPage />}></Route>
             <Route path="/login" element={<LoginPage />}></Route>
             <Route path="/register" element={<RegisterPage />}></Route>
-            <Route path="/barbers" element={<BarbersPage />}></Route>
-            <Route path="/add-barber" element={<AddBarberPage />}></Route>
+            <Route element={<ProtectedRoutes />}>
+              <Route path="/barbers" element={<BarbersPage />}></Route>
+              <Route path="/add-barber" element={<AddBarberPage />}></Route>
+            </Route>
           </Routes>
         </main>
         <Footer />
