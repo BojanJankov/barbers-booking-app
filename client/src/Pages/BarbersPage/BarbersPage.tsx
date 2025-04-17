@@ -2,11 +2,9 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BarberContext from "../../context/StateContext";
 import { Barber } from "../../Models/barber.model";
-import { AuthContext } from "../../context/AuthContext";
 
 export default function BarbersPage() {
   const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
   const { barbers } = useContext(BarberContext);
   const [displayBarbers, setDisplayBarbers] = useState<Barber[]>(barbers);
   const [search, setSearch] = useState("");
@@ -25,7 +23,7 @@ export default function BarbersPage() {
 
   return (
     <div className="p-25 max-w-5xl mx-auto bg-[#344e41] min-h-screen">
-      <div className="flex justify-center mb-6">
+      <div className="flex justify-center mb-10">
         <input
           type="text"
           placeholder="Search barbers..."
@@ -34,29 +32,42 @@ export default function BarbersPage() {
           className="w-full max-w-md text-lg px-4 py-2 rounded-md border border-[#a3b18a] bg-[#3a5a40] text-[#dad7cd] placeholder-[#dad7cd]"
         />
       </div>
-      <div className="flex justify-end mb-4">
-        {user?.role === "barber" ? (
-          <button
-            onClick={handleAddBarber}
-            className="flex items-center gap-2 bg-[#588157] text-[#dad7cd] px-4 py-2 rounded-lg hover:bg-[#3a5a40] transition cursor-pointer"
-          >
-            Add your barber informations
-          </button>
-        ) : null}
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 overflow-y-auto max-h-[70vh] pb-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 overflow-y-auto max-h-[70vh] p-10 bg-transaprent rounded-2xl">
         {filteredBarbers.map((barber) => (
-          <div key={barber.id}>
-            <div className="rounded-2xl shadow-md hover:shadow-xl transition border border-[#a3b18a] bg-[#3a5a40] text-[#dad7cd]">
-              <div className="p-4 space-y-2">
-                <h2 className="text-xl font-semibold">{barber.name}</h2>
-                <p className="text-sm">Email: {barber.email}</p>
-                <p className="text-sm">Phone Number: {barber.phoneNumber}</p>
-                <p className="text-sm">Experience: {barber.experience} years</p>
-                <button className="w-full mt-2 bg-[#588157] hover:bg-[#344e41] text-[#dad7cd] px-4 py-2 rounded-md transition cursor-pointer">
-                  Book Now
-                </button>
+          <div
+            key={barber.id}
+            className="max-w-xs mx-auto rounded-2xl cursor-pointer bg-[#345342] text-[#d1e8c0] shadow-md hover:shadow-xl transition border border-[#b2d8a6] overflow-hidden p-4 space-y-4"
+          >
+            <img
+              src={barber.image}
+              alt={barber.name}
+              className="w-24 h-24 rounded-full mx-auto border-4 border-[#b2d8a6] object-cover"
+            />
+            <div className="text-center space-y-2">
+              <h2 className="text-xl font-bold">{barber.name}</h2>
+              <div className="text-sm">
+                <p>
+                  <span className="font-medium text-[#c7f9cc]">Email:</span>{" "}
+                  {barber.email}
+                </p>
+                <p>
+                  <span className="font-medium text-[#c7f9cc]">
+                    Phone Number:
+                  </span>{" "}
+                  {barber.phoneNumber}
+                </p>
+                <p>
+                  <span className="font-medium text-[#c7f9cc]">
+                    Experience:
+                  </span>{" "}
+                  {barber.experience} years
+                </p>
               </div>
+            </div>
+            <div className="text-center">
+              <button className="bg-[#5c8668] hover:bg-[#6f9f7b] transition text-white px-6 py-2 rounded-xl font-medium shadow-md cursor-pointer">
+                Book Now
+              </button>
             </div>
           </div>
         ))}

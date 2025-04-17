@@ -9,7 +9,7 @@ interface ContextType {
 
 const BarberContext = createContext<ContextType>({
   barbers: [],
-  fetchBarbers() {},
+  async fetchBarbers() {},
 });
 
 export const BarberProvider = ({ children }: any) => {

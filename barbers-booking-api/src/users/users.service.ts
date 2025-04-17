@@ -49,7 +49,14 @@ export class UsersService {
   }
 
   async findUserByEmail(email: string) {
-    return this.usersRepo.findOneBy({ email });
+    return this.usersRepo.findOne({
+      where: { email },
+      relations: {
+        barber: true,
+        appointments: true,
+        ratings: true,
+      },
+    });
   }
 
   // async findUserDetailsByUser(id: string) {

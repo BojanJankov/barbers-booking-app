@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 interface DropdownMenuProps {
   menuItems: {
@@ -11,6 +13,9 @@ const DropdownMenu = ({ menuItems }: DropdownMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
+
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   return (
     <div className="relative inline-block text-left">
@@ -32,6 +37,22 @@ const DropdownMenu = ({ menuItems }: DropdownMenuProps) => {
           style={{ transformOrigin: "right" }}
         >
           <ul className="py-1 text-font">
+            {user?.role === "barber" ? (
+              user?.barber ? (
+                <li className="px-4 py-2 hover:bg-light cursor-pointer">
+                  Edit barber
+                </li>
+              ) : (
+                <li
+                  className="px-4 py-2 hover:bg-light cursor-pointer"
+                  onClick={() => {
+                    navigate("add-barber");
+                  }}
+                >
+                  Add barber
+                </li>
+              )
+            ) : null}
             {menuItems.map((item, index) => (
               <li
                 key={index}
