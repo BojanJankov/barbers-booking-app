@@ -39,7 +39,12 @@ const DropdownMenu = ({ menuItems }: DropdownMenuProps) => {
           <ul className="py-1 text-font">
             {user?.role === "barber" ? (
               user?.barber ? (
-                <li className="px-4 py-2 hover:bg-light cursor-pointer">
+                <li
+                  className="px-4 py-2 hover:bg-light cursor-pointer"
+                  onClick={() => {
+                    navigate(`edit-barber/${user.barber.id}`);
+                  }}
+                >
                   Edit barber
                 </li>
               ) : (
