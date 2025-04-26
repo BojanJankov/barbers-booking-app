@@ -17,7 +17,10 @@ export class Appointment {
   id: number;
 
   @Column()
-  dateTime: Date;
+  date: string;
+
+  @Column()
+  time: string;
 
   @ManyToOne(() => User, (user) => user.appointments)
   user: User;
