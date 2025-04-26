@@ -12,6 +12,7 @@ import AddBarberPage from "./Pages/AddBarberPage/AddBarberPage";
 import ProtectedRoutes from "./utils/ProtectedRoutes";
 import EditBarberPage from "./Pages/EditBarberPage/EditBarberPage";
 import NotFoundPage from "./Pages/NotFoundPage/NotFoundPage";
+import BarbersBookingPage from "./Pages/BarbersBookingPage/BarbersBookingPage";
 
 function App() {
   return (
@@ -25,8 +26,12 @@ function App() {
             <Route path="/contact" element={<ContactPage />}></Route>
             <Route path="/login" element={<LoginPage />}></Route>
             <Route path="/register" element={<RegisterPage />}></Route>
+            <Route path="/barbers" element={<BarbersPage />}></Route>
+            <Route
+              path="/barbers/:barberId/booking"
+              element={<BarbersBookingPage />}
+            />
             <Route element={<ProtectedRoutes />}>
-              <Route path="/barbers" element={<BarbersPage />}></Route>
               <Route path="/add-barber" element={<AddBarberPage />}></Route>
               <Route
                 path="/edit-barber/:id"

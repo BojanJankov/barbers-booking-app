@@ -5,11 +5,12 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Schedule } from 'src/schedules/entities/schedule.entity';
-import { Repository } from 'typeorm';
+import { MoreThanOrEqual, Repository } from 'typeorm';
 import { Barber } from './entities/barber.entity';
 import { UpdateBarberDto } from './dtos/update.barber-dto';
 import { User } from 'src/users/entities/user.entity';
 import { CreateBarberDto } from './dtos/create.barber-dto';
+import { Appointment } from 'src/appointments/entities/appointment.entity';
 
 @Injectable()
 export class BarbersService {
@@ -20,6 +21,8 @@ export class BarbersService {
     private schedulesRepository: Repository<Schedule>,
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    @InjectRepository(Appointment)
+    private appointmentRepo: Repository<Appointment>,
   ) {}
 
   async findAll() {
@@ -101,5 +104,67 @@ export class BarbersService {
     schedule.endTime = endTime;
 
     return this.schedulesRepository.save(schedule);
+  }
+
+  async getAvailableTerms(barberId: number) {
+    const schedules = await this.schedulesRepository.find({
+      where: {
+        barber: {
+          id: barberId,
+        },
+      },
+    });
+
+    const appointments = await this.appointmentRepo.find(
+      {
+        where: {
+          barber: {
+            id: barberId,
+          },
+        },
+      },
+      // Only for future appointments
+    );
+
+    const bookedMap = new Map<string, Set<string>>();
+    for (const app of appointments) {
+      const date = new Date(app.date).toISOString().split('T')[0];
+      if (!bookedMap.has(date)) bookedMap.set(date, new Set());
+      bookedMap.get(date).add(app.time);
+    }
+
+    const availableDays = [];
+
+    // Generate available slots for next 30 days
+    for (let i = 0; i < 30; i++) {
+      const currentDate = new Date();
+      currentDate.setDate(currentDate.getDate() + i);
+      const dayOfWeek = currentDate.toLocaleDateString('en-US', {
+        weekday: 'long',
+      });
+
+      const schedule = schedules.find((s) => s.day === dayOfWeek);
+      if (!schedule) continue; // Barber doesn't work this day
+
+      const start = parseInt(schedule.startTime.split(':')[0]);
+      const end = parseInt(schedule.endTime.split(':')[0]);
+
+      const times = [];
+      for (let hour = start; hour < end; hour++) {
+        const timeString = `${hour.toString().padStart(2, '0')}:00`;
+        const dateString = currentDate.toISOString().split('T')[0];
+
+        if (!bookedMap.get(dateString)?.has(timeString)) {
+          times.push(timeString);
+        }
+      }
+
+      availableDays.push({
+        date: currentDate.toISOString().split('T')[0],
+        times,
+      });
+    }
+
+    return availableDays;
   }
 }

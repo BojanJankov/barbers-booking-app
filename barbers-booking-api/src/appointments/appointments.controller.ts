@@ -58,10 +58,10 @@ export class AppointmentsController {
     return this.appointmentsService.remove(id);
   }
 
-  @Get(':userId')
-  async getAppointmentsForUser(
-    @Param('userId') userId: string,
-  ): Promise<Appointment[]> {
-    return this.appointmentsService.getAppointmentsForUser(userId);
-  }
+  // @Get(':userId')
+  // async getAppointmentsForUser(
+  //   @Param('userId') userId: string,
+  // ): Promise<Appointment[]> {
+  //   return this.appointmentsService.getAppointmentsForUser(userId);
+  // }
 }

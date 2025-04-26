@@ -51,9 +51,6 @@ export class User {
   })
   refreshTokens: string[];
 
-  @OneToMany(() => Appointment, (appointment) => appointment.user)
-  appointments: Appointment[];
-
   @OneToOne(() => Barber, (barber) => barber.user)
   barber?: Barber;
 

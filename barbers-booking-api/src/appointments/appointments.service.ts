@@ -32,7 +32,7 @@ export class AppointmentsService {
     await this.mailerService.sendEmail(
       appointment.barber.email,
       'New Appointment Request',
-      `You have a new appointment request from ${appointment.user.username} on ${appointment.dateTime}.`,
+      `You have a new appointment request from ${appointment.clientName} on ${appointment.date}.`,
     );
 
     return this.appointmentRepository.save(appointment);
@@ -55,9 +55,9 @@ export class AppointmentsService {
     appointment.status = updateStatusDto.status;
 
     await this.mailerService.sendEmail(
-      appointment.user.email,
+      appointment.clientEmail,
       `Your Appointment has been ${appointment.status}`,
-      `Your appointment on ${appointment.dateTime} has been ${appointment.status} by ${appointment.barber.name}.`,
+      `Your appointment on ${appointment.date} has been ${appointment.status} by ${appointment.barber.name}.`,
     );
 
     return await this.appointmentRepository.save(appointment);
@@ -77,10 +77,10 @@ export class AppointmentsService {
     await this.appointmentRepository.delete(id);
   }
 
-  async getAppointmentsForUser(userId: string): Promise<Appointment[]> {
-    return this.appointmentsRepository.find({
-      where: { user: { id: userId } },
-      relations: ['barber', 'service'],
-    });
-  }
+  // async getAppointmentsForUser(userId: string): Promise<Appointment[]> {
+  //   return this.appointmentsRepository.find({
+  //     where: { user: { id: userId } },
+  //     relations: ['barber', 'service'],
+  //   });
+  // }
 }

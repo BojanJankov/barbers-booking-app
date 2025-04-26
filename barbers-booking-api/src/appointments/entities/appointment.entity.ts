@@ -22,8 +22,14 @@ export class Appointment {
   @Column()
   time: string;
 
-  @ManyToOne(() => User, (user) => user.appointments)
-  user: User;
+  @Column()
+  clientName: string;
+
+  @Column()
+  clientPhone: string;
+
+  @Column()
+  clientEmail: string;
 
   @ManyToOne(() => Barber, (barber) => barber.appointments)
   barber: Barber;
