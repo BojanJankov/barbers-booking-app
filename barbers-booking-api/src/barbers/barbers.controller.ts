@@ -21,7 +21,6 @@ import { RoleType } from 'src/roles/roles.model';
 import { UpdateAvailableTermsDto } from './dtos/update-available-terms.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 
-@UseGuards(AuthGuard, RolesGuard)
 @Controller('barbers')
 export class BarbersController {
   constructor(private readonly barbersService: BarbersService) {}
@@ -41,6 +40,7 @@ export class BarbersController {
     return this.barbersService.getAvailableTerms(barberId);
   }
 
+  @UseGuards(AuthGuard, RolesGuard)
   @Roles(RoleType.BARBER)
   @Patch(':barberId/available')
   async updateAvailableTerms(

@@ -5,9 +5,16 @@ import { Appointment } from './entities/appointment.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MailerService } from 'src/mailer/mailer.service';
 import { MailerModule } from 'src/mailer/mailer.module';
+import { ServicesModule } from 'src/services/services.module';
+import { BarbersModule } from 'src/barbers/barbers.module';
+import { Barber } from 'src/barbers/entities/barber.entity';
+import { Service } from 'src/services/entities/service.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Appointment]), MailerModule],
+  imports: [
+    TypeOrmModule.forFeature([Appointment, Barber, Service]),
+    MailerModule,
+  ],
   controllers: [AppointmentsController],
   providers: [AppointmentsService],
   exports: [TypeOrmModule],

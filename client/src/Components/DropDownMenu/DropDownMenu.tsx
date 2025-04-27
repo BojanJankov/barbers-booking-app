@@ -45,7 +45,7 @@ const DropdownMenu = ({ menuItems }: DropdownMenuProps) => {
                     navigate(`edit-barber/${user.barber.id}`);
                   }}
                 >
-                  Edit barber
+                  Edit profile
                 </li>
               ) : (
                 <li
@@ -54,7 +54,7 @@ const DropdownMenu = ({ menuItems }: DropdownMenuProps) => {
                     navigate("add-barber");
                   }}
                 >
-                  Add barber
+                  Add profile
                 </li>
               )
             ) : null}

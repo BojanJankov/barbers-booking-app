@@ -11,15 +11,11 @@ export default function BarbersPage() {
 
   useEffect(() => {
     setDisplayBarbers(barbers);
-  }, [barbers]);
+  }, [barbers, setDisplayBarbers]);
 
   const filteredBarbers = displayBarbers.filter((barber) =>
     barber.name.toLowerCase().includes(search.toLowerCase())
   );
-
-  const handleAddBarber = () => {
-    navigate("/add-barber");
-  };
 
   return (
     <div className="p-25 max-w-5xl mx-auto bg-[#344e41] min-h-screen">
@@ -65,7 +61,12 @@ export default function BarbersPage() {
               </div>
             </div>
             <div className="text-center">
-              <button className="bg-[#5c8668] hover:bg-[#6f9f7b] transition text-white px-6 py-2 rounded-xl font-medium shadow-md cursor-pointer">
+              <button
+                className="bg-[#5c8668] hover:bg-[#6f9f7b] transition text-white px-6 py-2 rounded-xl font-medium shadow-md cursor-pointer"
+                onClick={() => {
+                  navigate(`/barbers/${barber.id}/booking`);
+                }}
+              >
                 Book Now
               </button>
             </div>

@@ -19,6 +19,8 @@ export default function BarberBookingPage() {
     email: "",
   });
   const [success, setSuccess] = useState(false);
+  const [services, setServices] = useState([]);
+  const [selectedService, setSelectedService] = useState(null);
 
   useEffect(() => {
     if (barberId) {
@@ -64,19 +66,17 @@ export default function BarberBookingPage() {
   if (success) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen">
-        <h1 className="text-2xl font-bold text-green-600">
-          🎉 Booking Confirmed!
-        </h1>
+        <h1 className="text-2xl font-bold text-light">🎉 Booking Confirmed!</h1>
         <p className="mt-2 text-gray-700">We sent you a confirmation email.</p>
       </div>
     );
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6 flex flex-col gap-8">
-      <h1 className="text-3xl font-bold text-center">Book Your Appointment</h1>
-
-      {/* Calendar */}
+    <div className="max-w-4xl mx-auto p-6 flex flex-col gap-8 h-100vh">
+      <h1 className="text-3xl font-bold text-center text-font">
+        Book Your Appointment
+      </h1>
       <div className="flex justify-center">
         <Calendar
           onChange={(date) => setSelectedDate(date as Date)}
@@ -85,21 +85,21 @@ export default function BarberBookingPage() {
           className="border rounded-lg p-4 shadow-md"
         />
       </div>
-
-      {/* Available Times */}
       {selectedDate && (
         <div className="flex flex-col gap-4">
-          <h2 className="text-xl font-semibold text-center">Available Times</h2>
+          <h2 className="text-xl font-semibold text-center text-font">
+            Available Times
+          </h2>
           <div className="flex flex-wrap justify-center gap-3">
             {availableTimes.length > 0 ? (
               availableTimes.map((time) => (
                 <button
                   key={time}
                   onClick={() => setSelectedTime(time)}
-                  className={`px-4 py-2 rounded-full border ${
+                  className={`px-4 py-2 rounded-full border cursor-pointer ${
                     selectedTime === time
-                      ? "bg-blue-600 text-white"
-                      : "bg-gray-100"
+                      ? "bg-mid text-font"
+                      : "bg-font text-mid"
                   }`}
                 >
                   {time}
@@ -111,12 +111,23 @@ export default function BarberBookingPage() {
           </div>
         </div>
       )}
-
-      {/* Booking Form */}
+      {/* {selectedTime && (
+        <select
+          value={selectedService}
+          onChange={(e) => setSelectedService(e.target.value)}
+          className="input"
+        >
+          {services.map((service) => (
+            <option key={service.id} value={service.id}>
+              {service.name}
+            </option>
+          ))}
+        </select>
+      )} */}
       {selectedTime && (
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col gap-4 max-w-md mx-auto bg-white p-6 shadow-md rounded-lg"
+          className="flex flex-col gap-4 max-w-md mx-auto bg-font p-6 shadow-md rounded-lg"
         >
           <h2 className="text-xl font-semibold text-center">Your Details</h2>
 
@@ -127,7 +138,7 @@ export default function BarberBookingPage() {
             onChange={(e) =>
               setFormData({ ...formData, fullName: e.target.value })
             }
-            className="border p-3 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="border p-3 rounded focus:outline-none focus:ring-2 focus:ring-border"
             required
           />
           <input
@@ -137,7 +148,7 @@ export default function BarberBookingPage() {
             onChange={(e) =>
               setFormData({ ...formData, phone: e.target.value })
             }
-            className="border p-3 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="border p-3 rounded focus:outline-none focus:ring-2 focus:ring-border"
             required
           />
           <input
@@ -147,13 +158,13 @@ export default function BarberBookingPage() {
             onChange={(e) =>
               setFormData({ ...formData, email: e.target.value })
             }
-            className="border p-3 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="border p-3 rounded focus:outline-none focus:ring-2 focus:ring-border"
             required
           />
 
           <button
             type="submit"
-            className="mt-4 bg-green-500 text-white font-semibold py-3 rounded hover:bg-green-600 transition"
+            className="mt-4 bg-mid border-border text-font font-semibold py-3 rounded hover:bg-light transition cursor-pointer"
           >
             Confirm Booking
           </button>

@@ -13,7 +13,6 @@ function Header() {
   };
 
   const menuItems = [
-    { text: "Profile", onClick: () => "" },
     { text: "Settings", onClick: () => "" },
     {
       text: "Logout",

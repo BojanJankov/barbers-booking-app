@@ -11,10 +11,7 @@ import {
 import { AppointmentsService } from './appointments.service';
 import { Appointment } from './entities/appointment.entity';
 import { CreateAppointmentDto } from './dtos/create.appointment-dto';
-import {
-  UpdateAppointmentDto,
-  UpdateStatusDto,
-} from './dtos/update.appointment-dto';
+import { UpdateAppointmentDto } from './dtos/update.appointment-dto';
 
 @Controller('appointments')
 export class AppointmentsController {
@@ -37,13 +34,13 @@ export class AppointmentsController {
     return this.appointmentsService.findOne(id);
   }
 
-  @Patch(':id/status')
-  updateStatus(
-    @Param('id') id: number,
-    @Body() updateStatusDto: UpdateStatusDto,
-  ) {
-    return this.appointmentsService.updateStatus(id, updateStatusDto);
-  }
+  // @Patch(':id/status')
+  // updateStatus(
+  //   @Param('id') id: number,
+  //   @Body() updateStatusDto: UpdateStatusDto,
+  // ) {
+  //   return this.appointmentsService.updateStatus(id, updateStatusDto);
+  // }
 
   @Patch(':id')
   async update(

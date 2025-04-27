@@ -1,13 +1,12 @@
 import { IsIn } from 'class-validator';
 import { AppointmentStatus } from '../entities/appointment.entity';
 
-export class UpdateStatusDto {
-  @IsIn(['accepted', 'rejected', 'canceled', 'completed'])
-  status: AppointmentStatus;
-}
-
 export class UpdateAppointmentDto {
-  dateTime?: Date;
+  clientName?: string;
+  clientPhone?: string;
+  clientEmail?: string;
+  day?: string;
+  term?: string; // e.g. "13:00"
   barberId?: number;
   serviceId?: number;
 }

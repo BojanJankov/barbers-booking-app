@@ -25,7 +25,7 @@ export const RegisterPage = () => {
       username: "",
       email: "",
       password: "",
-      role: "user",
+      role: "barber",
     },
   });
 
@@ -107,18 +107,16 @@ export const RegisterPage = () => {
             required
             {...register("password", { required: true })}
           />
-          <select
-            className={styles.input}
-            required
-            {...register("role", { required: true })}
-          >
-            <option value="user">Register as User</option>
-            <option value="barber">Register as Barber</option>
-          </select>
 
           <button type="submit" className={styles.button}>
             Register
           </button>
+          <p className="text-font flex justify-center">
+            You already have an account?{" "}
+            <span className="text-light pl-2 hover:text-font">
+              <a href="/login">Log in</a>
+            </span>
+          </p>
         </form>
       </div>
     </div>

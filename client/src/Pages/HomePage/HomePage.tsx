@@ -1,18 +1,7 @@
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const { accessToken } = useContext(AuthContext);
-
-  const onButtonClick = () => {
-    if (accessToken) {
-      navigate("/book-appointment");
-    } else {
-      navigate("login");
-    }
-  };
 
   return (
     <div className="relative min-h-screen bg-cover bg-center">
@@ -23,7 +12,9 @@ const HomePage = () => {
         </p>
         <button
           className="mt-6 bg-light text-font px-6 py-3 rounded-lg text-lg hover:bg-mid cursor-pointer"
-          onClick={onButtonClick}
+          onClick={() => {
+            navigate("/barbers");
+          }}
         >
           Book Appointment
         </button>

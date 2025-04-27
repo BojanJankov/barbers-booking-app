@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
+import { Appointment } from 'src/appointments/entities/appointment.entity';
 
 @Injectable()
 export class MailerService {
@@ -27,5 +28,21 @@ export class MailerService {
     } catch (error) {
       console.error('Error sending email:', error);
     }
+  }
+
+  async sentToClient(appointment: Appointment) {
+    await this.transporter.sendMail({
+      to: appointment.clientEmail,
+      subject: `Your booking term at ${appointment.barber.name}`,
+      template:
+        'Thank you for your time to book a term in your barber studio. We are glad to have you as a client. Have a great day and see you soon. Your best barber!',
+      context: {
+        name: appointment.clientName,
+        date: appointment.day,
+        time: appointment.term,
+        barber: appointment.barber.name,
+        service: appointment.service.name,
+      },
+    });
   }
 }

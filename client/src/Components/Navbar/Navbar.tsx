@@ -1,27 +1,8 @@
 import { NavLink } from "react-router-dom";
 import { NavLinkModel } from "../../Models/core.model";
-import { useContext } from "react";
-import { AuthContext } from "../../context/AuthContext";
 
 function Navbar() {
-  const { accessToken } = useContext(AuthContext);
-
   const navLinks: NavLinkModel[] = [
-    {
-      path: "/",
-      text: "Home",
-    },
-    {
-      path: "/about",
-      text: "About",
-    },
-    {
-      path: "/contact",
-      text: "Contact",
-    },
-  ];
-
-  const loggedInNavLinks: NavLinkModel[] = [
     {
       path: "/",
       text: "Home",
@@ -43,27 +24,16 @@ function Navbar() {
   return (
     <nav className="flex items-center justify-center gap-5">
       <ul className="flex gap-5 text-lg">
-        {accessToken
-          ? loggedInNavLinks.map((link, i) => (
-              <li key={i}>
-                <NavLink
-                  to={link.path}
-                  className="ease-in-out duration-75 text-font hover:text-light"
-                >
-                  {link.text}
-                </NavLink>
-              </li>
-            ))
-          : navLinks.map((link, i) => (
-              <li key={i}>
-                <NavLink
-                  to={link.path}
-                  className="ease-in-out duration-75 text-font hover:text-light"
-                >
-                  {link.text}
-                </NavLink>
-              </li>
-            ))}
+        {navLinks.map((link, i) => (
+          <li key={i}>
+            <NavLink
+              to={link.path}
+              className="ease-in-out duration-75 text-font hover:text-light"
+            >
+              {link.text}
+            </NavLink>
+          </li>
+        ))}
       </ul>
     </nav>
   );

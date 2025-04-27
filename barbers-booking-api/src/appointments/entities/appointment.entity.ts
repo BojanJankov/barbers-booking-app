@@ -17,10 +17,10 @@ export class Appointment {
   id: number;
 
   @Column()
-  date: string;
+  day: string;
 
   @Column()
-  time: string;
+  term: string;
 
   @Column()
   clientName: string;
@@ -36,13 +36,6 @@ export class Appointment {
 
   @ManyToOne(() => Service, (service) => service.id)
   service: Service;
-
-  @Column({
-    type: 'enum',
-    enum: ['pending', 'accepted', 'rejected'],
-    default: 'pending',
-  })
-  status: AppointmentStatus;
 
   @CreateDateColumn()
   createdAt: Date;
