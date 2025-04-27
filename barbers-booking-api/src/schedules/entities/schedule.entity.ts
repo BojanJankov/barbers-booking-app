@@ -15,6 +15,9 @@ export class Schedule {
   @Column()
   endTime: string;
 
+  @Column('text', { array: true })
+  terms: string[];
+
   @ManyToOne(() => Barber, (barber) => barber.schedules)
   barber: Barber;
 }

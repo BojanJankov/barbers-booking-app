@@ -11,6 +11,7 @@ import { UpdateBarberDto } from './dtos/update.barber-dto';
 import { User } from 'src/users/entities/user.entity';
 import { CreateBarberDto } from './dtos/create.barber-dto';
 import { Appointment } from 'src/appointments/entities/appointment.entity';
+import { UpdateAvailableTermsDto } from './dtos/update-available-terms.dto';
 
 @Injectable()
 export class BarbersService {
@@ -108,63 +109,36 @@ export class BarbersService {
 
   async getAvailableTerms(barberId: number) {
     const schedules = await this.schedulesRepository.find({
-      where: {
-        barber: {
-          id: barberId,
-        },
-      },
+      where: { barber: { id: barberId } },
     });
 
-    const appointments = await this.appointmentRepo.find(
-      {
-        where: {
-          barber: {
-            id: barberId,
-          },
-        },
-      },
-      // Only for future appointments
-    );
+    return schedules.map((s) => ({
+      day: s.day,
+      terms: s.terms,
+    }));
+  }
 
-    const bookedMap = new Map<string, Set<string>>();
-    for (const app of appointments) {
-      const date = new Date(app.date).toISOString().split('T')[0];
-      if (!bookedMap.has(date)) bookedMap.set(date, new Set());
-      bookedMap.get(date).add(app.time);
-    }
+  async updateAvailableTerms(
+    barberId: number,
+    updateAvailableTermsDto: UpdateAvailableTermsDto,
+  ) {
+    const { availableTerms } = updateAvailableTermsDto;
 
-    const availableDays = [];
+    // Delete previous schedules for this barber
+    await this.schedulesRepository.delete({ barber: { id: barberId } });
 
-    // Generate available slots for next 30 days
-    for (let i = 0; i < 30; i++) {
-      const currentDate = new Date();
-      currentDate.setDate(currentDate.getDate() + i);
-      const dayOfWeek = currentDate.toLocaleDateString('en-US', {
-        weekday: 'long',
-      });
+    const newSchedules = availableTerms.map(({ day, terms }) => ({
+      day,
+      startTime: '00:00',
+      endTime: '23:59',
+      terms,
+      barber: { id: barberId },
+    }));
 
-      const schedule = schedules.find((s) => s.day === dayOfWeek);
-      if (!schedule) continue; // Barber doesn't work this day
+    const createdSchedules = this.schedulesRepository.create(newSchedules);
 
-      const start = parseInt(schedule.startTime.split(':')[0]);
-      const end = parseInt(schedule.endTime.split(':')[0]);
+    await this.schedulesRepository.save(createdSchedules);
 
-      const times = [];
-      for (let hour = start; hour < end; hour++) {
-        const timeString = `${hour.toString().padStart(2, '0')}:00`;
-        const dateString = currentDate.toISOString().split('T')[0];
-
-        if (!bookedMap.get(dateString)?.has(timeString)) {
-          times.push(timeString);
-        }
-      }
-
-      availableDays.push({
-        date: currentDate.toISOString().split('T')[0],
-        times,
-      });
-    }
-
-    return availableDays;
+    return { message: 'Available terms updated successfully.' };
   }
 }

@@ -1,16 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { api } from "../../services/api";
+import BarberContext from "../../context/StateContext";
+import { AvailableTerm } from "../../Models/terms.model";
 
 export default function BarberBookingPage() {
-  const { barberId } = useParams<{ barberId: string }>();
-  const numericBarberId = Number(barberId);
-  const [availableDates, setAvailableDates] = useState<
-    { date: string; times: string[] }[]
-  >([]);
+  const { barberId } = useParams();
+  const { availableTerms, fetchAvailableTerms } = useContext(BarberContext);
+  const [availableDates, setAvailableDates] = useState<AvailableTerm[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [availableTimes, setAvailableTimes] = useState<string[]>([]);
   const [selectedTime, setSelectedTime] = useState<string>("");
@@ -22,18 +21,18 @@ export default function BarberBookingPage() {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    if (!numericBarberId) return;
-    api
-      .get(`barbers/${numericBarberId}/available`)
-      .then((res) => setAvailableDates(res.data))
-      .catch((err) => console.error(err));
-  }, [numericBarberId]);
+    if (barberId) {
+      fetchAvailableTerms(Number(barberId));
+    }
+
+    setAvailableDates(availableTerms);
+  }, [barberId]);
 
   useEffect(() => {
     if (selectedDate) {
       const day = selectedDate.toISOString().split("T")[0];
-      const found = availableDates.find((d) => d.date === day);
-      setAvailableTimes(found ? found.times : []);
+      const found = availableDates.find((d) => d.day === day);
+      setAvailableTimes(found ? found.terms : []);
       setSelectedTime(""); // reset time when date changes
     }
   }, [selectedDate, availableDates]);
@@ -59,7 +58,7 @@ export default function BarberBookingPage() {
   const tileDisabled = ({ date }: { date: Date }) => {
     if (!availableDates || availableDates.length === 0) return true;
     const day = date.toISOString().split("T")[0];
-    return !availableDates.some((d) => d.date === day);
+    return !availableDates.some((d) => d.day === day);
   };
 
   if (success) {

@@ -1,20 +1,9 @@
 import { useContext, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import BarberContext from "../../context/StateContext";
-
-const daysOfWeek = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
-];
+import CalendarWithTerms from "../../Components/CalendarWithTerms/CalendarWithTerms";
 
 const EditBarberPage = () => {
-  const navigate = useNavigate();
-
   const { id } = useParams();
   const { getBarberById, foundBarber } = useContext(BarberContext);
 
@@ -24,10 +13,6 @@ const EditBarberPage = () => {
 
   const handleEditBarber = () => {
     // Da se dodaj ovde navigacija do forma za editiranje na barber i zacuvuvanje na istoto
-  };
-
-  const handleAddSchedule = (day: string) => {
-    // Da se dodaj ovde navigacija do forma za dodavanje na schedule na barber i zacuvuvanje na istoto
   };
 
   return (
@@ -76,21 +61,14 @@ const EditBarberPage = () => {
           </button>
         </div>
       </section>
-      <section className="bg-mid rounded-2xl p-6 shadow-lg border border-border">
-        <h2 className="text-2xl font-semibold mb-4">Weekly Schedule</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-          {daysOfWeek.map((day) => (
-            <div
-              key={day}
-              onClick={() => handleAddSchedule(day)}
-              className="cursor-pointer bg-light hover:bg-border transition-all p-4 rounded-2xl flex items-center justify-between text-white shadow-md"
-            >
-              <span className="text-lg font-medium">{day}</span>
-              <i className="fa-solid fa-plus"></i>
-            </div>
-          ))}
-        </div>
-      </section>
+      <div className="border p-6 rounded-lg bg-mid">
+        <h2 className="text-2xl font-bold mb-4 text-font">
+          Manage Available Terms
+        </h2>
+        {foundBarber && foundBarber.id && (
+          <CalendarWithTerms barberId={foundBarber.id} />
+        )}
+      </div>
     </div>
   );
 };

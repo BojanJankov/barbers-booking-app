@@ -18,8 +18,10 @@ import { CreateBarberDto } from './dtos/create.barber-dto';
 import { RolesGuard } from 'src/roles/roles.guard';
 import { Roles } from 'src/roles/roles.decorator';
 import { RoleType } from 'src/roles/roles.model';
+import { UpdateAvailableTermsDto } from './dtos/update-available-terms.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
 
-@UseGuards(RolesGuard)
+@UseGuards(AuthGuard, RolesGuard)
 @Controller('barbers')
 export class BarbersController {
   constructor(private readonly barbersService: BarbersService) {}
@@ -37,6 +39,18 @@ export class BarbersController {
   @Get(':barberId/available')
   async getAvailableTerms(@Param('barberId') barberId: number) {
     return this.barbersService.getAvailableTerms(barberId);
+  }
+
+  @Roles(RoleType.BARBER)
+  @Patch(':barberId/available')
+  async updateAvailableTerms(
+    @Param('barberId') barberId: number,
+    @Body() updateAvailableTermsDto: UpdateAvailableTermsDto,
+  ) {
+    return this.barbersService.updateAvailableTerms(
+      barberId,
+      updateAvailableTermsDto,
+    );
   }
 
   @Roles(RoleType.BARBER)
