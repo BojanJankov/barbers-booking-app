@@ -27,7 +27,14 @@ export class BarbersService {
   ) {}
 
   async findAll() {
-    return this.barbersRepository.find();
+    return this.barbersRepository.find({
+      relations: {
+        schedules: true,
+        services: true,
+        appointments: true,
+        ratings: true,
+      },
+    });
   }
 
   async createBarberProfile(data: CreateBarberDto) {

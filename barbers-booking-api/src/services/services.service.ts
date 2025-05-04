@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateServiceDto } from './dtos/create.service-dto';
@@ -21,8 +21,26 @@ export class ServicesService {
     return this.serviceRepository.save(service);
   }
 
+  async findAll() {
+    return this.serviceRepository.find();
+  }
+
   async findOne(id: number): Promise<Service> {
     return this.serviceRepository.findOneBy({ id });
+  }
+
+  async findServicesByBarber(barberId: number) {
+    const foundServices = await this.serviceRepository.find({
+      where: {
+        barber: {
+          id: barberId,
+        },
+      },
+    });
+
+    if (!foundServices) throw new NotFoundException('Services not found');
+
+    return foundServices;
   }
 
   async update(

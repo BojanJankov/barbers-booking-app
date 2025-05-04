@@ -10,6 +10,7 @@ import { Appointment } from 'src/appointments/entities/appointment.entity';
 import { Schedule } from 'src/schedules/entities/schedule.entity';
 import { User } from 'src/users/entities/user.entity';
 import { Rating } from 'src/ratings/entities/rating.entity';
+import { Service } from 'src/services/entities/service.entity';
 
 @Entity()
 export class Barber {
@@ -40,6 +41,9 @@ export class Barber {
 
   @OneToMany(() => Schedule, (schedule) => schedule.barber)
   schedules: Schedule[];
+
+  @OneToMany(() => Service, (service) => service.barber)
+  services: Service[];
 
   @OneToMany(() => Rating, (ratings) => ratings.barber, { onDelete: 'CASCADE' })
   ratings: Rating[];

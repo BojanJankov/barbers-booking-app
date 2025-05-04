@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Barber } from 'src/barbers/entities/barber.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 
 @Entity()
 export class Service {
@@ -10,4 +17,8 @@ export class Service {
 
   @Column()
   price: number;
+
+  @ManyToOne(() => Barber, (barber) => barber.services)
+  @JoinColumn()
+  barber: Barber;
 }

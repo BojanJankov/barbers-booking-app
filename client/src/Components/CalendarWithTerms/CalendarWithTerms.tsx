@@ -15,14 +15,12 @@ export default function CalendarWithTerms({ barberId }: Props) {
   const [selectedDay, setSelectedDay] = useState<string>("");
   const [newTime, setNewTime] = useState<string>("");
 
-  // Fetch terms when barberId changes
   useEffect(() => {
     if (barberId) {
       fetchAvailableTerms(Number(barberId));
     }
   }, [barberId]);
 
-  // Update local state when availableTerms changes
   useEffect(() => {
     setDisplayAvailableTerms(availableTerms);
   }, [availableTerms]);
@@ -76,7 +74,6 @@ export default function CalendarWithTerms({ barberId }: Props) {
 
   return (
     <div className="space-y-6">
-      {/* Days list */}
       <div className="flex gap-2 flex-wrap">
         {Array.from({ length: 7 }).map((_, idx) => {
           const today = new Date();
@@ -93,7 +90,7 @@ export default function CalendarWithTerms({ barberId }: Props) {
                 selectedDay === dayStr
                   ? "bg-light text-font cursor-pointer"
                   : hasTerms
-                  ? "bg-green-300 text-dark cursor-pointer" // green background if terms exist
+                  ? "bg-green-300 text-dark cursor-pointer"
                   : "bg-dark cursor-pointer"
               }`}
               onClick={() => setSelectedDay(dayStr)}
@@ -103,8 +100,6 @@ export default function CalendarWithTerms({ barberId }: Props) {
           );
         })}
       </div>
-
-      {/* Terms for selected day */}
       {selectedDay && (
         <div className="space-y-4">
           <h3 className="text-xl font-bold">Terms for {selectedDay}</h3>
@@ -142,7 +137,7 @@ export default function CalendarWithTerms({ barberId }: Props) {
 
           <button
             onClick={handleSave}
-            className="bg-green-500 text-font p-2 rounded cursor-pointer"
+            className="bg-light border-border hover:bg-dark text-font p-2 rounded cursor-pointer"
           >
             Save Terms
           </button>

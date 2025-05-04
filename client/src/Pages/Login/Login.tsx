@@ -30,7 +30,7 @@ export const LoginPage = () => {
       console.log("User after login:", user);
 
       login(user, accessToken);
-      navigate("/");
+      navigate(`/edit-barber/${user.id}`);
     } catch (error) {
       console.log(error);
     }
