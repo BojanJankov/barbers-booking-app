@@ -15,10 +15,10 @@ export class Service {
   @Column()
   name: string;
 
-  @Column()
+  @Column('decimal')
   price: number;
 
   @ManyToOne(() => Barber, (barber) => barber.services)
-  @JoinColumn()
+  @JoinColumn({ name: 'barberId' })
   barber: Barber;
 }

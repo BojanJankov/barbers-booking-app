@@ -35,6 +35,7 @@ export class ServicesController {
   @Roles(RoleType.BARBER)
   @Post()
   async create(@Body() createServiceDto: CreateServiceDto): Promise<Service> {
+    console.log('DTO in controller:', createServiceDto);
     return this.servicesService.create(createServiceDto);
   }
 

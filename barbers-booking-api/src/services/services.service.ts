@@ -12,13 +12,13 @@ export class ServicesService {
     private readonly serviceRepository: Repository<Service>,
   ) {}
 
-  async create(createServiceDto: CreateServiceDto): Promise<Service> {
-    const { name, price } = createServiceDto;
-    const service = new Service();
-    service.name = name;
-    service.price = price;
-
-    return this.serviceRepository.save(service);
+  create(dto: CreateServiceDto) {
+    console.log('DTO in service:', dto);
+    return this.serviceRepository.save({
+      name: dto.name,
+      price: Number(dto.price),
+      barber: { id: dto.barberId },
+    });
   }
 
   async findAll() {

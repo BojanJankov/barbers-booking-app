@@ -31,13 +31,13 @@ export class BarbersController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<Barber> {
-    return this.barbersService.findOne(+id);
+  async findOne(@Param('id') id: number): Promise<Barber> {
+    return this.barbersService.findOne(id);
   }
 
   @Get(':barberId/available')
-  async getAvailableTerms(@Param('barberId') barberId: string) {
-    return this.barbersService.getAvailableTerms(+barberId);
+  async getAvailableTerms(@Param('barberId') barberId: number) {
+    return this.barbersService.getAvailableTerms(barberId);
   }
 
   @UseGuards(AuthGuard, RolesGuard)
@@ -67,8 +67,8 @@ export class BarbersController {
 
   @Roles(RoleType.BARBER)
   @Delete(':id')
-  async remove(@Param('id') id: string): Promise<void> {
-    return this.barbersService.remove(+id);
+  async remove(@Param('id') id: number): Promise<void> {
+    return this.barbersService.remove(id);
   }
 
   @Roles(RoleType.BARBER)

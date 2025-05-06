@@ -87,6 +87,11 @@ export class BarbersService {
       where: {
         id,
       },
+      relations: {
+        services: true,
+        appointments: true,
+        ratings: true,
+      },
     });
   }
 

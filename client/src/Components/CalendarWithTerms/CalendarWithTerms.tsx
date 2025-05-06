@@ -4,7 +4,7 @@ import { AvailableTerm } from "../../Models/terms.model";
 import BarberContext from "../../context/StateContext";
 
 type Props = {
-  barberId: string | undefined;
+  barberId: number | undefined;
 };
 
 export default function CalendarWithTerms({ barberId }: Props) {
