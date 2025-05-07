@@ -23,14 +23,14 @@ export const LoginPage = () => {
       const accessToken = response.headers["access-token"];
       const refreshToken = response.headers["refresh-token"];
 
-      localStorage.setItem("user", user);
+      localStorage.setItem("user", JSON.stringify(user));
       localStorage.setItem("refreshToken", refreshToken);
       localStorage.setItem("accessToken", accessToken);
 
       console.log("User after login:", user);
 
       login(user, accessToken);
-      navigate(`/edit-barber/${user.id}`);
+      navigate("/");
     } catch (error) {
       console.log(error);
     }

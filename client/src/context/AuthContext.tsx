@@ -40,10 +40,11 @@ const AuthProvider = ({ children }: any) => {
   // }, [accessToken]);
 
   const login = (user: UserModel, token: string) => {
-    setUser(user);
-    setAccessToken(token);
+    console.log("Login called with:", user, token);
     localStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("accessToken", token);
+    setUser(user);
+    setAccessToken(token);
   };
 
   const logout = () => {

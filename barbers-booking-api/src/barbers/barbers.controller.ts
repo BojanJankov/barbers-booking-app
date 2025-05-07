@@ -42,6 +42,19 @@ export class BarbersController {
 
   @UseGuards(AuthGuard, RolesGuard)
   @Roles(RoleType.BARBER)
+  @Post()
+  async create(@Body() createBarberDto: CreateBarberDto) {
+    return this.barbersService.createBarberProfile(createBarberDto);
+  }
+
+  @Roles(RoleType.BARBER)
+  @Patch(':id')
+  async updateBarber(@Param('id') id: string, @Body() data: UpdateBarberDto) {
+    console.log('Povikana patch func od controller');
+    return this.barbersService.updateBarberProfile(id, data);
+  }
+
+  @Roles(RoleType.BARBER)
   @Patch(':barberId/available')
   async updateAvailableTerms(
     @Param('barberId') barberId: number,
@@ -51,18 +64,6 @@ export class BarbersController {
       barberId,
       updateAvailableTermsDto,
     );
-  }
-
-  @Roles(RoleType.BARBER)
-  @Post()
-  async create(@Body() createBarberDto: CreateBarberDto) {
-    return this.barbersService.createBarberProfile(createBarberDto);
-  }
-
-  @Roles(RoleType.BARBER)
-  @Patch()
-  async updateBarber(userId: string, @Body() data: UpdateBarberDto) {
-    return this.barbersService.updateBarberProfile(userId, data);
   }
 
   @Roles(RoleType.BARBER)

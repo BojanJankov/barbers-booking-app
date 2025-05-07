@@ -61,7 +61,7 @@ export class BarbersService {
 
     console.log(newBarber);
 
-    return this.barbersRepository.save(newBarber);
+    return await this.barbersRepository.save(newBarber);
   }
 
   async updateBarberProfile(
@@ -78,12 +78,14 @@ export class BarbersService {
       );
     }
 
+    console.log('Data od berber sto se editira:', data);
+
     Object.assign(barber, data);
-    return this.barbersRepository.save(barber);
+    return await this.barbersRepository.save(barber);
   }
 
-  async findOne(id: number): Promise<Barber> {
-    return this.barbersRepository.findOne({
+  async findOne(id: number) {
+    return await this.barbersRepository.findOne({
       where: {
         id,
       },

@@ -113,8 +113,14 @@ export const RegisterPage = () => {
           </button>
           <p className="text-font flex justify-center">
             You already have an account?{" "}
-            <span className="text-light pl-2 hover:text-font">
-              <a href="/login">Log in</a>
+            <span className="text-light pl-2 hover:text-font cursor-pointer">
+              <a
+                onClick={() => {
+                  navigate("/login");
+                }}
+              >
+                Log in
+              </a>
             </span>
           </p>
         </form>

@@ -24,7 +24,6 @@ export default function AddBarberPage() {
   const onSubmit = async (data: FormValuesModel) => {
     try {
       const userId = user?.id;
-      console.log(data);
 
       await api.post("barbers", {
         name: data.name,
@@ -74,8 +73,9 @@ export default function AddBarberPage() {
             className={styles.input}
           />
           <input
+            type="string"
             {...register("image", { required: true })}
-            placeholder="Image URL"
+            placeholder="Your image"
             className={styles.input}
           />
           <button type="submit" className={styles.button}>

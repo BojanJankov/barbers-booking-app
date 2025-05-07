@@ -13,6 +13,7 @@ import ProtectedRoutes from "./utils/ProtectedRoutes";
 import EditBarberPage from "./Pages/EditBarberPage/EditBarberPage";
 import NotFoundPage from "./Pages/NotFoundPage/NotFoundPage";
 import BarbersBookingPage from "./Pages/BarbersBookingPage/BarbersBookingPage";
+import EditBarberFormPage from "./Pages/EditBarberFormPage/EditBarberFormPage";
 
 function App() {
   return (
@@ -36,6 +37,10 @@ function App() {
               <Route
                 path="/edit-barber/:id"
                 element={<EditBarberPage />}
+              ></Route>
+              <Route
+                path="/edit-barber/form/:id"
+                element={<EditBarberFormPage />}
               ></Route>
             </Route>
             <Route path="*" element={<NotFoundPage />}></Route>

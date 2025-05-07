@@ -13,7 +13,7 @@ export class CreateBarberDto {
   @IsNumber()
   experience: number;
 
-  @IsUrl()
+  @IsString()
   image: string;
 
   @IsString()

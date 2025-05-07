@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import BarberContext from "../../context/StateContext";
 import CalendarWithTerms from "../../Components/CalendarWithTerms/CalendarWithTerms";
 import { api } from "../../services/api";
@@ -11,6 +11,7 @@ interface ServiceFormValues {
 }
 
 const EditBarberPage = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const { getBarberById, foundBarber } = useContext(BarberContext);
   const [isOpenServiceForm, setIsOpenServiceForm] = useState<boolean>(false);
@@ -29,7 +30,7 @@ const EditBarberPage = () => {
   }, []);
 
   const handleEditBarber = () => {
-    // Da se dodaj ovde navigacija do forma za editiranje na barber i zacuvuvanje na istoto
+    navigate(`/edit-barber/form/${foundBarber?.id}`);
   };
 
   const onAddServiceClick = () => {

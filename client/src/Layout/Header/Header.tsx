@@ -18,6 +18,7 @@ function Header() {
       text: "Logout",
       onClick: () => {
         logout();
+        navigate("/login");
       },
     },
   ];
