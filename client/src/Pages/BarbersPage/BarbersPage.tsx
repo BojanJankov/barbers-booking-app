@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BarberContext from "../../context/StateContext";
 import { Barber } from "../../Models/barber.model";
+import { Mail, Phone, Briefcase, Scissors } from "lucide-react";
 
 export default function BarbersPage() {
   const navigate = useNavigate();
@@ -28,50 +29,61 @@ export default function BarbersPage() {
           className="w-full max-w-md text-lg px-4 py-2 rounded-md border border-[#a3b18a] bg-[#3a5a40] text-[#dad7cd] placeholder-[#dad7cd]"
         />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 overflow-y-auto max-h-[70vh] p-10 bg-transaprent rounded-2xl">
-        {filteredBarbers.map((barber) => (
-          <div
-            key={barber.id}
-            className="max-w-xs mx-auto rounded-2xl cursor-pointer bg-[#345342] text-[#d1e8c0] shadow-md hover:shadow-xl transition border border-[#b2d8a6] overflow-hidden p-4 space-y-4"
-          >
-            <img
-              src={barber.image}
-              alt={barber.name}
-              className="w-24 h-24 rounded-full mx-auto border-4 border-[#b2d8a6] object-cover"
-            />
-            <div className="text-center space-y-2">
-              <h2 className="text-xl font-bold">{barber.name}</h2>
-              <div className="text-sm">
-                <p>
-                  <span className="font-medium text-[#c7f9cc]">Email:</span>{" "}
-                  {barber.email}
-                </p>
-                <p>
-                  <span className="font-medium text-[#c7f9cc]">
-                    Phone Number:
-                  </span>{" "}
-                  {barber.phoneNumber}
-                </p>
-                <p>
-                  <span className="font-medium text-[#c7f9cc]">
-                    Experience:
-                  </span>{" "}
-                  {barber.experience} years
-                </p>
+      <div className="flex justify-center px-4 py-10 bg-transparent">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(320px,1fr))] gap-8 w-full max-w-7xl">
+          {filteredBarbers.map((barber) => (
+            <div
+              key={barber.id}
+              className="bg-mid text-font rounded-2xl shadow-lg p-6 border border-border w-full max-w-[400px] mx-auto"
+            >
+              <div className="flex flex-col justify-center items-center space-y-5">
+                <img
+                  src={barber.image}
+                  alt={barber.name}
+                  className="w-28 h-28 rounded-full border-4 border-border object-cover"
+                />
+                <h2 className="text-2xl font-bold text-[#d3f8e2] text-center">
+                  {barber.name}
+                </h2>
+                <div className="w-full space-y-2 text-sm flex flex-col items-center">
+                  <div className="flex items-center gap-2">
+                    <Mail size={16} className="text-font" />
+                    <span>{barber.email}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Phone size={16} className="text-font" />
+                    <span>{barber.phoneNumber}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Briefcase size={16} className="text-font" />
+                    <span>Experience: {barber.experience}</span>
+                  </div>
+                </div>
+
+                <div className="w-full mt-4">
+                  <h3 className="text-lg font-semibold text-[#d3f8e2] mb-2 flex items-center gap-2">
+                    <Scissors size={18} className="text-font" />
+                    <span>Services</span>
+                  </h3>
+                  <ul className="list-disc list-inside space-y-1 text-sm">
+                    {barber.services.map((service, idx) => (
+                      <li key={idx}>
+                        {service.name} - {service.price}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <button
+                  className="mt-6 bg-[#2d6a4f] text-white py-2 px-6 rounded-xl hover:bg-[#1b4332] transition-all duration-200"
+                  onClick={() => navigate(`/barbers/${barber.id}/booking`)}
+                >
+                  Book Now
+                </button>
               </div>
             </div>
-            <div className="text-center">
-              <button
-                className="bg-[#5c8668] hover:bg-[#6f9f7b] transition text-white px-6 py-2 rounded-xl font-medium shadow-md cursor-pointer"
-                onClick={() => {
-                  navigate(`/barbers/${barber.id}/booking`);
-                }}
-              >
-                Book Now
-              </button>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
