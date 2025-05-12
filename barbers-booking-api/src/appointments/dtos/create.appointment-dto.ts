@@ -13,10 +13,10 @@ export class CreateAppointmentDto {
   clientEmail: string;
 
   @IsNotEmpty()
-  day: string; // e.g. "2025-05-01"
+  day: string;
 
   @IsNotEmpty()
-  term: string; // e.g. "13:00"
+  term: string;
 
   @IsNumber()
   barberId: number;

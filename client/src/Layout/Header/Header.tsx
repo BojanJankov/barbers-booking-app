@@ -8,10 +8,6 @@ function Header() {
   const navigate = useNavigate();
   const { accessToken, user, logout } = useContext(AuthContext);
 
-  const onRegisterButtonClick = () => {
-    navigate("register");
-  };
-
   const menuItems = [
     { text: "Settings", onClick: () => "" },
     {
@@ -37,12 +33,24 @@ function Header() {
             <DropdownMenu menuItems={menuItems} />
           </div>
         ) : (
-          <button
-            className="bg-light hover:bg-mid cursor-pointer text-font px-4 py-2 rounded-md"
-            onClick={onRegisterButtonClick}
-          >
-            Register
-          </button>
+          <div className="flex gap-2">
+            <button
+              className="bg-light hover:bg-mid cursor-pointer text-font px-4 py-2 rounded-md"
+              onClick={() => {
+                navigate("login");
+              }}
+            >
+              Login
+            </button>
+            <button
+              className="bg-light hover:bg-mid cursor-pointer text-font px-4 py-2 rounded-md"
+              onClick={() => {
+                navigate("register");
+              }}
+            >
+              Register
+            </button>
+          </div>
         )}
       </div>
     </section>

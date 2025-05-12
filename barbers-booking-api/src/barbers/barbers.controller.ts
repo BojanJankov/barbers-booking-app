@@ -40,6 +40,11 @@ export class BarbersController {
     return this.barbersService.getAvailableTerms(barberId);
   }
 
+  @Get(':barberId/services')
+  async getServicesByBarber(@Param('barberId') barberId: number) {
+    return this.barbersService.getServicesByBarber(barberId);
+  }
+
   @UseGuards(AuthGuard, RolesGuard)
   @Roles(RoleType.BARBER)
   @Post()

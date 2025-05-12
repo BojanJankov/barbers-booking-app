@@ -10,7 +10,6 @@ import { MailerService } from 'src/mailer/mailer.service';
 
 @Injectable()
 export class AppointmentsService {
-  appointmentRepository: any;
   constructor(
     @InjectRepository(Appointment)
     private readonly appointmentsRepository: Repository<Appointment>,
@@ -35,31 +34,38 @@ export class AppointmentsService {
     if (!service) throw new NotFoundException('Service not found');
 
     const appointment: Appointment =
-      this.appointmentRepository.create(createAppointmentDto);
+      this.appointmentsRepository.create(createAppointmentDto);
 
-    const savedAppointment = this.appointmentRepository.save(appointment);
+    const savedAppointment =
+      await this.appointmentsRepository.save(appointment);
 
-    await this.mailerService.sendEmail(
-      appointment.barber.email,
-      'New Appointment for you!',
-      `You have a new reserved term from ${appointment.clientName} with phone number: ${appointment.clientPhone} and email: ${appointment.clientEmail} on ${appointment.day} at ${appointment.term}.`,
-    );
+    // Ova treba da se sredi da se napravat mailovi od berberi za da moze da isprajka mailovi i da se kontektira mailer service so mailer service napraven
 
-    await this.mailerService.sentToClient(savedAppointment);
+    // await this.mailerService.sendEmail(
+    //   appointment.barber.email,
+    //   'New Appointment for you!',
+    //   `You have a new reserved term from ${appointment.clientName} with phone number: ${appointment.clientPhone} and email: ${appointment.clientEmail} on ${appointment.day} at ${appointment.term}.`,
+    // );
+
+    // await this.mailerService.sentToClient(savedAppointment);
 
     return savedAppointment;
   }
 
   async findAll(): Promise<Appointment[]> {
-    return this.appointmentRepository.find();
+    return this.appointmentsRepository.find();
   }
 
   async findOne(id: number): Promise<Appointment> {
-    return this.appointmentRepository.findOne(id);
+    return this.appointmentsRepository.findOne({
+      where: {
+        id,
+      },
+    });
   }
 
   // async updateStatus(id: number, updateStatusDto: UpdateStatusDto) {
-  //   const appointment: Appointment = await this.appointmentRepository.findOne({
+  //   const appointment: Appointment = await this.appointmentsRepository.findOne({
   //     where: { id },
   //   });
   //   if (!appointment) throw new NotFoundException('Appointment not found');
@@ -72,21 +78,25 @@ export class AppointmentsService {
   //     `Your appointment on ${appointment.date} has been ${appointment.status} by ${appointment.barber.name}.`,
   //   );
 
-  //   return await this.appointmentRepository.save(appointment);
+  //   return await this.appointmentsRepository.save(appointment);
   // }
 
   async update(
     id: number,
     updateAppointmentDto: UpdateAppointmentDto,
   ): Promise<Appointment> {
-    const appointment = await this.appointmentRepository.findOne(id);
+    const appointment = await this.appointmentsRepository.findOne({
+      where: {
+        id,
+      },
+    });
     if (!appointment) throw new Error('Appointment not found');
     Object.assign(appointment, updateAppointmentDto);
-    return this.appointmentRepository.save(appointment);
+    return this.appointmentsRepository.save(appointment);
   }
 
   async remove(id: number): Promise<void> {
-    await this.appointmentRepository.delete(id);
+    await this.appointmentsRepository.delete(id);
   }
 
   // async getAppointmentsForUser(userId: string): Promise<Appointment[]> {

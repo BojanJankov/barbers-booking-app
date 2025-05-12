@@ -155,4 +155,17 @@ export class BarbersService {
 
     return { message: 'Available terms updated successfully.' };
   }
+
+  async getServicesByBarber(barberId: number) {
+    const barber = await this.barbersRepository.findOne({
+      where: {
+        id: barberId,
+      },
+      relations: {
+        services: true,
+      },
+    });
+
+    return barber.services;
+  }
 }

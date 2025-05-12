@@ -75,7 +75,7 @@ export default function BarbersPage() {
                 </div>
 
                 <button
-                  className="mt-6 bg-[#2d6a4f] text-white py-2 px-6 rounded-xl hover:bg-[#1b4332] transition-all duration-200"
+                  className="mt-6 bg-[#2d6a4f] text-font py-2 px-6 rounded-xl hover:bg-[#1b4332] transition-all duration-200"
                   onClick={() => navigate(`/barbers/${barber.id}/booking`)}
                 >
                   Book Now
