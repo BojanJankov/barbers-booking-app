@@ -1,7 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import BarberContext from "../../context/StateContext";
 import { AvailableTerm } from "../../Models/terms.model";
@@ -62,16 +61,22 @@ export default function BarberBookingPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    console.log(selectedService?.id);
+    console.log(barberId);
     try {
-      await api.post("/appointments", {
-        barberId: Number(barberId),
-        serviceId: selectedService?.id,
-        day: String(selectedDate),
-        term: selectedTime,
+      const response = await api.post("/appointments", {
         clientName: formData.fullName,
         clientPhone: formData.phone,
         clientEmail: formData.email,
+        day: String(selectedDate),
+        term: selectedTime,
+        barberId: Number(barberId),
+        serviceId: Number(selectedService?.id),
       });
+
+      console.log("After succesfuly create of appointment", response);
+
       setSuccess(true);
     } catch (error) {
       console.error(error);

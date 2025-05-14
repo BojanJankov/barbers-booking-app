@@ -33,11 +33,15 @@ export class AppointmentsService {
     });
     if (!service) throw new NotFoundException('Service not found');
 
-    const appointment: Appointment =
-      this.appointmentsRepository.create(createAppointmentDto);
+    console.log('Data sto dobivame', createAppointmentDto);
 
-    const savedAppointment =
-      await this.appointmentsRepository.save(appointment);
+    const savedAppointment = await this.appointmentsRepository.save({
+      ...createAppointmentDto,
+      barber,
+      service,
+    });
+
+    console.log('Appointment sto zacuvuvame', savedAppointment);
 
     // Ova treba da se sredi da se napravat mailovi od berberi za da moze da isprajka mailovi i da se kontektira mailer service so mailer service napraven
 

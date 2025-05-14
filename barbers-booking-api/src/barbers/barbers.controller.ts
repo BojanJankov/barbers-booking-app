@@ -90,4 +90,10 @@ export class BarbersController {
       scheduleData.endTime,
     );
   }
+
+  @Roles(RoleType.BARBER)
+  @Get(':barberId/appointments')
+  async getAppointmentsByBarber(@Param('barberId') barberId: number) {
+    return this.barbersService.getAppointmentsByBarber(barberId);
+  }
 }

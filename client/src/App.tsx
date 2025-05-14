@@ -14,6 +14,7 @@ import EditBarberPage from "./Pages/EditBarberPage/EditBarberPage";
 import NotFoundPage from "./Pages/NotFoundPage/NotFoundPage";
 import BarbersBookingPage from "./Pages/BarbersBookingPage/BarbersBookingPage";
 import EditBarberFormPage from "./Pages/EditBarberFormPage/EditBarberFormPage";
+import BarberAppointmentsPage from "./Pages/BarberAppointmentsPage/BarberAppointmentsPage";
 
 function App() {
   return (
@@ -34,6 +35,10 @@ function App() {
             />
             <Route element={<ProtectedRoutes />}>
               <Route path="/add-barber" element={<AddBarberPage />}></Route>
+              <Route
+                path="/barber-appointments/:id"
+                element={<BarberAppointmentsPage />}
+              ></Route>
               <Route
                 path="/edit-barber/:id"
                 element={<EditBarberPage />}

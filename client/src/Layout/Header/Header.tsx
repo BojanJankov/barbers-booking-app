@@ -9,7 +9,12 @@ function Header() {
   const { accessToken, user, logout } = useContext(AuthContext);
 
   const menuItems = [
-    { text: "Settings", onClick: () => "" },
+    {
+      text: "Scheduled terms",
+      onClick: () => {
+        navigate(`/barber-appointments/${user?.barber.id}`);
+      },
+    },
     {
       text: "Logout",
       onClick: () => {

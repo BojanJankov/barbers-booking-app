@@ -168,4 +168,17 @@ export class BarbersService {
 
     return barber.services;
   }
+
+  async getAppointmentsByBarber(barberId: number) {
+    const barber = await this.barbersRepository.findOne({
+      where: {
+        id: barberId,
+      },
+      relations: {
+        appointments: true,
+      },
+    });
+
+    return barber.appointments;
+  }
 }

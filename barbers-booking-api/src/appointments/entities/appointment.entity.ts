@@ -4,8 +4,8 @@ import {
   Column,
   ManyToOne,
   CreateDateColumn,
+  JoinColumn,
 } from 'typeorm';
-import { User } from 'src/users/entities/user.entity';
 import { Barber } from 'src/barbers/entities/barber.entity';
 import { Service } from 'src/services/entities/service.entity';
 
@@ -31,10 +31,12 @@ export class Appointment {
   @Column()
   clientEmail: string;
 
-  @ManyToOne(() => Barber, (barber) => barber.appointments)
+  @ManyToOne(() => Barber, (barber) => barber.appointments, { eager: true })
+  @JoinColumn()
   barber: Barber;
 
-  @ManyToOne(() => Service, (service) => service.id)
+  @ManyToOne(() => Service, (service) => service.id, { eager: true })
+  @JoinColumn()
   service: Service;
 
   @CreateDateColumn()
