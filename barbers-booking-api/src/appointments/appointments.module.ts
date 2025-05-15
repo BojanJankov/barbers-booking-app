@@ -9,10 +9,11 @@ import { ServicesModule } from 'src/services/services.module';
 import { BarbersModule } from 'src/barbers/barbers.module';
 import { Barber } from 'src/barbers/entities/barber.entity';
 import { Service } from 'src/services/entities/service.entity';
+import { Schedule } from 'src/schedules/entities/schedule.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Appointment, Barber, Service]),
+    TypeOrmModule.forFeature([Appointment, Barber, Service, Schedule]),
     MailerModule,
   ],
   controllers: [AppointmentsController],

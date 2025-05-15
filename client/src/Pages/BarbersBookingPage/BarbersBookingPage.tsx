@@ -11,18 +11,26 @@ export default function BarberBookingPage() {
   const navigate = useNavigate();
   const { barberId } = useParams();
   const { availableTerms, fetchAvailableTerms } = useContext(BarberContext);
+
   const [availableDates, setAvailableDates] = useState<AvailableTerm[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [availableTimes, setAvailableTimes] = useState<string[]>([]);
-  const [selectedTime, setSelectedTime] = useState<string>("");
+  const [availableTimes, setAvailableTimes] = useState<
+    { time: string; scheduleId: number }[]
+  >([]);
+  const [selectedTime, setSelectedTime] = useState<{
+    time: string;
+    scheduleId: number;
+  } | null>(null);
+
   const [formData, setFormData] = useState({
     fullName: "",
     phone: "",
     email: "",
   });
-  const [success, setSuccess] = useState(false);
+
   const [services, setServices] = useState<Service[]>([]);
   const [selectedService, setSelectedService] = useState<Service | null>(null);
+  const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -30,7 +38,6 @@ export default function BarberBookingPage() {
         const { data } = await api.get<Service[]>(
           `barbers/${barberId}/services`
         );
-
         setServices(data);
       } catch (error) {
         console.log(error);
@@ -55,27 +62,22 @@ export default function BarberBookingPage() {
       const day = selectedDate.toISOString().split("T")[0];
       const found = availableDates.find((d) => d.day === day);
       setAvailableTimes(found ? found.terms : []);
-      setSelectedTime("");
+      setSelectedTime(null);
     }
   }, [selectedDate, availableDates]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log(selectedService?.id);
-    console.log(barberId);
     try {
-      const response = await api.post("/appointments", {
+      await api.post("/appointments", {
         clientName: formData.fullName,
         clientPhone: formData.phone,
         clientEmail: formData.email,
-        day: String(selectedDate),
-        term: selectedTime,
+        scheduleId: selectedTime?.scheduleId,
         barberId: Number(barberId),
         serviceId: Number(selectedService?.id),
       });
-
-      console.log("After succesfuly create of appointment", response);
 
       setSuccess(true);
     } catch (error) {
@@ -95,10 +97,8 @@ export default function BarberBookingPage() {
         <h1 className="text-2xl font-bold text-light">🎉 Booking Confirmed!</h1>
         <p className="mt-2 text-font">We sent you a confirmation email.</p>
         <p
-          className="mt-2 text-font hover:text-decoration-line: underline hover:text-light cursor-pointer"
-          onClick={() => {
-            navigate("/barbers");
-          }}
+          className="mt-2 text-font hover:underline hover:text-light cursor-pointer"
+          onClick={() => navigate("/barbers")}
         >
           Go back to barbers page!
         </p>
@@ -107,10 +107,11 @@ export default function BarberBookingPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6 flex flex-col gap-8 h-100vh">
+    <div className="max-w-4xl mx-auto p-6 flex flex-col gap-8">
       <h1 className="text-3xl font-bold text-center text-font">
         Book Your Appointment
       </h1>
+
       <div className="flex justify-center">
         <Calendar
           onChange={(date) => setSelectedDate(date as Date)}
@@ -126,17 +127,17 @@ export default function BarberBookingPage() {
           </h2>
           <div className="flex flex-wrap justify-center gap-3">
             {availableTimes.length > 0 ? (
-              availableTimes.map((time) => (
+              availableTimes.map((slot) => (
                 <button
-                  key={time}
-                  onClick={() => setSelectedTime(time)}
+                  key={slot.scheduleId}
+                  onClick={() => setSelectedTime(slot)}
                   className={`px-4 py-2 rounded-full border cursor-pointer ${
-                    selectedTime === time
+                    selectedTime?.scheduleId === slot.scheduleId
                       ? "bg-mid text-font"
                       : "bg-font text-mid"
                   }`}
                 >
-                  {time}
+                  {slot.time}
                 </button>
               ))
             ) : (
@@ -145,80 +146,85 @@ export default function BarberBookingPage() {
           </div>
         </div>
       )}
-      {selectedTime && (
-        <div className="mt-4">
-          <label
-            htmlFor="service-select"
-            className="block text-lg font-medium text-font mb-1"
-          >
-            Choose a service:
-          </label>
-          <select
-            id="service-select"
-            value={selectedService?.id ?? ""}
-            onChange={(e) => {
-              const selectedId = e.target.value;
-              const foundService =
-                services.find((s) => s.id === Number(selectedId)) || null;
-              setSelectedService(foundService);
-            }}
-            className="w-full px-4 py-2 border border-border bg-mid text-font rounded-lg focus:outline-none focus:ring-2 focus:ring-font transition"
-          >
-            <option value="" disabled>
-              Select a service
-            </option>
-            {services.map((service) => (
-              <option key={service.id} value={service.id}>
-                {service.name} - {service.price}$
-              </option>
-            ))}
-          </select>
-        </div>
-      )}
-      {selectedService && (
-        <form
-          onSubmit={handleSubmit}
-          className="flex flex-col gap-4 max-w-md mx-auto bg-font p-6 shadow-md rounded-lg"
-        >
-          <h2 className="text-xl font-semibold text-center">Your Details</h2>
 
-          <input
-            type="text"
-            placeholder="Full Name"
-            value={formData.fullName}
-            onChange={(e) =>
-              setFormData({ ...formData, fullName: e.target.value })
-            }
-            className="border p-3 rounded focus:outline-none focus:ring-2 focus:ring-border"
-            required
-          />
-          <input
-            type="text"
-            placeholder="Phone Number"
-            value={formData.phone}
-            onChange={(e) =>
-              setFormData({ ...formData, phone: e.target.value })
-            }
-            className="border p-3 rounded focus:outline-none focus:ring-2 focus:ring-border"
-            required
-          />
-          <input
-            type="email"
-            placeholder="Email Address"
-            value={formData.email}
-            onChange={(e) =>
-              setFormData({ ...formData, email: e.target.value })
-            }
-            className="border p-3 rounded focus:outline-none focus:ring-2 focus:ring-border"
-            required
-          />
-          <button
-            type="submit"
-            className="mt-4 bg-mid border-border text-font font-semibold py-3 rounded hover:bg-light transition cursor-pointer"
-          >
-            Confirm Booking
-          </button>
-        </form>
+      {selectedTime && (
+        <>
+          <div className="mt-4">
+            <label
+              htmlFor="service-select"
+              className="block text-lg font-medium text-font mb-1"
+            >
+              Choose a service:
+            </label>
+            <select
+              id="service-select"
+              value={selectedService?.id ?? ""}
+              onChange={(e) => {
+                const selectedId = e.target.value;
+                const foundService =
+                  services.find((s) => s.id === Number(selectedId)) || null;
+                setSelectedService(foundService);
+              }}
+              className="w-full px-4 py-2 border border-border bg-mid text-font rounded-lg focus:outline-none focus:ring-2 focus:ring-font transition"
+            >
+              <option value="" disabled>
+                Select a service
+              </option>
+              {services.map((service) => (
+                <option key={service.id} value={service.id}>
+                  {service.name} - ${service.price}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {selectedService && (
+            <form
+              onSubmit={handleSubmit}
+              className="flex flex-col gap-4 max-w-md mx-auto bg-font p-6 shadow-md rounded-lg"
+            >
+              <h2 className="text-xl font-semibold text-center">
+                Your Details
+              </h2>
+              <input
+                type="text"
+                placeholder="Full Name"
+                value={formData.fullName}
+                onChange={(e) =>
+                  setFormData({ ...formData, fullName: e.target.value })
+                }
+                className="border p-3 rounded focus:outline-none focus:ring-2 focus:ring-border"
+                required
+              />
+              <input
+                type="text"
+                placeholder="Phone Number"
+                value={formData.phone}
+                onChange={(e) =>
+                  setFormData({ ...formData, phone: e.target.value })
+                }
+                className="border p-3 rounded focus:outline-none focus:ring-2 focus:ring-border"
+                required
+              />
+              <input
+                type="email"
+                placeholder="Email Address"
+                value={formData.email}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
+                className="border p-3 rounded focus:outline-none focus:ring-2 focus:ring-border"
+                required
+              />
+              <button
+                type="submit"
+                className="mt-4 bg-mid border-border text-font font-semibold py-3 rounded hover:bg-light transition cursor-pointer"
+              >
+                Confirm Booking
+              </button>
+            </form>
+          )}
+        </>
       )}
     </div>
   );

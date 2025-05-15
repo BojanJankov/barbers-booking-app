@@ -1,4 +1,7 @@
 export interface AvailableTerm {
   day: string;
-  terms: string[];
+  terms: {
+    time: string;
+    scheduleId: number;
+  }[];
 }

@@ -122,13 +122,33 @@ export class BarbersService {
   }
 
   async getAvailableTerms(barberId: number) {
-    const schedules = await this.schedulesRepository.find({
-      where: { barber: { id: barberId } },
-    });
+    const schedules = await this.schedulesRepository
+      .createQueryBuilder('schedule')
+      .leftJoinAndSelect('schedule.appointment', 'appointment')
+      .leftJoinAndSelect('schedule.barber', 'barber')
+      .where('barber.id = :barberId', { barberId })
+      .andWhere('appointment.id IS NULL')
+      .getMany();
 
-    return schedules.map((s) => ({
-      day: s.day,
-      terms: s.terms,
+    const groupedByDay: Record<string, { time: string; scheduleId: number }[]> =
+      {};
+
+    for (const schedule of schedules) {
+      const day = schedule.day.toString().split('T')[0];
+
+      if (!groupedByDay[day]) {
+        groupedByDay[day] = [];
+      }
+
+      groupedByDay[day].push({
+        time: schedule.time,
+        scheduleId: schedule.id,
+      });
+    }
+
+    return Object.entries(groupedByDay).map(([day, terms]) => ({
+      day,
+      terms,
     }));
   }
 
@@ -138,24 +158,23 @@ export class BarbersService {
   ) {
     const { availableTerms } = updateAvailableTermsDto;
 
-    // Delete previous schedules for this barber
     await this.schedulesRepository.delete({ barber: { id: barberId } });
 
-    const newSchedules = availableTerms.map(({ day, terms }) => ({
-      day,
-      startTime: '00:00',
-      endTime: '23:59',
-      terms,
-      barber: { id: barberId },
-    }));
+    const newSchedules = availableTerms.flatMap(({ day, terms }) =>
+      terms.map((term) => ({
+        day,
+        time: term,
+        startTime: '00:00',
+        endTime: '23:59',
+        barber: { id: barberId },
+      })),
+    );
 
     const createdSchedules = this.schedulesRepository.create(newSchedules);
-
     await this.schedulesRepository.save(createdSchedules);
 
     return { message: 'Available terms updated successfully.' };
   }
-
   async getServicesByBarber(barberId: number) {
     const barber = await this.barbersRepository.findOne({
       where: {
@@ -175,7 +194,9 @@ export class BarbersService {
         id: barberId,
       },
       relations: {
-        appointments: true,
+        appointments: {
+          schedule: true,
+        },
       },
     });
 

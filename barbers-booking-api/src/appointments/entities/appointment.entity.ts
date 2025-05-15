@@ -5,9 +5,11 @@ import {
   ManyToOne,
   CreateDateColumn,
   JoinColumn,
+  OneToOne,
 } from 'typeorm';
 import { Barber } from 'src/barbers/entities/barber.entity';
 import { Service } from 'src/services/entities/service.entity';
+import { Schedule } from 'src/schedules/entities/schedule.entity';
 
 export type AppointmentStatus = 'pending' | 'accepted' | 'rejected';
 
@@ -15,12 +17,6 @@ export type AppointmentStatus = 'pending' | 'accepted' | 'rejected';
 export class Appointment {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Column()
-  day: string;
-
-  @Column()
-  term: string;
 
   @Column()
   clientName: string;
@@ -38,6 +34,10 @@ export class Appointment {
   @ManyToOne(() => Service, (service) => service.id, { eager: true })
   @JoinColumn()
   service: Service;
+
+  @OneToOne(() => Schedule, (schedule) => schedule.appointment)
+  @JoinColumn()
+  schedule: Schedule;
 
   @CreateDateColumn()
   createdAt: Date;

@@ -11,9 +11,11 @@ export default function BarberAppointmentsPage() {
     const fetchAppointments = async () => {
       try {
         const response = await api.get(`/barbers/${id}/appointments`);
+
+        console.log(response);
         const today = new Date();
         const filtered = response.data.filter((appt: Appointment) => {
-          return new Date(appt.day) >= today;
+          return new Date(appt.schedule.day) >= today;
         });
         setAppointments(filtered);
       } catch (error) {
@@ -39,7 +41,8 @@ export default function BarberAppointmentsPage() {
             >
               <div className="text-lg font-medium">{appt.clientName}</div>
               <div className="text-sm text-font/80">
-                📅 {new Date(appt.day).toLocaleDateString()} — ⏰ {appt.term}
+                📅 {new Date(appt.schedule.day).toLocaleDateString()} — ⏰{" "}
+                {appt.schedule.time}
               </div>
               <div className="text-sm">📞 {appt.clientPhone}</div>
               <div className="text-sm">✂ {appt.service.name}</div>

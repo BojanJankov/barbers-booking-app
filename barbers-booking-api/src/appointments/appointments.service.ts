@@ -7,6 +7,7 @@ import { Appointment } from './entities/appointment.entity';
 import { UpdateAppointmentDto } from './dtos/update.appointment-dto';
 import { CreateAppointmentDto } from './dtos/create.appointment-dto';
 import { MailerService } from 'src/mailer/mailer.service';
+import { Schedule } from 'src/schedules/entities/schedule.entity';
 
 @Injectable()
 export class AppointmentsService {
@@ -18,11 +19,15 @@ export class AppointmentsService {
     private readonly barberRepository: Repository<Barber>,
     @InjectRepository(Service)
     private readonly serviceRepository: Repository<Service>,
+    @InjectRepository(Schedule)
+    private readonly scheduleRepository: Repository<Schedule>,
   ) {}
 
   async create(
     createAppointmentDto: CreateAppointmentDto,
   ): Promise<Appointment> {
+    console.log('Data sto dobivame', createAppointmentDto);
+
     const barber = await this.barberRepository.findOne({
       where: { id: createAppointmentDto.barberId },
     });
@@ -33,12 +38,17 @@ export class AppointmentsService {
     });
     if (!service) throw new NotFoundException('Service not found');
 
-    console.log('Data sto dobivame', createAppointmentDto);
+    const schedule = await this.scheduleRepository.findOne({
+      where: { id: createAppointmentDto.scheduleId },
+    });
+
+    if (!schedule) throw new NotFoundException('Schedule not found');
 
     const savedAppointment = await this.appointmentsRepository.save({
       ...createAppointmentDto,
       barber,
       service,
+      schedule,
     });
 
     console.log('Appointment sto zacuvuvame', savedAppointment);

@@ -12,15 +12,12 @@ export class CreateAppointmentDto {
   @IsEmail()
   clientEmail: string;
 
-  @IsNotEmpty()
-  day: string;
-
-  @IsNotEmpty()
-  term: string;
-
   @IsNumber()
   barberId: number;
 
   @IsNumber()
   serviceId: number;
+
+  @IsNumber()
+  scheduleId: number;
 }

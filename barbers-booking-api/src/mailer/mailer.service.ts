@@ -38,8 +38,8 @@ export class MailerService {
         'Thank you for your time to book a term in your barber studio. We are glad to have you as a client. Have a great day and see you soon. Your best barber!',
       context: {
         name: appointment.clientName,
-        date: appointment.day,
-        time: appointment.term,
+        date: appointment.schedule.day,
+        time: appointment.schedule.time,
         barber: appointment.barber.name,
         service: appointment.service.name,
       },
