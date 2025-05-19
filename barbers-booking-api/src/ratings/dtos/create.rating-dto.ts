@@ -1,9 +1,6 @@
 import { IsNumber, IsString, Max, Min } from 'class-validator';
 
 export class CreateRatingDto {
-  @IsString()
-  userId: string;
-
   @IsNumber()
   barberId: number;
 

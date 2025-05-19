@@ -54,9 +54,6 @@ export class User {
   @OneToOne(() => Barber, (barber) => barber.user)
   barber?: Barber;
 
-  @OneToMany(() => Rating, (ratings) => ratings.user)
-  ratings: Rating[];
-
   // @OneToOne(() => UserDetails, (userDetails) => userDetails.user)
   // @JoinColumn()
   // userDetails: UserDetails;

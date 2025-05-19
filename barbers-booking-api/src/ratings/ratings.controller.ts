@@ -21,12 +21,9 @@ export class RatingsController {
     return this.ratingsService.findOne(+id);
   }
 
-  @Get('/user/:id/barber/:barberId')
-  findRatingByUserAndPost(
-    @Param('id') userId: string,
-    @Param('barberId') barberId: number,
-  ) {
-    return this.ratingsService.findRatingByUserAndBarber(userId, barberId);
+  @Get('/barber/:barberId')
+  findRatingByUserAndPost(@Param('barberId') barberId: number) {
+    return this.ratingsService.findRatingByBarber(barberId);
   }
 
   //   @Patch(':id')

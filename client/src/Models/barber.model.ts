@@ -1,3 +1,4 @@
+import { Rating } from "./rating.model";
 import { Service } from "./service.model";
 
 export interface Barber {
@@ -8,4 +9,5 @@ export interface Barber {
   experience: string;
   image: string;
   services: Service[];
+  ratings: Rating[];
 }

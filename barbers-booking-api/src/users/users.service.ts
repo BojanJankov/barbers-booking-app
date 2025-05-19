@@ -53,7 +53,6 @@ export class UsersService {
       where: { email },
       relations: {
         barber: true,
-        ratings: true,
       },
     });
   }

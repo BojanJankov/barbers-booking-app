@@ -13,12 +13,8 @@ export class Rating {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('real')
+  @Column('decimal')
   rating: number;
-
-  @ManyToOne(() => User, (user) => user.ratings, { onDelete: 'CASCADE' })
-  @JoinColumn()
-  user: User;
 
   @ManyToOne(() => Barber, (barber) => barber.ratings, { onDelete: 'CASCADE' })
   @JoinColumn()
