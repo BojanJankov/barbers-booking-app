@@ -65,7 +65,7 @@ export const RegisterPage = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.card}>
-        <h2 className={styles.title}>Register</h2>
+        <h2 className={styles.title}>Register your barber</h2>
         <form
           className={styles.form}
           method="POST"
@@ -76,7 +76,7 @@ export const RegisterPage = () => {
         >
           <input
             className={styles.input}
-            placeholder="First Name"
+            placeholder="First name"
             required
             {...register("firstName", { required: true })}
           />

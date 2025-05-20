@@ -37,8 +37,8 @@ const ContactPage = () => {
   }, [formState, reset]);
 
   return (
-    <div className="min-h-screen bg-[var(--color-dark)] text-[var(--color-font)] flex items-center justify-center py-8">
-      <div className="max-w-4xl w-full bg-[var(--color-mid)] p-6 rounded-lg shadow-xl">
+    <div className="min-h-screen bg-dark text-font flex items-center justify-center py-8">
+      <div className="max-w-4xl w-full bg-mid p-6 rounded-lg shadow-xl">
         <h2 className="text-3xl font-semibold text-center mb-6">Contact Us</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
@@ -46,7 +46,8 @@ const ContactPage = () => {
               Full Name
             </label>
             <input
-              className={`w-full p-3 rounded-md border-2 border-[var(--color-border)] bg-transparent text-[var(--color-font)] focus:outline-none focus:border-[var(--color-light)] ${
+              placeholder="Your full name..."
+              className={`w-full p-3 rounded-md border-2 border-border bg-transparent text-font focus:outline-none focus:border-light ${
                 errors.name ? "border-red-500" : ""
               }`}
               {...register("name", { required: true })}
@@ -61,9 +62,10 @@ const ContactPage = () => {
               Email Address
             </label>
             <input
+              placeholder="Your email..."
               type="email"
               id="email"
-              className={`w-full p-3 rounded-md border-2 border-[var(--color-border)] bg-transparent text-[var(--color-font)] focus:outline-none focus:border-[var(--color-light)] ${
+              className={`w-full p-3 rounded-md border-2 border-border bg-transparent text-font focus:outline-none focus:border-light ${
                 errors.email ? "border-red-500" : ""
               }`}
               {...register("email", {
@@ -86,9 +88,10 @@ const ContactPage = () => {
               Your Message
             </label>
             <textarea
+              placeholder="Write your message here..."
               rows={5}
               id="message"
-              className={`w-full p-3 rounded-md border-2 border-[var(--color-border)] bg-transparent text-[var(--color-font)] focus:outline-none focus:border-[var(--color-light)] ${
+              className={`w-full p-3 rounded-md border-2 border-border bg-transparent text-font focus:outline-none focus:border-light ${
                 errors.message ? "border-red-500" : ""
               }`}
               {...register("message", { required: true })}
@@ -103,7 +106,7 @@ const ContactPage = () => {
           <div className="text-center">
             <button
               type="submit"
-              className="bg-[var(--color-light)] text-[var(--color-dark)] font-bold py-2 px-6 rounded-lg hover:bg-[var(--color-mid)] transition-colors cursor-pointer"
+              className="bg-light text-font font-bold py-2 px-6 rounded-lg hover:bg-mid transition-colors cursor-pointer"
             >
               Send Message
             </button>

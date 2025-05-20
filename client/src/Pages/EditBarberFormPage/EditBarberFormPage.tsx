@@ -59,7 +59,7 @@ const EditBarberFormPage = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.card}>
-        <h1 className={styles.title}>Edit Barber</h1>
+        <h1 className={styles.title}>Edit your barber information</h1>
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
           <input
             type="text"

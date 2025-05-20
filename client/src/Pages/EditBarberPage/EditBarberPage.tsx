@@ -61,10 +61,24 @@ const EditBarberPage = () => {
     }
   };
 
+  const onHandleDeleteService = async (serviceId: number) => {
+    try {
+      await api.delete(`services/${serviceId}`);
+
+      console.log("Service deleted");
+
+      getBarberById(Number(id));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-dark text-font p-6 space-y-10">
       <section className="bg-mid rounded-2xl p-6 shadow-lg border border-border space-y-4">
-        <h2 className="text-2xl font-semibold">Barber Info</h2>
+        <h2 className="text-2xl font-bold mb-4 text-font">
+          Your barber information
+        </h2>
         <div className="w-32 h-32 mx-auto rounded-full overflow-hidden border-4 border-border shadow-md">
           <img
             src={foundBarber?.image}
@@ -75,25 +89,25 @@ const EditBarberPage = () => {
         <div className="space-y-3 text-lg sm:text-xl text-center mb-10">
           <p>
             <span className="font-semibold text-light text-xl sm:text-2xl">
-              Name:
+              Your name:
             </span>{" "}
             {foundBarber?.name}
           </p>
           <p>
             <span className="font-semibold text-light text-xl sm:text-2xl">
-              Email:
+              Your email:
             </span>{" "}
             {foundBarber?.email}
           </p>
           <p>
             <span className="font-semibold text-light text-xl sm:text-2xl">
-              Experience:
+              Your experience:
             </span>{" "}
             {foundBarber?.experience}
           </p>
           <p>
             <span className="font-semibold text-light text-xl sm:text-2xl">
-              Phone number:
+              Your phone number:
             </span>{" "}
             {foundBarber?.phoneNumber}
           </p>
@@ -103,13 +117,13 @@ const EditBarberPage = () => {
             onClick={handleEditBarber}
             className="px-6 py-2 rounded-lg bg-light hover:bg-border text-font transition-all shadow-md cursor-pointer"
           >
-            Edit barber info
+            Edit your information
           </button>
         </div>
       </section>
       <div className="border p-6 rounded-lg bg-mid">
         <h2 className="text-2xl font-bold mb-4 text-font">
-          Manage Available Terms
+          Manage Your Available Terms
         </h2>
         {foundBarber && foundBarber.id && (
           <CalendarWithTerms barberId={foundBarber.id} />
@@ -125,6 +139,14 @@ const EditBarberPage = () => {
             >
               <h3 className="text-lg font-bold">{service.name}</h3>
               <p className="text-m">Price: {service.price}$</p>
+              <button
+                className="bg-dark text-font p-1 cursor-pointer hover:shadow-lg transition-shadow"
+                onClick={() => {
+                  onHandleDeleteService(service.id);
+                }}
+              >
+                <i className="fa-solid fa-trash"></i>
+              </button>
             </div>
           ))}
         </div>
@@ -136,28 +158,28 @@ const EditBarberPage = () => {
         </button>
         {isOpenServiceForm && (
           <form
-            className="flex flex-col gap-4 max-w-md mx-auto bg-font p-6 shadow-md rounded-lg"
+            className="flex flex-col gap-4 max-w-md mx-auto bg-dark p-6 shadow-md rounded-lg"
             method="POST"
             action=""
             onSubmit={handleSubmit((data) => {
               onHandleServiceAdd(data);
             })}
           >
-            <h2 className="text-xl text-dark font-semibold text-center">
+            <h2 className="text-xl text-font font-semibold text-center">
               Your Service Details
             </h2>
             <input
               type="text"
               placeholder="Service name"
               {...register("name", { required: true })}
-              className="border border-dark text-dark p-3 rounded focus:outline-none focus:ring-2 focus:ring-border"
+              className="border border-border text-font p-3 rounded focus:outline-none focus:ring-2 focus:ring-border"
               required
             />
             <input
               type="number"
               placeholder="Price"
               {...register("price", { required: true })}
-              className="border border-dark text-dark p-3 rounded focus:outline-none focus:ring-2 focus:ring-border"
+              className="border border-border text-font p-3 rounded focus:outline-none focus:ring-2 focus:ring-border"
               required
             />
             <button

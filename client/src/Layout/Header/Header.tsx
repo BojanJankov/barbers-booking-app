@@ -42,18 +42,10 @@ function Header() {
             <button
               className="bg-light hover:bg-mid cursor-pointer text-font px-4 py-2 rounded-md"
               onClick={() => {
-                navigate("login");
-              }}
-            >
-              Login
-            </button>
-            <button
-              className="bg-light hover:bg-mid cursor-pointer text-font px-4 py-2 rounded-md"
-              onClick={() => {
                 navigate("register");
               }}
             >
-              Register
+              Register a barber
             </button>
           </div>
         )}
