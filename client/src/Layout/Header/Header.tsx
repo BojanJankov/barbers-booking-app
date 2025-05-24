@@ -25,32 +25,30 @@ function Header() {
   ];
 
   return (
-    <section className="flex items-center justify-between h-20 bg-transparent p-6">
-      <div className="text-light text-2xl font-bold">
-        <h1>BarberBook</h1>
+    <header className="bg-dark shadow-md px-6 py-4 flex justify-between items-center">
+      <div className="text-font text-3xl font-bold tracking-wide">
+        <h1 className="cursor-pointer" onClick={() => navigate("/")}>
+          BarberBook
+        </h1>
       </div>
       <Navbar />
       <div>
         {accessToken ? (
-          <div className="text-light text-2xl font-bold flex items-center gap-2">
-            <i className="fa-solid fa-user"></i>
-            <p>{user?.username}</p>
+          <div className="text-font text-lg font-semibold flex items-center gap-3">
+            <i className="fa-solid fa-user text-[#b08968] text-xl"></i>
+            <span>{user?.username}</span>
             <DropdownMenu menuItems={menuItems} />
           </div>
         ) : (
-          <div className="flex gap-2">
-            <button
-              className="bg-light hover:bg-mid cursor-pointer text-font px-4 py-2 rounded-md"
-              onClick={() => {
-                navigate("register");
-              }}
-            >
-              Register a barber
-            </button>
-          </div>
+          <button
+            className="bg-[#b08968] hover:bg-[#a17459] text-white font-medium px-4 py-2 rounded-lg transition-all duration-200 shadow cursor-pointer"
+            onClick={() => navigate("register")}
+          >
+            Register a Barber
+          </button>
         )}
       </div>
-    </section>
+    </header>
   );
 }
 

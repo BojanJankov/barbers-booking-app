@@ -1,26 +1,44 @@
 import { useNavigate } from "react-router-dom";
 
-const HomePage = () => {
+export default function Home() {
   const navigate = useNavigate();
-
   return (
-    <div className="relative min-h-screen bg-cover bg-center">
-      <div className="flex flex-col items-center justify-center min-h-screen text-font text-center bg-transparent bg-opacity-50">
-        <h1 className="text-4xl md:text-6xl font-bold">BARBERBOOK</h1>
-        <p className="text-lg md:text-2xl mt-4">
-          BARBERSHOP SCHEDULING STYLED TO THE POINT
-        </p>
-        <button
-          className="mt-6 bg-light text-font px-6 py-3 rounded-lg text-lg hover:bg-mid cursor-pointer"
-          onClick={() => {
-            navigate("/barbers");
-          }}
-        >
-          Book Appointment
-        </button>
-      </div>
+    <div className="min-h-screen bg-dark flex flex-col">
+      <main className="flex flex-col lg:flex-row items-center justify-center flex-1 p-8 gap-12">
+        <div className="text-center lg:text-left max-w-lg">
+          <h2 className="text-5xl font-bold text-font mb-4">BarberBook</h2>
+          <p className="text-lg text-font mb-6">
+            Barbershop scheduling styled to the point. Fast, easy, and reliable
+            appointments with the best barbers around.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+            <button
+              className="px-5 py-3 bg-light cursor-pointer text-white rounded-lg font-semibold shadow hover:bg-[#a17459] transition"
+              onClick={() => {
+                navigate("/barbers");
+              }}
+            >
+              Book Appointment
+            </button>
+            <button
+              className="px-5 py-3 border border-light text-light cursor-pointer rounded-lg font-semibold hover:bg-mid transition"
+              onClick={() => {
+                navigate("/login");
+              }}
+            >
+              Are you a Barber?
+            </button>
+          </div>
+        </div>
+
+        <div className="max-w-md w-full">
+          <img
+            src="/images/barbershop.avif"
+            alt="Barber at work"
+            className="rounded-2xl shadow-lg"
+          />
+        </div>
+      </main>
     </div>
   );
-};
-
-export default HomePage;
+}
