@@ -29,7 +29,7 @@ export default function BarbersPage() {
             placeholder="Search barbers..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full md:w-1/2 px-4 py-3 rounded-xl border border-border bg-mid text-font placeholder:text-[#888] shadow-sm"
+            className="w-full md:w-1/2 px-4 py-3 rounded-xl border border-border bg-mid text-font placeholder:text-[#888] shadow-sm focus:outline-none focus:border-light"
           />
 
           <div className="flex gap-3">
@@ -54,6 +54,9 @@ export default function BarbersPage() {
               <option value="salaryHigh">Salary: High to Low</option>
               <option value="salaryLow">Salary: Low to High</option>
             </select>
+            <button className="px-4 py-3 rounded-xl bg-mid text-font border border-border shadow-sm transition cursor-pointer hover:bg-light hover:shadow-md">
+              Reset
+            </button>
           </div>
         </div>
       </div>

@@ -75,7 +75,7 @@ const EditBarberPage = () => {
 
   return (
     <div className="min-h-screen bg-dark text-font p-6 space-y-10">
-      <section className="bg-mid rounded-2xl p-6 shadow-lg border border-border space-y-4">
+      <section className="bg-mid rounded-2xl p-6 shadow-lg border border-font space-y-4">
         <h2 className="text-2xl font-bold mb-4 text-font">
           Your barber information
         </h2>

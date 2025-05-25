@@ -5,6 +5,7 @@ import {
   OneToMany,
   OneToOne,
   JoinColumn,
+  CreateDateColumn,
 } from 'typeorm';
 import { Appointment } from 'src/appointments/entities/appointment.entity';
 import { Schedule } from 'src/schedules/entities/schedule.entity';
@@ -47,4 +48,7 @@ export class Barber {
 
   @OneToMany(() => Rating, (ratings) => ratings.barber, { onDelete: 'CASCADE' })
   ratings: Rating[];
+
+  @CreateDateColumn()
+  createdAt: Date;
 }
