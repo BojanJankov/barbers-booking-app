@@ -12,6 +12,10 @@ export interface FormValuesModel {
   phoneNumber: string;
   experience: number;
   image: string;
+  bussinesName: string;
+  city: string;
+  address: string;
+  description: string;
 }
 
 export default function AddBarberPage() {
@@ -25,12 +29,18 @@ export default function AddBarberPage() {
     try {
       const userId = user?.id;
 
+      console.log(data);
+
       await api.post("barbers", {
         name: data.name,
         email: data.email,
         phoneNumber: data.phoneNumber,
         experience: data.experience,
         image: data.image,
+        bussinesName: data.bussinesName,
+        city: data.city,
+        address: data.address,
+        description: data.description,
         userId,
       });
 
@@ -45,25 +55,40 @@ export default function AddBarberPage() {
   return (
     <div className={styles.wrapper}>
       <div className={styles.card}>
-        <h1 className={styles.title}>Add New Barber</h1>
+        <h1 className={styles.title}>Add Your Barber Bussines</h1>
         <form
           onSubmit={handleSubmit((data) => onSubmit(data))}
           className={styles.form}
         >
           <input
             {...register("name", { required: true })}
-            placeholder="Full Name"
+            placeholder="Your Full Name"
+            className={styles.input}
+          />
+          <input
+            {...register("bussinesName", { required: true })}
+            placeholder="Your bussines name"
             className={styles.input}
           />
           <input
             {...register("email", { required: true })}
-            placeholder="Email Address"
+            placeholder="Your email address"
             type="email"
             className={styles.input}
           />
           <input
             {...register("phoneNumber", { required: true })}
-            placeholder="Phone Number"
+            placeholder="Your phone number"
+            className={styles.input}
+          />
+          <input
+            {...register("city", { required: true })}
+            placeholder="Your bussines city"
+            className={styles.input}
+          />
+          <input
+            {...register("address", { required: true })}
+            placeholder="Your bussines address"
             className={styles.input}
           />
           <input
@@ -75,7 +100,14 @@ export default function AddBarberPage() {
           <input
             type="string"
             {...register("image", { required: true })}
-            placeholder="Your image"
+            placeholder="Your profile image"
+            className={styles.input}
+          />
+          <textarea
+            {...register("description", {
+              required: true,
+            })}
+            placeholder="Write a description for your bussines"
             className={styles.input}
           />
           <button type="submit" className={styles.button}>

@@ -33,6 +33,18 @@ export class Barber {
   @Column({ nullable: false })
   image: string;
 
+  @Column({ nullable: false })
+  bussinesName: string;
+
+  @Column({ nullable: false })
+  city: string;
+
+  @Column({ nullable: false })
+  address: string;
+
+  @Column('text', { nullable: false })
+  description: string;
+
   @OneToOne(() => User, (user) => user.barber, { eager: true })
   @JoinColumn()
   user: User;

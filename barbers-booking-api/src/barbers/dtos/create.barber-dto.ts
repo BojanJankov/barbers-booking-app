@@ -1,4 +1,4 @@
-import { IsString, IsEmail, IsNumber, IsUrl } from 'class-validator';
+import { IsString, IsEmail, IsNumber } from 'class-validator';
 
 export class CreateBarberDto {
   @IsString()
@@ -18,4 +18,16 @@ export class CreateBarberDto {
 
   @IsString()
   userId: string;
+
+  @IsString()
+  bussinesName: string;
+
+  @IsString()
+  city: string;
+
+  @IsString()
+  address: string;
+
+  @IsString()
+  description: string;
 }

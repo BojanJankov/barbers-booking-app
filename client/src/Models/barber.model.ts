@@ -8,6 +8,10 @@ export interface Barber {
   phoneNumber: string;
   experience: string;
   image: string;
+  bussinesName: string;
+  city: string;
+  address: string;
+  description: string;
   services: Service[];
   ratings: Rating[];
 }
