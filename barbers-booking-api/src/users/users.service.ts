@@ -28,6 +28,14 @@ export class UsersService {
       where: {
         id: id,
       },
+      relations: {
+        barber: {
+          ratings: true,
+          services: true,
+          appointments: true,
+          schedules: true,
+        },
+      },
     });
 
     return foundUser;

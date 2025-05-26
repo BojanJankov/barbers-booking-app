@@ -12,6 +12,10 @@ type FormData = {
   experience: string;
   phoneNumber: string;
   image: string;
+  bussinesName: string;
+  city: string;
+  address: string;
+  description: string;
 };
 
 const EditBarberFormPage = () => {
@@ -31,6 +35,10 @@ const EditBarberFormPage = () => {
       experience: foundBarber?.experience,
       phoneNumber: foundBarber?.phoneNumber,
       image: foundBarber?.image,
+      description: foundBarber?.description,
+      bussinesName: foundBarber?.bussinesName,
+      address: foundBarber?.address,
+      city: foundBarber?.city,
     });
   }, [id, reset]);
 
@@ -44,6 +52,10 @@ const EditBarberFormPage = () => {
         experience: Number(data.experience),
         phoneNumber: data.phoneNumber,
         image: data.image,
+        description: data.description,
+        bussinesName: data.bussinesName,
+        address: data.address,
+        city: data.city,
       });
 
       console.log(response);
@@ -68,9 +80,27 @@ const EditBarberFormPage = () => {
             className={styles.input}
           />
           <input
+            type="text"
+            placeholder="Bussines name"
+            {...register("bussinesName", { required: true })}
+            className={styles.input}
+          />
+          <input
             type="email"
             placeholder="Email"
             {...register("email", { required: true })}
+            className={styles.input}
+          />
+          <input
+            type="text"
+            placeholder="City"
+            {...register("city", { required: true })}
+            className={styles.input}
+          />
+          <input
+            type="text"
+            placeholder="Address"
+            {...register("address", { required: true })}
             className={styles.input}
           />
           <input
@@ -85,7 +115,13 @@ const EditBarberFormPage = () => {
             {...register("phoneNumber", { required: true })}
             className={styles.input}
           />
+          <textarea
+            placeholder="Your description"
+            {...register("description", { required: true })}
+            className={styles.input}
+          />
           <input
+            placeholder="Image"
             type="string"
             {...register("image", { required: true })}
             className={styles.input}

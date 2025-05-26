@@ -1,4 +1,6 @@
+import { Appointment } from "./appointment.model";
 import { Rating } from "./rating.model";
+import { Schedule } from "./schedule.model";
 import { Service } from "./service.model";
 
 export interface Barber {
@@ -14,4 +16,6 @@ export interface Barber {
   description: string;
   services: Service[];
   ratings: Rating[];
+  schedules: Schedule[];
+  appointments: Appointment[];
 }

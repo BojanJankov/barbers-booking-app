@@ -20,7 +20,7 @@ export interface FormValuesModel {
 
 export default function AddBarberPage() {
   const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
+  const { user, getUserById } = useContext(AuthContext);
   const { fetchBarbers } = useContext(BarberContext);
 
   const { register, handleSubmit, reset } = useForm<FormValuesModel>();
@@ -45,6 +45,7 @@ export default function AddBarberPage() {
       });
 
       reset();
+      getUserById(String(userId));
       fetchBarbers();
       navigate("/barbers");
     } catch (error) {

@@ -95,9 +95,27 @@ const EditBarberPage = () => {
           </p>
           <p>
             <span className="font-semibold text-light text-xl sm:text-2xl">
+              Your bussines name:
+            </span>{" "}
+            {foundBarber?.bussinesName}
+          </p>
+          <p>
+            <span className="font-semibold text-light text-xl sm:text-2xl">
               Your email:
             </span>{" "}
             {foundBarber?.email}
+          </p>
+          <p>
+            <span className="font-semibold text-light text-xl sm:text-2xl">
+              Your city:
+            </span>{" "}
+            {foundBarber?.city}
+          </p>
+          <p>
+            <span className="font-semibold text-light text-xl sm:text-2xl">
+              Your address:
+            </span>{" "}
+            {foundBarber?.address}
           </p>
           <p>
             <span className="font-semibold text-light text-xl sm:text-2xl">
@@ -110,6 +128,12 @@ const EditBarberPage = () => {
               Your phone number:
             </span>{" "}
             {foundBarber?.phoneNumber}
+          </p>
+          <p>
+            <span className="font-semibold text-light text-xl sm:text-2xl">
+              Your description:
+            </span>{" "}
+            {foundBarber?.description}
           </p>
         </div>
         <div className="text-center">

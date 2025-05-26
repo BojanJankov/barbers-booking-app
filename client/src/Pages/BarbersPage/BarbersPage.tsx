@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BarberContext from "../../context/StateContext";
 import { Barber } from "../../Models/barber.model";
-import { Mail, Phone, Briefcase, Scissors } from "lucide-react";
+import { Mail, Phone, Briefcase, Scissors, MapPin, User } from "lucide-react";
 
 export default function BarbersPage() {
   const navigate = useNavigate();
@@ -72,23 +72,35 @@ export default function BarbersPage() {
               className="w-24 h-24 rounded-full border-4 border-[#BFAEA2] object-cover mb-4"
             />
             <h2 className="text-xl font-semibold text-center mb-2">
-              {barber.name}
+              {barber.bussinesName}
             </h2>
             <div className="space-y-1 text-sm text-center">
               <div className="flex items-center justify-center gap-2">
-                <Mail size={16} /> <span>{barber.email}</span>
+                <User size={17} /> <span>{barber.name}</span>
               </div>
               <div className="flex items-center justify-center gap-2">
-                <Phone size={16} /> <span>{barber.phoneNumber}</span>
+                <Mail size={17} /> <span>{barber.email}</span>
               </div>
               <div className="flex items-center justify-center gap-2">
-                <Briefcase size={16} />{" "}
+                <Phone size={17} /> <span>{barber.phoneNumber}</span>
+              </div>
+              <div className="flex items-center justify-center gap-2">
+                <MapPin size={17} />{" "}
+                <span>
+                  {barber.address} - {barber.city}{" "}
+                </span>
+              </div>
+              <div className="flex items-center justify-center gap-2">
+                <Briefcase size={17} />{" "}
                 <span>Experience: {barber.experience}</span>
               </div>
             </div>
-
             <div className="w-full mt-4">
-              <h3 className="text-lg font-medium mb-1 flex items-center gap-2">
+              <h4 className="font-bold">About me</h4>
+              <p>{barber.description}</p>
+            </div>
+            <div className="w-full mt-4">
+              <h3 className="text-md font-bold mb-1 flex items-center gap-2">
                 <Scissors size={18} /> Services
               </h3>
               <ul className="list-disc list-inside space-y-1 text-sm">
