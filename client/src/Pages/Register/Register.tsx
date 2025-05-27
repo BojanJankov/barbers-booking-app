@@ -11,6 +11,7 @@ interface RegisterFormValues {
   username: string;
   email: string;
   password: string;
+  confirmPassword: string;
   role: "user" | "barber";
 }
 
@@ -18,20 +19,33 @@ export const RegisterPage = () => {
   const navigate = useNavigate();
   const { accessToken, logout } = useContext(AuthContext);
 
-  const { register, handleSubmit } = useForm<RegisterFormValues>({
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+  } = useForm<RegisterFormValues>({
     defaultValues: {
       firstName: "",
       lastName: "",
       username: "",
       email: "",
       password: "",
+      confirmPassword: "",
       role: "barber",
     },
   });
 
   const onSubmitRegister = async (body: RegisterFormValues) => {
     try {
-      const response = await api.post("/auth/register", body);
+      const response = await api.post("/auth/register", {
+        firstName: body.firstName,
+        lastName: body.lastName,
+        username: body.username,
+        email: body.email,
+        password: body.password,
+        role: "barber",
+      });
 
       console.log(response);
       navigate("/login");
@@ -78,36 +92,83 @@ export const RegisterPage = () => {
             className={styles.input}
             placeholder="First name"
             required
-            {...register("firstName", { required: true })}
+            {...register("firstName", {
+              required: "Please Enter Your First name",
+              minLength: {
+                value: 3,
+                message: "First name must be at least 3 characters long!",
+              },
+            })}
           />
+          <p className={styles.error}>{errors.firstName?.message}</p>
           <input
             className={styles.input}
             placeholder="Last Name"
             required
-            {...register("lastName", { required: true })}
+            {...register("lastName", {
+              required: "Please Enter Your Last name",
+              minLength: {
+                value: 3,
+                message: "First name must be at least 3 characters long!",
+              },
+            })}
           />
+          <p className={styles.error}>{errors.lastName?.message}</p>
           <input
             className={styles.input}
             placeholder="Username"
             required
-            {...register("username", { required: true })}
+            {...register("username", {
+              required: "Please Enter Your Username",
+              minLength: {
+                value: 3,
+                message: "First name must be at least 3 characters long!",
+              },
+            })}
           />
+          <p className={styles.error}>{errors.username?.message}</p>
           <input
             className={styles.input}
             placeholder="Email"
             type="email"
             required
-            {...register("email", { required: true })}
+            {...register("email", {
+              required: "Please Enter Your Email",
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i,
+                message: "Plase enter valid email address!",
+              },
+            })}
           />
-
+          <p className={styles.error}>{errors.email?.message}</p>
           <input
             className={styles.input}
             placeholder="Password"
             type="password"
             required
-            {...register("password", { required: true })}
+            {...register("password", {
+              required: "Please Enter Your Password",
+              minLength: {
+                value: 8,
+                message: "Password must be at least 8 characters long!",
+              },
+            })}
           />
-
+          <p className={styles.error}>{errors.password?.message}</p>
+          <input
+            className={styles.input}
+            placeholder="Confirm password"
+            {...register("confirmPassword", {
+              required: "Please Enter Your Confirm Password",
+              validate: (match) => {
+                const password = getValues("password");
+                return match === password || "Passwords should match!";
+              },
+            })}
+            type="password"
+            id="confirmPassword"
+          />
+          <p className={styles.error}>{errors.confirmPassword?.message}</p>
           <button type="submit" className={styles.button}>
             Register
           </button>
