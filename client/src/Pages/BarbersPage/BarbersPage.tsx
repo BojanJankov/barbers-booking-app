@@ -31,7 +31,9 @@ export default function BarbersPage() {
             onChange={(e) => setSearch(e.target.value)}
             className="w-full md:w-1/2 px-4 py-3 rounded-xl border border-border bg-mid text-font placeholder:text-[#888] shadow-sm focus:outline-none focus:border-light"
           />
-
+          <button className="px-4 py-3 rounded-xl bg-mid text-font border border-border shadow-sm transition cursor-pointer hover:bg-light hover:shadow-md">
+            Search
+          </button>
           <div className="flex gap-3">
             <select
               value={filter}
@@ -39,8 +41,10 @@ export default function BarbersPage() {
               className="px-4 py-3 rounded-xl bg-mid text-font border border-border shadow-sm cursor-pointer"
             >
               <option value="">Filter by</option>
-              <option value="location">Location</option>
-              <option value="jobType">Services</option>
+              <option value="location">Name</option>
+              <option value="location">City</option>
+              <option value="jobType">Address</option>
+              <option value="jobType">Experience</option>
             </select>
 
             <select
@@ -50,8 +54,8 @@ export default function BarbersPage() {
             >
               <option value="">Sort by</option>
               <option value="newest">Newest</option>
-              <option value="relevance">Relevance</option>
-              <option value="salaryHigh">Salary: High to Low</option>
+              <option value="relevance">Experience</option>
+              <option value="salaryHigh">Services</option>
               <option value="salaryLow">Salary: Low to High</option>
             </select>
             <button className="px-4 py-3 rounded-xl bg-mid text-font border border-border shadow-sm transition cursor-pointer hover:bg-light hover:shadow-md">
