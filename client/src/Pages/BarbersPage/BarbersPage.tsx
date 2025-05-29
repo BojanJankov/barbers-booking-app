@@ -13,12 +13,47 @@ export default function BarbersPage() {
   const [sort, setSort] = useState("");
 
   useEffect(() => {
-    setDisplayBarbers(barbers);
-  }, [barbers, setDisplayBarbers]);
+    let updated = [...barbers];
 
-  const filteredBarbers = displayBarbers.filter((barber) =>
-    barber.name.toLowerCase().includes(search.toLowerCase())
-  );
+    if (search.trim()) {
+      if (filter) {
+        updated = updated.filter((barber) => {
+          const value = barber[filter as keyof Barber];
+          return value?.toString().toLowerCase().includes(search.toLowerCase());
+        });
+      } else {
+        updated = updated.filter((barber) =>
+          barber.name.toLowerCase().includes(search.toLowerCase())
+        );
+      }
+    }
+
+    if (sort) {
+      updated.sort((a, b) => {
+        if (sort === "newest") {
+          return (
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+        }
+        if (sort === "experience") {
+          return b.experience - a.experience;
+        }
+        if (sort === "services") {
+          return b.services.length - a.services.length;
+        }
+        return 0;
+      });
+    }
+
+    setDisplayBarbers(updated);
+  }, [barbers, search, filter, sort]);
+
+  const handleReset = () => {
+    setSearch("");
+    setSort("");
+    setFilter("");
+    setDisplayBarbers(barbers);
+  };
 
   return (
     <div className="min-h-screen bg-dark px-6 py-10">
@@ -31,9 +66,6 @@ export default function BarbersPage() {
             onChange={(e) => setSearch(e.target.value)}
             className="w-full md:w-1/2 px-4 py-3 rounded-xl border border-border bg-mid text-font placeholder:text-[#888] shadow-sm focus:outline-none focus:border-light"
           />
-          <button className="px-4 py-3 rounded-xl bg-mid text-font border border-border shadow-sm transition cursor-pointer hover:bg-light hover:shadow-md">
-            Search
-          </button>
           <div className="flex gap-3">
             <select
               value={filter}
@@ -41,12 +73,11 @@ export default function BarbersPage() {
               className="px-4 py-3 rounded-xl bg-mid text-font border border-border shadow-sm cursor-pointer"
             >
               <option value="">Filter by</option>
-              <option value="location">Name</option>
-              <option value="location">City</option>
-              <option value="jobType">Address</option>
-              <option value="jobType">Experience</option>
+              <option value="name">Name</option>
+              <option value="city">City</option>
+              <option value="address">Address</option>
+              <option value="experience">Experience</option>
             </select>
-
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value)}
@@ -54,76 +85,86 @@ export default function BarbersPage() {
             >
               <option value="">Sort by</option>
               <option value="newest">Newest</option>
-              <option value="relevance">Experience</option>
-              <option value="salaryHigh">Services</option>
-              <option value="salaryLow">Salary: Low to High</option>
+              <option value="experience">Experience</option>
+              <option value="services">Services</option>
             </select>
-            <button className="px-4 py-3 rounded-xl bg-mid text-font border border-border shadow-sm transition cursor-pointer hover:bg-light hover:shadow-md">
+            <button
+              className="px-4 py-3 rounded-xl bg-mid text-font border border-border shadow-sm transition cursor-pointer hover:bg-light hover:shadow-md"
+              onClick={handleReset}
+            >
               Reset
             </button>
           </div>
         </div>
       </div>
-      <div className="max-w-6xl mx-auto grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-        {filteredBarbers.map((barber) => (
-          <div
-            key={barber.id}
-            className="bg-border text-font rounded-2xl shadow-md hover:shadow-xl transition p-6 flex flex-col items-center"
-          >
-            <img
-              src={barber.image}
-              alt={barber.name}
-              className="w-24 h-24 rounded-full border-4 border-[#BFAEA2] object-cover mb-4"
-            />
-            <h2 className="text-xl font-semibold text-center mb-2">
-              {barber.bussinesName}
-            </h2>
-            <div className="space-y-1 text-sm text-center">
-              <div className="flex items-center justify-center gap-2">
-                <User size={17} /> <span>{barber.name}</span>
-              </div>
-              <div className="flex items-center justify-center gap-2">
-                <Mail size={17} /> <span>{barber.email}</span>
-              </div>
-              <div className="flex items-center justify-center gap-2">
-                <Phone size={17} /> <span>{barber.phoneNumber}</span>
-              </div>
-              <div className="flex items-center justify-center gap-2">
-                <MapPin size={17} />{" "}
-                <span>
-                  {barber.address} - {barber.city}{" "}
-                </span>
-              </div>
-              <div className="flex items-center justify-center gap-2">
-                <Briefcase size={17} />{" "}
-                <span>Experience: {barber.experience}</span>
-              </div>
-            </div>
-            <div className="w-full mt-4">
-              <h4 className="font-bold">About me</h4>
-              <p>{barber.description}</p>
-            </div>
-            <div className="w-full mt-4">
-              <h3 className="text-md font-bold mb-1 flex items-center gap-2">
-                <Scissors size={18} /> Services
-              </h3>
-              <ul className="list-disc list-inside space-y-1 text-sm">
-                {barber.services.map((service, idx) => (
-                  <li key={idx}>
-                    {service.name} - {service.price}
-                  </li>
-                ))}
-              </ul>
-            </div>
+      <div className="max-w-6xl mx-auto">
+        {displayBarbers.length > 0 ? (
+          <div className="max-w-6xl mx-auto grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+            {displayBarbers.map((barber) => (
+              <div
+                key={barber.id}
+                className="bg-border text-font rounded-2xl shadow-md hover:shadow-xl transition p-6 flex flex-col items-center"
+              >
+                <img
+                  src={barber.image}
+                  alt={barber.name}
+                  className="w-24 h-24 rounded-full border-4 border-[#BFAEA2] object-cover mb-4"
+                />
+                <h2 className="text-xl font-semibold text-center mb-2">
+                  {barber.bussinesName}
+                </h2>
+                <div className="space-y-1 text-sm text-center">
+                  <div className="flex items-center justify-center gap-2">
+                    <User size={17} /> <span>{barber.name}</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-2">
+                    <Mail size={17} /> <span>{barber.email}</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-2">
+                    <Phone size={17} /> <span>{barber.phoneNumber}</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-2">
+                    <MapPin size={17} />{" "}
+                    <span>
+                      {barber.address} - {barber.city}{" "}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-center gap-2">
+                    <Briefcase size={17} />{" "}
+                    <span>Experience: {barber.experience}</span>
+                  </div>
+                </div>
+                <div className="w-full mt-4">
+                  <h4 className="font-bold">About me</h4>
+                  <p>{barber.description}</p>
+                </div>
+                <div className="w-full mt-4">
+                  <h3 className="text-md font-bold mb-1 flex items-center gap-2">
+                    <Scissors size={18} /> Services
+                  </h3>
+                  <ul className="list-disc list-inside space-y-1 text-sm">
+                    {barber.services.map((service, idx) => (
+                      <li key={idx}>
+                        {service.name} - {service.price}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
-            <button
-              onClick={() => navigate(`/barbers/${barber.id}/booking`)}
-              className="mt-6 bg-dark hover:bg-light text-font px-6 py-2 rounded-xl transition cursor-pointer"
-            >
-              Book Now
-            </button>
+                <button
+                  onClick={() => navigate(`/barbers/${barber.id}/booking`)}
+                  className="mt-6 bg-dark hover:bg-light text-font px-6 py-2 rounded-xl transition cursor-pointer"
+                >
+                  Book Now
+                </button>
+              </div>
+            ))}
           </div>
-        ))}
+        ) : (
+          <div className="text-center text-font text-lg mt-20">
+            Oops! No barbers found. Try adjusting your search or filters.
+          </div>
+        )}
       </div>
     </div>
   );

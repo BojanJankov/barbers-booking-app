@@ -8,7 +8,7 @@ export interface Barber {
   name: string;
   email: string;
   phoneNumber: string;
-  experience: string;
+  experience: number;
   image: string;
   bussinesName: string;
   city: string;
@@ -18,4 +18,5 @@ export interface Barber {
   ratings: Rating[];
   schedules: Schedule[];
   appointments: Appointment[];
+  createdAt: Date;
 }

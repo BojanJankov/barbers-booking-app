@@ -25,7 +25,7 @@ function Header() {
   ];
 
   return (
-    <header className="bg-dark shadow-md px-6 py-4 flex justify-between items-center">
+    <header className="bg-dark px-6 py-4 flex justify-between items-center">
       <div className="text-font text-3xl font-bold tracking-wide">
         <h1 className="cursor-pointer" onClick={() => navigate("/")}>
           BarberBook
