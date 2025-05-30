@@ -9,7 +9,7 @@ import { AuthContext } from "../../context/AuthContext";
 type FormData = {
   name: string;
   email: string;
-  experience: string;
+  experience: number;
   phoneNumber: string;
   image: string;
   bussinesName: string;

@@ -158,11 +158,21 @@ export class BarbersService {
   ) {
     const { availableTerms } = updateAvailableTermsDto;
 
-    await this.schedulesRepository.delete({ barber: { id: barberId } });
+    await this.schedulesRepository
+      .createQueryBuilder()
+      .delete()
+      .from('schedule')
+      .where('"barberId" = :barberId', { barberId })
+      .andWhere(
+        `"id" NOT IN (
+    SELECT DISTINCT "scheduleId" FROM "appointment" WHERE "scheduleId" IS NOT NULL
+  )`,
+      )
+      .execute();
 
     const newSchedules = availableTerms.flatMap(({ day, terms }) =>
       terms.map((term) => ({
-        day,
+        day: day,
         time: term,
         startTime: '00:00',
         endTime: '23:59',

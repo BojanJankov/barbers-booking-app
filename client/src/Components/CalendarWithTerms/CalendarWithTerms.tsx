@@ -33,14 +33,24 @@ export default function CalendarWithTerms({ barberId }: Props) {
 
     setDisplayAvailableTerms((prev) => {
       const existing = prev.find((d) => d.day === selectedDay);
+      const newTerm = { time: newTime, scheduleId: Date.now() };
+
       if (existing) {
+        const isDuplicate = existing.terms.some((t) => t.time === newTime);
+        if (isDuplicate) return prev;
+
         return prev.map((d) =>
           d.day === selectedDay
-            ? { ...d, terms: [...new Set([...d.terms, newTime])].sort() }
+            ? {
+                ...d,
+                terms: [...d.terms, newTerm].sort((a, b) =>
+                  a.time.localeCompare(b.time)
+                ),
+              }
             : d
         );
       } else {
-        return [...prev, { day: selectedDay, terms: [newTime] }];
+        return [...prev, { day: selectedDay, terms: [newTerm] }];
       }
     });
 
@@ -52,7 +62,7 @@ export default function CalendarWithTerms({ barberId }: Props) {
       prev
         .map((d) =>
           d.day === selectedDay
-            ? { ...d, terms: d.terms.filter((t) => t !== time) }
+            ? { ...d, terms: d.terms.filter((t) => t.time !== time) }
             : d
         )
         .filter((d) => d.terms.length > 0)
@@ -61,16 +71,36 @@ export default function CalendarWithTerms({ barberId }: Props) {
 
   const handleSave = async () => {
     try {
-      console.log("Data to send:", { availableTerms: displayAvailableTerms });
-      await api.patch(`barbers/${barberId}/available`, {
-        availableTerms: displayAvailableTerms,
-      });
+      const transformed = {
+        availableTerms: displayAvailableTerms.map((term) => ({
+          day: term.day,
+          terms: term.terms.map((t) => t.time),
+        })),
+      };
+
+      console.log("Sending:", transformed);
+
+      await api.patch(`barbers/${barberId}/available`, transformed);
+
       console.log("Terms saved!");
     } catch (err) {
       console.error(err);
       console.log("Failed to save terms");
     }
   };
+
+  // const handleSave = async () => {
+  //   try {
+  //     console.log("Data to send:", { availableTerms: displayAvailableTerms });
+  //     await api.patch(`barbers/${barberId}/available`, {
+  //       availableTerms: displayAvailableTerms,
+  //     });
+  //     console.log("Terms saved!");
+  //   } catch (err) {
+  //     console.error(err);
+  //     console.log("Failed to save terms");
+  //   }
+  // };
 
   return (
     <div className="space-y-6">
@@ -121,12 +151,12 @@ export default function CalendarWithTerms({ barberId }: Props) {
 
           <div className="flex flex-wrap gap-2">
             {timesForSelectedDay.map((time) => (
-              <div key={time} className="flex items-center gap-1">
+              <div key={time.time} className="flex items-center gap-1">
                 <span className="bg-dark text-font border-border px-4 py-2 rounded">
-                  {time}
+                  {time.time}
                 </span>
                 <button
-                  onClick={() => removeTimeFromDay(time)}
+                  onClick={() => removeTimeFromDay(time.time)}
                   className="text-red-500"
                 >
                   &times;

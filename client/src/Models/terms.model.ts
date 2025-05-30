@@ -1,7 +1,6 @@
+type Term = { time: string; scheduleId: number };
+
 export interface AvailableTerm {
   day: string;
-  terms: {
-    time: string;
-    scheduleId: number;
-  }[];
+  terms: Term[];
 }

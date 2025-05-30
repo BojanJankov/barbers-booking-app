@@ -16,7 +16,7 @@ const EditBarberPage = () => {
   const { getBarberById, foundBarber } = useContext(BarberContext);
   const [isOpenServiceForm, setIsOpenServiceForm] = useState<boolean>(false);
 
-  const { register, handleSubmit, formState } = useForm<ServiceFormValues>({
+  const { register, handleSubmit, reset } = useForm<ServiceFormValues>({
     defaultValues: {
       name: "",
       price: 0,
@@ -47,10 +47,10 @@ const EditBarberPage = () => {
         barberId: foundBarber?.id,
       });
       console.log("Uspesno dodaden service");
-      formState.defaultValues = {
+      reset({
         name: "",
         price: 0,
-      };
+      });
       setIsOpenServiceForm(false);
 
       if (foundBarber?.id) {

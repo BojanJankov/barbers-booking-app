@@ -134,7 +134,7 @@ export default function BarberBookingPage() {
                   className={`px-4 py-2 rounded-full border cursor-pointer ${
                     selectedTime?.scheduleId === slot.scheduleId
                       ? "bg-mid text-font"
-                      : "bg-font text-mid"
+                      : "bg-light text-font"
                   }`}
                 >
                   {slot.time}
@@ -181,7 +181,7 @@ export default function BarberBookingPage() {
           {selectedService && (
             <form
               onSubmit={handleSubmit}
-              className="flex flex-col gap-4 max-w-md mx-auto bg-font p-6 shadow-md rounded-lg"
+              className="flex flex-col gap-4 max-w-md mx-auto bg-mid p-6 shadow-md rounded-lg"
             >
               <h2 className="text-xl font-semibold text-center">
                 Your Details
@@ -218,7 +218,7 @@ export default function BarberBookingPage() {
               />
               <button
                 type="submit"
-                className="mt-4 bg-mid border-border text-font font-semibold py-3 rounded hover:bg-light transition cursor-pointer"
+                className="mt-4 bg-light border-border text-font font-semibold py-3 rounded hover:bg-dark transition cursor-pointer"
               >
                 Confirm Booking
               </button>

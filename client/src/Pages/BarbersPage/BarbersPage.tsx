@@ -145,7 +145,7 @@ export default function BarbersPage() {
                   <ul className="list-disc list-inside space-y-1 text-sm">
                     {barber.services.map((service, idx) => (
                       <li key={idx}>
-                        {service.name} - {service.price}
+                        {service.name} - {service.price}$
                       </li>
                     ))}
                   </ul>
