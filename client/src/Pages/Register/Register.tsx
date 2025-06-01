@@ -79,7 +79,7 @@ export const RegisterPage = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.card}>
-        <h2 className={styles.title}>Register your barber</h2>
+        <h2 className={styles.title}>Register your barber bussines</h2>
         <form
           className={styles.form}
           method="POST"

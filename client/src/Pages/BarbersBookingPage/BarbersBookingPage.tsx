@@ -195,6 +195,8 @@ export default function BarberBookingPage() {
                 }
                 className="border p-3 rounded focus:outline-none focus:ring-2 focus:ring-border"
                 required
+                minLength={5}
+                maxLength={35}
               />
               <input
                 type="text"
@@ -205,6 +207,9 @@ export default function BarberBookingPage() {
                 }
                 className="border p-3 rounded focus:outline-none focus:ring-2 focus:ring-border"
                 required
+                minLength={7}
+                maxLength={15}
+                pattern="[0-9]+"
               />
               <input
                 type="email"
@@ -215,6 +220,7 @@ export default function BarberBookingPage() {
                 }
                 className="border p-3 rounded focus:outline-none focus:ring-2 focus:ring-border"
                 required
+                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
               />
               <button
                 type="submit"

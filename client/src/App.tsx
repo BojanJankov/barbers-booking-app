@@ -19,38 +19,39 @@ import BarberAppointmentsPage from "./Pages/BarberAppointmentsPage/BarberAppoint
 function App() {
   return (
     <>
-      <section className="min-h-screen bg-dark">
+      <section className="min-h-screen flex flex-col bg-dark">
         <Header />
-        <main>
+
+        <main className="flex-1">
           <Routes>
-            <Route path="/" element={<HomePage />}></Route>
-            <Route path="/about" element={<AboutUs />}></Route>
-            <Route path="/contact" element={<ContactPage />}></Route>
-            <Route path="/login" element={<LoginPage />}></Route>
-            <Route path="/register" element={<RegisterPage />}></Route>
-            <Route path="/barbers" element={<BarbersPage />}></Route>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/about" element={<AboutUs />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/barbers" element={<BarbersPage />} />
             <Route
               path="/barbers/:barberId/booking"
               element={<BarbersBookingPage />}
             />
+
             <Route element={<ProtectedRoutes />}>
-              <Route path="/add-barber" element={<AddBarberPage />}></Route>
+              <Route path="/add-barber" element={<AddBarberPage />} />
               <Route
                 path="/barber-appointments/:id"
                 element={<BarberAppointmentsPage />}
-              ></Route>
-              <Route
-                path="/edit-barber/:id"
-                element={<EditBarberPage />}
-              ></Route>
+              />
+              <Route path="/edit-barber/:id" element={<EditBarberPage />} />
               <Route
                 path="/edit-barber/form/:id"
                 element={<EditBarberFormPage />}
-              ></Route>
+              />
             </Route>
-            <Route path="*" element={<NotFoundPage />}></Route>
+
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>
+
         <Footer />
       </section>
     </>

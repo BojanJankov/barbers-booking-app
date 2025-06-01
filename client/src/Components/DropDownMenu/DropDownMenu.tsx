@@ -69,7 +69,7 @@ const DropdownMenu = ({ menuItems }: DropdownMenuProps) => {
                   setIsOpen(false);
                 }}
               >
-                Edit profile
+                Edit your profile
               </li>
             ) : (
               <li
@@ -79,7 +79,7 @@ const DropdownMenu = ({ menuItems }: DropdownMenuProps) => {
                   setIsOpen(false);
                 }}
               >
-                Add profile
+                Add your profile
               </li>
             )
           ) : null}

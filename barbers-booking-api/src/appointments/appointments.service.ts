@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Barber } from 'src/barbers/entities/barber.entity';
 import { Service } from 'src/services/entities/service.entity';
@@ -78,23 +82,6 @@ export class AppointmentsService {
     });
   }
 
-  // async updateStatus(id: number, updateStatusDto: UpdateStatusDto) {
-  //   const appointment: Appointment = await this.appointmentsRepository.findOne({
-  //     where: { id },
-  //   });
-  //   if (!appointment) throw new NotFoundException('Appointment not found');
-
-  //   appointment.status = updateStatusDto.status;
-
-  //   await this.mailerService.sendEmail(
-  //     appointment.clientEmail,
-  //     `Your Appointment has been ${appointment.status}`,
-  //     `Your appointment on ${appointment.date} has been ${appointment.status} by ${appointment.barber.name}.`,
-  //   );
-
-  //   return await this.appointmentsRepository.save(appointment);
-  // }
-
   async update(
     id: number,
     updateAppointmentDto: UpdateAppointmentDto,
@@ -109,14 +96,29 @@ export class AppointmentsService {
     return this.appointmentsRepository.save(appointment);
   }
 
-  async remove(id: number): Promise<void> {
-    await this.appointmentsRepository.delete(id);
-  }
+  async deleteAppointment(appointmentId: number, barberId: number) {
+    const appointment = await this.appointmentsRepository.findOne({
+      where: {
+        id: appointmentId,
+      },
+      relations: {
+        barber: true,
+      },
+    });
 
-  // async getAppointmentsForUser(userId: string): Promise<Appointment[]> {
-  //   return this.appointmentsRepository.find({
-  //     where: { user: { id: userId } },
-  //     relations: ['barber', 'service'],
-  //   });
-  // }
+    if (!appointment) {
+      throw new NotFoundException('Appointment not found');
+    }
+
+    console.log(appointment.barber.id);
+    console.log(barberId);
+
+    if (Number(appointment.barber.id) !== Number(barberId)) {
+      throw new ForbiddenException(
+        'You are not allowed to delete this appointment',
+      );
+    }
+
+    await this.appointmentsRepository.delete(appointmentId);
+  }
 }

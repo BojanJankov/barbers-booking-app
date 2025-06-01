@@ -7,25 +7,38 @@ export default function BarberAppointmentsPage() {
   const { id } = useParams();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
 
+  const fetchAppointments = async () => {
+    try {
+      const response = await api.get(`/barbers/${id}/appointments`);
+
+      console.log(response);
+      const today = new Date();
+      const filtered = response.data.filter((appt: Appointment) => {
+        return new Date(appt.schedule.day) >= today;
+      });
+      setAppointments(filtered);
+    } catch (error) {
+      console.error("Failed to get appointments:", error);
+    }
+  };
   useEffect(() => {
-    const fetchAppointments = async () => {
-      try {
-        const response = await api.get(`/barbers/${id}/appointments`);
-
-        console.log(response);
-        const today = new Date();
-        const filtered = response.data.filter((appt: Appointment) => {
-          return new Date(appt.schedule.day) >= today;
-        });
-        setAppointments(filtered);
-      } catch (error) {
-        console.error("Failed to get appointments:", error);
-      }
-    };
-
     fetchAppointments();
     console.log(appointments);
   }, [id]);
+
+  const onDeleteAppointmentClick = async (appoId: Number, barberId: number) => {
+    try {
+      console.log("Id prateno od front-end:", barberId);
+      const response = await api.delete(
+        `appointments/${appoId}/barber/${barberId}`
+      );
+
+      console.log(response);
+      fetchAppointments();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-dark text-font p-6">
@@ -46,6 +59,14 @@ export default function BarberAppointmentsPage() {
               </div>
               <div className="text-sm">📞 {appt.clientPhone}</div>
               <div className="text-sm">✂ {appt.service.name}</div>
+              <button
+                className="bg-red-800 border-border hover:bg-red-400 transition text-font p-2 mt-1 rounded cursor-pointer"
+                onClick={() => {
+                  onDeleteAppointmentClick(appt.id, appt.barber.id);
+                }}
+              >
+                Delete
+              </button>
             </div>
           ))
         ) : (

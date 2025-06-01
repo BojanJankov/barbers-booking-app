@@ -6,7 +6,6 @@ import {
   Param,
   Patch,
   Post,
-  Put,
 } from '@nestjs/common';
 import { AppointmentsService } from './appointments.service';
 import { Appointment } from './entities/appointment.entity';
@@ -34,14 +33,6 @@ export class AppointmentsController {
     return this.appointmentsService.findOne(id);
   }
 
-  // @Patch(':id/status')
-  // updateStatus(
-  //   @Param('id') id: number,
-  //   @Body() updateStatusDto: UpdateStatusDto,
-  // ) {
-  //   return this.appointmentsService.updateStatus(id, updateStatusDto);
-  // }
-
   @Patch(':id')
   async update(
     @Param('id') id: number,
@@ -50,15 +41,11 @@ export class AppointmentsController {
     return this.appointmentsService.update(id, updateAppointmentDto);
   }
 
-  @Delete(':id')
-  async remove(@Param('id') id: number): Promise<void> {
-    return this.appointmentsService.remove(id);
+  @Delete(':id/barber/:barberId')
+  async remove(
+    @Param('id') id: number,
+    @Param('barberId') barberId: number,
+  ): Promise<void> {
+    return this.appointmentsService.deleteAppointment(id, barberId);
   }
-
-  // @Get(':userId')
-  // async getAppointmentsForUser(
-  //   @Param('userId') userId: string,
-  // ): Promise<Appointment[]> {
-  //   return this.appointmentsService.getAppointmentsForUser(userId);
-  // }
 }

@@ -89,19 +89,6 @@ export default function CalendarWithTerms({ barberId }: Props) {
     }
   };
 
-  // const handleSave = async () => {
-  //   try {
-  //     console.log("Data to send:", { availableTerms: displayAvailableTerms });
-  //     await api.patch(`barbers/${barberId}/available`, {
-  //       availableTerms: displayAvailableTerms,
-  //     });
-  //     console.log("Terms saved!");
-  //   } catch (err) {
-  //     console.error(err);
-  //     console.log("Failed to save terms");
-  //   }
-  // };
-
   return (
     <div className="space-y-6">
       <div className="flex gap-2 flex-wrap">
@@ -143,7 +130,7 @@ export default function CalendarWithTerms({ barberId }: Props) {
             />
             <button
               onClick={addTimeToDay}
-              className="bg-mid border-border text-font p-2 rounded"
+              className="bg-light border-border hover:bg-dark text-font p-2 rounded cursor-pointer"
             >
               Add Term
             </button>

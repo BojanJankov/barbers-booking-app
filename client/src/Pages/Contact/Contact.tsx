@@ -38,7 +38,7 @@ const ContactPage = () => {
 
   return (
     <div className="min-h-screen bg-dark text-font flex items-center justify-center py-8">
-      <div className="max-w-4xl w-full bg-mid p-6 rounded-lg shadow-xl">
+      <div className="max-w-4xl w-full bg-mid p-6 rounded-lg shadow-xl m-5">
         <h2 className="text-3xl font-semibold text-center mb-6">Contact Us</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">

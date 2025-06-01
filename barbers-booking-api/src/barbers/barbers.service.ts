@@ -212,4 +212,12 @@ export class BarbersService {
 
     return barber.appointments;
   }
+
+  // async deleteAppointmentByBarer(barberId: number, appoId: number) {
+  //   const barber = await this.barbersRepository.findOne({
+  //     where: {
+  //       id: barberId,
+  //     },
+  //   });
+  // }
 }

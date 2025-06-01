@@ -70,7 +70,7 @@ export default function BarbersPage() {
             <select
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
-              className="px-4 py-3 rounded-xl bg-mid text-font border border-border shadow-sm cursor-pointer"
+              className="px-3 py-2 rounded-xl bg-mid text-font border border-border shadow-sm cursor-pointer"
             >
               <option value="">Filter by</option>
               <option value="name">Name</option>
@@ -81,7 +81,7 @@ export default function BarbersPage() {
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value)}
-              className="px-4 py-3 rounded-xl bg-mid text-font border border-border shadow-sm cursor-pointer"
+              className="px-3 py-2 rounded-xl bg-mid text-font border border-border shadow-sm cursor-pointer"
             >
               <option value="">Sort by</option>
               <option value="newest">Newest</option>

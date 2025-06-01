@@ -77,7 +77,7 @@ const EditBarberPage = () => {
     <div className="min-h-screen bg-dark text-font p-6 space-y-10">
       <section className="bg-mid rounded-2xl p-6 shadow-lg border border-font space-y-4">
         <h2 className="text-2xl font-bold mb-4 text-font">
-          Your barber information
+          barber information
         </h2>
         <div className="w-32 h-32 mx-auto rounded-full overflow-hidden border-4 border-border shadow-md">
           <img
@@ -89,49 +89,49 @@ const EditBarberPage = () => {
         <div className="space-y-3 text-lg sm:text-xl text-center mb-10">
           <p>
             <span className="font-semibold text-light text-xl sm:text-2xl">
-              Your name:
+              Name:
             </span>{" "}
             {foundBarber?.name}
           </p>
           <p>
             <span className="font-semibold text-light text-xl sm:text-2xl">
-              Your bussines name:
+              Bussines name:
             </span>{" "}
             {foundBarber?.bussinesName}
           </p>
           <p>
             <span className="font-semibold text-light text-xl sm:text-2xl">
-              Your email:
+              Email:
             </span>{" "}
             {foundBarber?.email}
           </p>
           <p>
             <span className="font-semibold text-light text-xl sm:text-2xl">
-              Your city:
+              City:
             </span>{" "}
             {foundBarber?.city}
           </p>
           <p>
             <span className="font-semibold text-light text-xl sm:text-2xl">
-              Your address:
+              Address:
             </span>{" "}
             {foundBarber?.address}
           </p>
           <p>
             <span className="font-semibold text-light text-xl sm:text-2xl">
-              Your experience:
+              Experience:
             </span>{" "}
             {foundBarber?.experience}
           </p>
           <p>
             <span className="font-semibold text-light text-xl sm:text-2xl">
-              Your phone number:
+              Phone number:
             </span>{" "}
             {foundBarber?.phoneNumber}
           </p>
           <p>
             <span className="font-semibold text-light text-xl sm:text-2xl">
-              Your description:
+              Description:
             </span>{" "}
             {foundBarber?.description}
           </p>

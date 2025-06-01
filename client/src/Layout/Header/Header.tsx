@@ -1,3 +1,68 @@
+// import { useContext } from "react";
+// import Navbar from "../../Components/Navbar/Navbar";
+// import { AuthContext } from "../../context/AuthContext";
+// import { useNavigate } from "react-router-dom";
+// import DropdownMenu from "../../Components/DropDownMenu/DropDownMenu";
+
+// function Header() {
+//   const navigate = useNavigate();
+//   const { accessToken, user, logout } = useContext(AuthContext);
+
+//   const menuItems = [
+//     {
+//       text: "Your scheduled terms",
+//       onClick: () => {
+//         navigate(`/barber-appointments/${user?.barber.id}`);
+//       },
+//     },
+//     {
+//       text: "Logout",
+//       onClick: () => {
+//         logout();
+//         navigate("/login");
+//       },
+//     },
+//   ];
+
+//   return (
+//     <header className="bg-dark px-6 py-4 flex justify-between items-center">
+//       <div className="text-font text-3xl font-bold tracking-wide">
+//         <h1 className="cursor-pointer" onClick={() => navigate("/")}>
+//           BarberBook
+//         </h1>
+//       </div>
+//       <Navbar />
+//       <div>
+//         {accessToken ? (
+//           <div className="text-font text-lg font-semibold flex items-center gap-3">
+//             <i className="fa-solid fa-user text-[#b08968] text-xl"></i>
+//             <span>{user?.username}</span>
+//             <DropdownMenu menuItems={menuItems} />
+//           </div>
+//         ) : (
+//           <>
+//             <button
+//               className="bg-[#b08968] hover:bg-[#a17459] text-white font-medium px-4 py-2 rounded-lg transition-all duration-200 shadow cursor-pointer"
+//               onClick={() => navigate("register")}
+//             >
+//               Register your bussines
+//             </button>
+//             <span className="m-2">or</span>
+//             <button
+//               className="bg-[#b08968] hover:bg-[#a17459] text-white font-medium px-4 py-2 rounded-lg transition-all duration-200 shadow cursor-pointer"
+//               onClick={() => navigate("login")}
+//             >
+//               Login
+//             </button>
+//           </>
+//         )}
+//       </div>
+//     </header>
+//   );
+// }
+
+// export default Header;
+
 import { useContext } from "react";
 import Navbar from "../../Components/Navbar/Navbar";
 import { AuthContext } from "../../context/AuthContext";
@@ -10,7 +75,7 @@ function Header() {
 
   const menuItems = [
     {
-      text: "Scheduled terms",
+      text: "Your scheduled terms",
       onClick: () => {
         navigate(`/barber-appointments/${user?.barber.id}`);
       },
@@ -25,27 +90,40 @@ function Header() {
   ];
 
   return (
-    <header className="bg-dark px-6 py-4 flex justify-between items-center">
-      <div className="text-font text-3xl font-bold tracking-wide">
+    <header className="bg-dark px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-y-3 md:gap-y-0">
+      <div className="hidden md:block text-font text-2xl font-bold tracking-wide">
         <h1 className="cursor-pointer" onClick={() => navigate("/")}>
           BarberBook
         </h1>
       </div>
-      <Navbar />
-      <div>
+
+      <div className="w-full md:w-auto">
+        <Navbar />
+      </div>
+
+      <div className="flex flex-col md:flex-row items-center gap-2 text-font">
         {accessToken ? (
-          <div className="text-font text-lg font-semibold flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <i className="fa-solid fa-user text-[#b08968] text-xl"></i>
-            <span>{user?.username}</span>
+            <span className="font-semibold">{user?.username}</span>
             <DropdownMenu menuItems={menuItems} />
           </div>
         ) : (
-          <button
-            className="bg-[#b08968] hover:bg-[#a17459] text-white font-medium px-4 py-2 rounded-lg transition-all duration-200 shadow cursor-pointer"
-            onClick={() => navigate("register")}
-          >
-            Register a Barber
-          </button>
+          <div className="flex flex-col sm:flex-row items-center gap-2">
+            <button
+              className="bg-[#b08968] hover:bg-[#a17459] text-white font-medium px-4 py-2 rounded-lg transition-all duration-200 shadow cursor-pointer"
+              onClick={() => navigate("register")}
+            >
+              Register your business
+            </button>
+            <span className="text-sm text-font">or</span>
+            <button
+              className="bg-[#b08968] hover:bg-[#a17459] text-white font-medium px-4 py-2 rounded-lg transition-all duration-200 shadow cursor-pointer"
+              onClick={() => navigate("login")}
+            >
+              Login
+            </button>
+          </div>
         )}
       </div>
     </header>
