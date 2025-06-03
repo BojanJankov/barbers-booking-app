@@ -77,7 +77,7 @@ const EditBarberPage = () => {
     <div className="min-h-screen bg-dark text-font p-6 space-y-10">
       <section className="bg-mid rounded-2xl p-6 shadow-lg border border-font space-y-4">
         <h2 className="text-2xl font-bold mb-4 text-font">
-          barber information
+          Barber information
         </h2>
         <div className="w-32 h-32 mx-auto rounded-full overflow-hidden border-4 border-border shadow-md">
           <img

@@ -6,11 +6,11 @@ const AboutUs = () => {
           About Us
         </h1>
         <p className="text-lg md:text-2xl text-font leading-relaxed">
-          Welcome to <span className="font-bold">Barber Booking App</span> –
-          your ultimate destination for hassle-free barber appointments. Our
-          platform connects skilled barbers with clients who value style and
-          convenience. Whether you're looking for a fresh cut, a beard trim, or
-          a full grooming session, we make booking easy, fast, and reliable.
+          Welcome to Barber Booking App – your ultimate destination for
+          hassle-free barber appointments. Our platform connects skilled barbers
+          with clients who value style and convenience. Whether you're looking
+          for a fresh cut, a beard trim, or a full grooming session, we make
+          booking easy, fast, and reliable.
         </p>
         <p className="text-lg md:text-2xl text-font leading-relaxed mt-6">
           With a few clicks, you can find top-rated barbers, check their

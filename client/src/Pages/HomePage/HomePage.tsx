@@ -1,16 +1,15 @@
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   return (
     <div className="min-h-screen bg-dark flex flex-col">
       <main className="flex flex-col lg:flex-row items-center justify-center flex-1 p-8 gap-12">
         <div className="text-center lg:text-left max-w-lg">
           <h2 className="text-5xl font-bold text-font mb-4">BarberBook</h2>
-          <p className="text-lg text-font mb-6">
-            Barbershop scheduling styled to the point. Fast, easy, and reliable
-            appointments with the best barbers around.
-          </p>
+          <p className="text-lg text-font mb-6">{t("home-text")}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
             <button
               className="px-5 py-3 bg-light cursor-pointer text-white rounded-lg font-semibold shadow hover:bg-[#a17459] transition"
