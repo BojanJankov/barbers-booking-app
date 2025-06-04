@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import Navbar from "../../Components/Navbar/Navbar";
-import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import DropdownMenu from "../../Components/DropDownMenu/DropDownMenu";
 import { LanguageSwitcher } from "../../Components/LanguageSwitcher/LanguageSwitcher";
+import { AuthContext } from "../../context/AuthContext";
 
 function Header() {
   const navigate = useNavigate();
@@ -46,13 +46,13 @@ function Header() {
           </div>
         ) : (
           <div className="flex flex-col sm:flex-row items-center gap-2">
-            <button
+            {/* <button
               className="bg-[#b08968] hover:bg-[#a17459] text-white font-medium px-4 py-2 rounded-lg transition-all duration-200 shadow cursor-pointer"
               onClick={() => navigate("register")}
             >
               Register your business
-            </button>
-            <span className="text-sm text-font">or</span>
+            </button> */}
+            {/* <span className="text-sm text-font">or</span> */}
             <button
               className="bg-[#b08968] hover:bg-[#a17459] text-white font-medium px-4 py-2 rounded-lg transition-all duration-200 shadow cursor-pointer"
               onClick={() => navigate("login")}

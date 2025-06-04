@@ -85,6 +85,17 @@ export const LoginPage = () => {
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
+          <p className="text-font flex justify-center">
+            You don't have account?{" "}
+            <a
+              className="text-light pl-2 hover:text-font cursor-pointer"
+              onClick={() => {
+                navigate("/register");
+              }}
+            >
+              Register here
+            </a>
+          </p>
           <button type="submit" className={styles.button}>
             Login
           </button>
