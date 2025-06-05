@@ -39,15 +39,17 @@ export function LanguageSwitcher() {
         <div className="absolute right-0 mt-2 w-32 bg-dark border border-border rounded-md shadow-lg z-50">
           <button
             onClick={() => switchLanguage("en")}
-            className="block w-full text-left px-4 py-2 text-font hover:bg-light cursor-pointer"
+            className="w-full text-left px-4 py-2 text-font hover:bg-light cursor-pointer flex gap-2"
           >
             EN
+            <img src="/flags/gb-eng.svg" alt="Macedonian flag" width={20} />
           </button>
           <button
             onClick={() => switchLanguage("mk")}
-            className="block w-full text-left px-4 py-2 text-font hover:bg-light cursor-pointer"
+            className="w-full text-left px-4 py-2 text-font hover:bg-light cursor-pointer flex gap-2"
           >
             MK
+            <img src="/flags/mk.svg" alt="Macedonian flag" width={20} />
           </button>
         </div>
       )}

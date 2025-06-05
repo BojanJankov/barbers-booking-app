@@ -8,7 +8,7 @@ export default function Home() {
     <div className="min-h-screen bg-dark flex flex-col">
       <main className="flex flex-col lg:flex-row items-center justify-center flex-1 p-8 gap-12">
         <div className="text-center lg:text-left max-w-lg">
-          <h2 className="text-5xl font-bold text-font mb-4">BarberBook</h2>
+          <h2 className="text-5xl font-bold text-font mb-4">{t("logo")}</h2>
           <p className="text-lg text-font mb-6">{t("home-text")}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
             <button
@@ -17,7 +17,7 @@ export default function Home() {
                 navigate("/barbers");
               }}
             >
-              Book Appointment
+              {t("book-appointment")}
             </button>
             <button
               className="px-5 py-3 border border-light text-light cursor-pointer rounded-lg font-semibold hover:bg-mid transition"
@@ -25,7 +25,7 @@ export default function Home() {
                 navigate("/login");
               }}
             >
-              Are you a Barber?
+              {t("are-you-a-barber")}
             </button>
           </div>
         </div>

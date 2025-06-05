@@ -46,13 +46,6 @@ function Header() {
           </div>
         ) : (
           <div className="flex flex-col sm:flex-row items-center gap-2">
-            {/* <button
-              className="bg-[#b08968] hover:bg-[#a17459] text-white font-medium px-4 py-2 rounded-lg transition-all duration-200 shadow cursor-pointer"
-              onClick={() => navigate("register")}
-            >
-              Register your business
-            </button> */}
-            {/* <span className="text-sm text-font">or</span> */}
             <button
               className="bg-[#b08968] hover:bg-[#a17459] text-white font-medium px-4 py-2 rounded-lg transition-all duration-200 shadow cursor-pointer"
               onClick={() => navigate("login")}

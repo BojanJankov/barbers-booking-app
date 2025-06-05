@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { api } from "../../services/api";
+import { useTranslation } from "react-i18next";
 
 interface IFormInput {
   name: string;
@@ -9,6 +10,7 @@ interface IFormInput {
 }
 
 const ContactPage = () => {
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -39,14 +41,16 @@ const ContactPage = () => {
   return (
     <div className="min-h-screen bg-dark text-font flex items-center justify-center py-8">
       <div className="max-w-4xl w-full bg-mid p-6 rounded-lg shadow-xl m-5">
-        <h2 className="text-3xl font-semibold text-center mb-6">Contact Us</h2>
+        <h2 className="text-3xl font-semibold text-center mb-6">
+          {t("contact-us-title")}
+        </h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
             <label htmlFor="name" className="block text-lg font-medium mb-2">
-              Full Name
+              {t("form-label-fullName")}
             </label>
             <input
-              placeholder="Your full name..."
+              placeholder={t("form-fullName-placeholder")}
               className={`w-full p-3 rounded-md border-2 border-border bg-transparent text-font focus:outline-none focus:border-light ${
                 errors.name ? "border-red-500" : ""
               }`}
@@ -59,10 +63,10 @@ const ContactPage = () => {
 
           <div className="mb-4">
             <label htmlFor="email" className="block text-lg font-medium mb-2">
-              Email Address
+              {t("form-label-email")}
             </label>
             <input
-              placeholder="Your email..."
+              placeholder={t("form-email-placeholder")}
               type="email"
               id="email"
               className={`w-full p-3 rounded-md border-2 border-border bg-transparent text-font focus:outline-none focus:border-light ${
@@ -85,10 +89,10 @@ const ContactPage = () => {
 
           <div className="mb-4">
             <label htmlFor="message" className="block text-lg font-medium mb-2">
-              Your Message
+              {t("form-label-contact-message")}
             </label>
             <textarea
-              placeholder="Write your message here..."
+              placeholder={t("form-label-contact-messsage-placeholder")}
               rows={5}
               id="message"
               className={`w-full p-3 rounded-md border-2 border-border bg-transparent text-font focus:outline-none focus:border-light ${
@@ -108,7 +112,7 @@ const ContactPage = () => {
               type="submit"
               className="bg-light text-font font-bold py-2 px-6 rounded-lg hover:bg-mid transition-colors cursor-pointer"
             >
-              Send Message
+              {t("contact-button")}
             </button>
           </div>
         </form>
