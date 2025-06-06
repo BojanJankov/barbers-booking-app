@@ -4,6 +4,7 @@ import BarberContext from "../../context/StateContext";
 import CalendarWithTerms from "../../Components/CalendarWithTerms/CalendarWithTerms";
 import { api } from "../../services/api";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 interface ServiceFormValues {
   name: string;
@@ -11,6 +12,7 @@ interface ServiceFormValues {
 }
 
 const EditBarberPage = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { id } = useParams();
   const { getBarberById, foundBarber } = useContext(BarberContext);
@@ -77,7 +79,7 @@ const EditBarberPage = () => {
     <div className="min-h-screen bg-dark text-font p-6 space-y-10">
       <section className="bg-mid rounded-2xl p-6 shadow-lg border border-font space-y-4">
         <h2 className="text-2xl font-bold mb-4 text-font">
-          Barber information
+          {t("edit-barber-info-title")}
         </h2>
         <div className="w-32 h-32 mx-auto rounded-full overflow-hidden border-4 border-border shadow-md">
           <img
@@ -89,49 +91,49 @@ const EditBarberPage = () => {
         <div className="space-y-3 text-lg sm:text-xl text-center mb-10">
           <p>
             <span className="font-semibold text-light text-xl sm:text-2xl">
-              Name:
+              {t("edit-barber-info-name")}
             </span>{" "}
             {foundBarber?.name}
           </p>
           <p>
             <span className="font-semibold text-light text-xl sm:text-2xl">
-              Bussines name:
+              {t("edit-barber-info-bussinesName")}
             </span>{" "}
             {foundBarber?.bussinesName}
           </p>
           <p>
             <span className="font-semibold text-light text-xl sm:text-2xl">
-              Email:
+              {t("edit-barber-info-email")}
             </span>{" "}
             {foundBarber?.email}
           </p>
           <p>
             <span className="font-semibold text-light text-xl sm:text-2xl">
-              City:
+              {t("edit-barber-info-city")}
             </span>{" "}
             {foundBarber?.city}
           </p>
           <p>
             <span className="font-semibold text-light text-xl sm:text-2xl">
-              Address:
+              {t("edit-barber-info-address")}
             </span>{" "}
             {foundBarber?.address}
           </p>
           <p>
             <span className="font-semibold text-light text-xl sm:text-2xl">
-              Experience:
+              {t("edit-barber-info-experience")}
             </span>{" "}
             {foundBarber?.experience}
           </p>
           <p>
             <span className="font-semibold text-light text-xl sm:text-2xl">
-              Phone number:
+              {t("edit-barber-info-phoneNumber")}
             </span>{" "}
             {foundBarber?.phoneNumber}
           </p>
           <p>
             <span className="font-semibold text-light text-xl sm:text-2xl">
-              Description:
+              {t("edit-barber-info-description")}
             </span>{" "}
             {foundBarber?.description}
           </p>
@@ -141,20 +143,22 @@ const EditBarberPage = () => {
             onClick={handleEditBarber}
             className="px-6 py-2 rounded-lg bg-light hover:bg-border text-font transition-all shadow-md cursor-pointer"
           >
-            Edit your information
+            {t("edit-barber-info-button-text")}
           </button>
         </div>
       </section>
       <div className="border p-6 rounded-lg bg-mid">
         <h2 className="text-2xl font-bold mb-4 text-font">
-          Manage Your Available Terms
+          {t("edit-barber-manage-terms-title")}
         </h2>
         {foundBarber && foundBarber.id && (
           <CalendarWithTerms barberId={foundBarber.id} />
         )}
       </div>
       <div className="border p-6 rounded-lg bg-mid">
-        <h2 className="text-2xl font-bold mb-4 text-font">Manage Services</h2>
+        <h2 className="text-2xl font-bold mb-4 text-font">
+          {t("edit-barber-manage-services-title")}
+        </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pb-5">
           {(foundBarber?.services ?? []).map((service) => (
             <div
@@ -178,7 +182,7 @@ const EditBarberPage = () => {
           className="bg-dark border-border text-font p-2 rounded hover:bg-light cursor-pointer"
           onClick={onAddServiceClick}
         >
-          Add Service
+          {t("edit-barber-add-service-button")}
         </button>
         {isOpenServiceForm && (
           <form
@@ -190,18 +194,20 @@ const EditBarberPage = () => {
             })}
           >
             <h2 className="text-xl text-font font-semibold text-center">
-              Your Service Details
+              {t("edit-barber-service-form-title")}
             </h2>
             <input
               type="text"
-              placeholder="Service name"
+              placeholder={t(
+                "edit-barber-service-form-serviceName-placeholder"
+              )}
               {...register("name", { required: true })}
               className="border border-border text-font p-3 rounded focus:outline-none focus:ring-2 focus:ring-border"
               required
             />
             <input
               type="number"
-              placeholder="Price"
+              placeholder={t("edit-barber-service-form-price-placeholder")}
               {...register("price", { required: true })}
               className="border border-border text-font p-3 rounded focus:outline-none focus:ring-2 focus:ring-border"
               required
@@ -210,7 +216,7 @@ const EditBarberPage = () => {
               type="submit"
               className="mt-4 bg-mid border-border text-font font-semibold py-3 rounded hover:bg-light transition cursor-pointer"
             >
-              Confirm Service
+              {t("edit-barber-service-form-button-text")}
             </button>
           </form>
         )}

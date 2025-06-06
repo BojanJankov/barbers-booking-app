@@ -1,6 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 interface DropdownMenuProps {
   menuItems: {
@@ -14,6 +15,7 @@ const DropdownMenu = ({ menuItems }: DropdownMenuProps) => {
   const dropDownRef = useRef<HTMLDivElement>(null);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
@@ -69,7 +71,7 @@ const DropdownMenu = ({ menuItems }: DropdownMenuProps) => {
                   setIsOpen(false);
                 }}
               >
-                Edit your profile
+                {t("drop-down-edit-profile")}
               </li>
             ) : (
               <li
@@ -79,7 +81,7 @@ const DropdownMenu = ({ menuItems }: DropdownMenuProps) => {
                   setIsOpen(false);
                 }}
               >
-                Add your profile
+                {t("drop-down-add-profile")}
               </li>
             )
           ) : null}

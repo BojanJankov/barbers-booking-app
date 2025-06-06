@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import BarberContext from "../../context/StateContext";
 import { AuthContext } from "../../context/AuthContext";
 import BackButton from "../../Components/BackButton/BackButton";
+import { useTranslation } from "react-i18next";
 
 type FormData = {
   name: string;
@@ -20,6 +21,7 @@ type FormData = {
 };
 
 const EditBarberFormPage = () => {
+  const { t } = useTranslation();
   const { id } = useParams();
   const { user } = useContext(AuthContext);
   const { getBarberById, foundBarber } = useContext(BarberContext);
@@ -81,20 +83,22 @@ const EditBarberFormPage = () => {
         <div className={styles.card}>
           <h1 className={styles.title}>Edit your barber information</h1>
           <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-            <label className={styles.label}>Your Full name</label>
+            <label className={styles.label}>{t("form-label-fullName")}</label>
             <input
               type="text"
-              placeholder="Name"
+              placeholder={t("form-fullName-placeholder")}
               {...register("name", {
                 required: true,
               })}
               className={styles.input}
             />
             <p className={styles.error}>{errors.name?.message}</p>
-            <label className={styles.label}>Your Bussines name</label>
+            <label className={styles.label}>
+              {t("form-label-bussinesName")}
+            </label>
             <input
               type="text"
-              placeholder="Bussines name"
+              placeholder={t("form-bussinesName-placeholder")}
               {...register("bussinesName", {
                 required: true,
                 minLength: {
@@ -105,10 +109,10 @@ const EditBarberFormPage = () => {
               className={styles.input}
             />
             <p className={styles.error}>{errors.bussinesName?.message}</p>
-            <label className={styles.label}>Your Email</label>
+            <label className={styles.label}>{t("form-label-email")}</label>
             <input
               type="email"
-              placeholder="Email"
+              placeholder={t("form-email-placeholder")}
               {...register("email", {
                 required: true,
                 pattern: {
@@ -119,10 +123,10 @@ const EditBarberFormPage = () => {
               className={styles.input}
             />
             <p className={styles.error}>{errors.email?.message}</p>
-            <label className={styles.label}>Your City</label>
+            <label className={styles.label}>{t("form-label-city")}</label>
             <input
               type="text"
-              placeholder="City"
+              placeholder={t("form-city-placeholder-placeholder")}
               {...register("city", {
                 required: true,
                 minLength: {
@@ -133,10 +137,10 @@ const EditBarberFormPage = () => {
               className={styles.input}
             />
             <p>{errors.city?.message}</p>
-            <label className={styles.label}>Your Address</label>
+            <label className={styles.label}>{t("form-label-address")}</label>
             <input
               type="text"
-              placeholder="Address"
+              placeholder={t("form-address-placeholder")}
               {...register("address", {
                 required: true,
                 minLength: {
@@ -151,10 +155,10 @@ const EditBarberFormPage = () => {
               className={styles.input}
             />
             <p className={styles.error}>{errors.address?.message}</p>
-            <label className={styles.label}>Your Experience</label>
+            <label className={styles.label}>{t("form-label-experience")}</label>
             <input
               type="text"
-              placeholder="Experience"
+              placeholder={t("form-experience-placeholder")}
               {...register("experience", {
                 required: true,
                 min: {
@@ -169,10 +173,12 @@ const EditBarberFormPage = () => {
               className={styles.input}
             />
             <p className={styles.error}>{errors.experience?.message}</p>
-            <label className={styles.label}>Your Phone number</label>
+            <label className={styles.label}>
+              {t("form-label-phoneNumber")}
+            </label>
             <input
               type="string"
-              placeholder="Phone Number"
+              placeholder={t("form-phoneNumber-placeholder")}
               {...register("phoneNumber", {
                 required: true,
                 minLength: {
@@ -191,9 +197,11 @@ const EditBarberFormPage = () => {
               className={styles.input}
             />
             <p className={styles.error}>{errors.phoneNumber?.message}</p>
-            <label className={styles.label}>Your Description</label>
+            <label className={styles.label}>
+              {t("form-label-description")}
+            </label>
             <textarea
-              placeholder="Your description"
+              placeholder={t("form-description-placeholder")}
               {...register("description", {
                 required: true,
                 minLength: {
@@ -208,16 +216,16 @@ const EditBarberFormPage = () => {
               className={styles.input}
             />
             <p className={styles.error}>{errors.description?.message}</p>
-            <label className={styles.label}>Your Profile image</label>
+            <label className={styles.label}>{t("form-label-image")}</label>
             <input
-              placeholder="Image"
+              placeholder={t("form-image-placeholder")}
               type="string"
               {...register("image", { required: true })}
               className={styles.input}
             />
             <p className={styles.error}>{errors.image?.message}</p>
             <button type="submit" className={styles.button}>
-              Save Changes
+              {t("edit-barber-save-button")}
             </button>
           </form>
         </div>

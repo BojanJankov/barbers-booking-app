@@ -4,6 +4,7 @@ import { api } from "../../services/api";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { styles } from "../../assets/tailwindCss/formTaiwlindCss";
+import { useTranslation } from "react-i18next";
 
 interface RegisterFormValues {
   firstName: string;
@@ -16,6 +17,7 @@ interface RegisterFormValues {
 }
 
 export const RegisterPage = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { accessToken, logout } = useContext(AuthContext);
 
@@ -58,18 +60,16 @@ export const RegisterPage = () => {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="bg-mid p-8 rounded-2xl shadow-xl w-full max-w-md text-center">
-          <h1 className="text-2xl text-font font-bold mb-4">Logout</h1>
-          <h2 className="text-lg text-font mb-2">
-            Are you sure you want to log out?
-          </h2>
-          <p className="text-sm text-font mb-6">
-            You can log out here if you want:
-          </p>
+          <h1 className="text-2xl text-font font-bold mb-4">
+            {t("logout-title")}
+          </h1>
+          <h2 className="text-lg text-font mb-2">{t("logout-text-one")}</h2>
+          <p className="text-sm text-font mb-6">{t("logout-text-two")}</p>
           <button
             onClick={logout}
             className="w-full bg-border hover:bg-light text-dark font-semibold py-2 px-4 rounded-xl transition-colors cursor-pointer"
           >
-            Log out
+            {t("logout-button")}
           </button>
         </div>
       </div>
@@ -79,7 +79,7 @@ export const RegisterPage = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.card}>
-        <h2 className={styles.title}>Register your barber bussines</h2>
+        <h2 className={styles.title}>{t("register-title")}</h2>
         <form
           className={styles.form}
           method="POST"
@@ -90,7 +90,7 @@ export const RegisterPage = () => {
         >
           <input
             className={styles.input}
-            placeholder="First name"
+            placeholder={t("form-firstName-placeholder")}
             required
             {...register("firstName", {
               required: "Please Enter Your First name",
@@ -103,7 +103,7 @@ export const RegisterPage = () => {
           <p className={styles.error}>{errors.firstName?.message}</p>
           <input
             className={styles.input}
-            placeholder="Last Name"
+            placeholder={t("form-lastName-placeholder")}
             required
             {...register("lastName", {
               required: "Please Enter Your Last name",
@@ -116,7 +116,7 @@ export const RegisterPage = () => {
           <p className={styles.error}>{errors.lastName?.message}</p>
           <input
             className={styles.input}
-            placeholder="Username"
+            placeholder={t("form-username-placeholder")}
             required
             {...register("username", {
               required: "Please Enter Your Username",
@@ -129,7 +129,7 @@ export const RegisterPage = () => {
           <p className={styles.error}>{errors.username?.message}</p>
           <input
             className={styles.input}
-            placeholder="Email"
+            placeholder={t("form-email-placeholder")}
             type="email"
             required
             {...register("email", {
@@ -143,7 +143,7 @@ export const RegisterPage = () => {
           <p className={styles.error}>{errors.email?.message}</p>
           <input
             className={styles.input}
-            placeholder="Password"
+            placeholder={t("form-passwrod-placeholder")}
             type="password"
             required
             {...register("password", {
@@ -157,7 +157,7 @@ export const RegisterPage = () => {
           <p className={styles.error}>{errors.password?.message}</p>
           <input
             className={styles.input}
-            placeholder="Confirm password"
+            placeholder={t("form-confirmPassword-placeholder")}
             {...register("confirmPassword", {
               required: "Please Enter Your Confirm Password",
               validate: (match) => {
@@ -170,17 +170,17 @@ export const RegisterPage = () => {
           />
           <p className={styles.error}>{errors.confirmPassword?.message}</p>
           <button type="submit" className={styles.button}>
-            Register
+            {t("register-button")}
           </button>
           <p className="text-font flex justify-center">
-            You already have an account?{" "}
+            {t("register-acc-message")}{" "}
             <span className="text-light pl-2 hover:text-font cursor-pointer">
               <a
                 onClick={() => {
                   navigate("/login");
                 }}
               >
-                Log in
+                {t("register-login-link-message")}
               </a>
             </span>
           </p>

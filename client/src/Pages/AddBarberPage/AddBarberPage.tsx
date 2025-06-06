@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import BarberContext from "../../context/StateContext";
 import BackButton from "../../Components/BackButton/BackButton";
+import { useTranslation } from "react-i18next";
 
 export interface FormValuesModel {
   name: string;
@@ -20,6 +21,7 @@ export interface FormValuesModel {
 }
 
 export default function AddBarberPage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { user, getUserById } = useContext(AuthContext);
   const { fetchBarbers } = useContext(BarberContext);
@@ -64,7 +66,7 @@ export default function AddBarberPage() {
       <BackButton />
       <div className={styles.wrapper}>
         <div className={styles.card}>
-          <h1 className={styles.title}>Add Your Barber Bussines</h1>
+          <h1 className={styles.title}>{t("add-barber-title")}</h1>
           <form
             onSubmit={handleSubmit((data) => onSubmit(data))}
             className={styles.form}
@@ -77,7 +79,7 @@ export default function AddBarberPage() {
                   message: "Bussines name must be at least 3 characters long!",
                 },
               })}
-              placeholder="Your Full Name"
+              placeholder={t("form-fullName-placeholder")}
               className={styles.input}
             />
             <p className={styles.error}>{errors.name?.message}</p>
@@ -89,7 +91,7 @@ export default function AddBarberPage() {
                   message: "Bussines name must be at least 3 characters long!",
                 },
               })}
-              placeholder="Your bussines name"
+              placeholder={t("form-bussinesName-placeholder")}
               className={styles.input}
             />
             <p className={styles.error}>{errors.bussinesName?.message}</p>
@@ -101,7 +103,7 @@ export default function AddBarberPage() {
                   message: "Please enter valid email",
                 },
               })}
-              placeholder="Your email address"
+              placeholder={t("form-email-placeholder")}
               type="email"
               className={styles.input}
             />
@@ -122,7 +124,7 @@ export default function AddBarberPage() {
                   message: "Phone number must contain only digits",
                 },
               })}
-              placeholder="Your phone number"
+              placeholder={t("form-phoneNumber-placeholder")}
               className={styles.input}
             />
             <p className={styles.error}>{errors.phoneNumber?.message}</p>
@@ -134,7 +136,7 @@ export default function AddBarberPage() {
                   message: "City name must be at least 3 characters long!",
                 },
               })}
-              placeholder="Your bussines city"
+              placeholder={t("form-city-placeholder")}
               className={styles.input}
             />
             <p className={styles.error}>{errors.city?.message}</p>
@@ -150,7 +152,7 @@ export default function AddBarberPage() {
                   message: "Address name must be 75 characters or less!",
                 },
               })}
-              placeholder="Your bussines address"
+              placeholder={t("form-address-placeholder")}
               className={styles.input}
             />
             <p className={styles.error}>{errors.address?.message}</p>
@@ -167,7 +169,7 @@ export default function AddBarberPage() {
                   message: "Value must be 75 or less",
                 },
               })}
-              placeholder="Years of Experience"
+              placeholder={t("form-experience-placeholder")}
               type="number"
               className={styles.input}
             />
@@ -175,7 +177,7 @@ export default function AddBarberPage() {
             <input
               type="string"
               {...register("image", { required: true })}
-              placeholder="Your profile image"
+              placeholder={t("form-image-placeholder")}
               className={styles.input}
             />
             <p className={styles.error}>{errors.image?.message}</p>
@@ -191,12 +193,12 @@ export default function AddBarberPage() {
                   message: "Description must be 250 characters or less",
                 },
               })}
-              placeholder="Write a description for your bussines"
+              placeholder={t("form-description-placeholder")}
               className={styles.input}
             />
             <p className={styles.error}>{errors.description?.message}</p>
             <button type="submit" className={styles.button}>
-              Add Barber
+              {t("add-barber-button")}
             </button>
           </form>
         </div>

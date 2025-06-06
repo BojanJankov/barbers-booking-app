@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import { Appointment } from "../../Models/appointment.model";
 import { useParams } from "react-router-dom";
 import { api } from "../../services/api";
+import { useTranslation } from "react-i18next";
 
 export default function BarberAppointmentsPage() {
+  const { t } = useTranslation();
   const { id } = useParams();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
 
@@ -43,7 +45,7 @@ export default function BarberAppointmentsPage() {
   return (
     <div className="min-h-screen bg-dark text-font p-6">
       <h1 className="text-3xl font-semibold border-b border-border pb-2 mb-6">
-        Upcoming Appointments
+        {t("barbers-appointment-title")}
       </h1>
       <div className="space-y-4">
         {appointments.length > 0 ? (
@@ -65,12 +67,14 @@ export default function BarberAppointmentsPage() {
                   onDeleteAppointmentClick(appt.id, appt.barber.id);
                 }}
               >
-                Delete
+                {t("barbers-appointment-delete-button")}
               </button>
             </div>
           ))
         ) : (
-          <p className="text-font/70">No upcoming appointments.</p>
+          <p className="text-font/70">
+            {t("barbers-appointment-no-appointments")}
+          </p>
         )}
       </div>
     </div>

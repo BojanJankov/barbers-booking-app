@@ -1,23 +1,25 @@
 import { NavLink } from "react-router-dom";
 import { NavLinkModel } from "../../Models/core.model";
+import { useTranslation } from "react-i18next";
 
 function Navbar() {
+  const { t } = useTranslation();
   const navLinks: NavLinkModel[] = [
     {
       path: "/",
-      text: "Home",
+      text: t("nav-links-home"),
     },
     {
       path: "/about",
-      text: "About",
+      text: t("nav-links-about"),
     },
     {
       path: "/contact",
-      text: "Contact",
+      text: t("nav-links-contact"),
     },
     {
       path: "/barbers",
-      text: "Barbers",
+      text: t("nav-links-barbers"),
     },
   ];
 

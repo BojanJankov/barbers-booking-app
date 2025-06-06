@@ -4,20 +4,22 @@ import { useNavigate } from "react-router-dom";
 import DropdownMenu from "../../Components/DropDownMenu/DropDownMenu";
 import { LanguageSwitcher } from "../../Components/LanguageSwitcher/LanguageSwitcher";
 import { AuthContext } from "../../context/AuthContext";
+import { useTranslation } from "react-i18next";
 
 function Header() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { accessToken, user, logout } = useContext(AuthContext);
 
   const menuItems = [
     {
-      text: "Your scheduled terms",
+      text: t("edit-barber-manage-terms-title"),
       onClick: () => {
         navigate(`/barber-appointments/${user?.barber.id}`);
       },
     },
     {
-      text: "Logout",
+      text: t("logout-title"),
       onClick: () => {
         logout();
         navigate("/login");
@@ -29,7 +31,7 @@ function Header() {
     <header className="bg-dark px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-y-3 md:gap-y-0">
       <div className="hidden md:block text-font text-2xl font-bold tracking-wide">
         <h1 className="cursor-pointer" onClick={() => navigate("/")}>
-          BarberBook
+          {t("logo")}
         </h1>
       </div>
 
@@ -50,7 +52,7 @@ function Header() {
               className="bg-[#b08968] hover:bg-[#a17459] text-white font-medium px-4 py-2 rounded-lg transition-all duration-200 shadow cursor-pointer"
               onClick={() => navigate("login")}
             >
-              Login
+              {t("login-button")}
             </button>
           </div>
         )}

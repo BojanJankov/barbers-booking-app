@@ -3,8 +3,10 @@ import { api } from "../../services/api";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { styles } from "../../assets/tailwindCss/formTaiwlindCss";
+import { useTranslation } from "react-i18next";
 
 export const LoginPage = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { login, logout, accessToken } = useContext(AuthContext);
   const [email, setEmail] = useState("");
@@ -40,18 +42,16 @@ export const LoginPage = () => {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="bg-mid p-8 rounded-2xl shadow-xl w-full max-w-md text-center">
-          <h1 className="text-2xl text-font font-bold mb-4">Logout</h1>
-          <h2 className="text-lg text-font mb-2">
-            Are you sure you want to log out?
-          </h2>
-          <p className="text-sm text-font mb-6">
-            You can log out here if you want:
-          </p>
+          <h1 className="text-2xl text-font font-bold mb-4">
+            {t("logout-title")}
+          </h1>
+          <h2 className="text-lg text-font mb-2">{t("logout-text-one")}</h2>
+          <p className="text-sm text-font mb-6">{t("logout-text-two")}</p>
           <button
             onClick={logout}
             className="w-full bg-border hover:bg-light text-dark font-semibold py-2 px-4 rounded-xl transition-colors cursor-pointer"
           >
-            Log out
+            {t("logout-button")}
           </button>
         </div>
       </div>
@@ -61,7 +61,7 @@ export const LoginPage = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.card}>
-        <h2 className={styles.title}>Login</h2>
+        <h2 className={styles.title}>{t("login-title")}</h2>
         <form
           className={styles.form}
           action=""
@@ -70,7 +70,7 @@ export const LoginPage = () => {
         >
           <input
             className={styles.input}
-            placeholder="Email"
+            placeholder={t("form-email-placeholder")}
             type="email"
             required
             value={email}
@@ -79,25 +79,25 @@ export const LoginPage = () => {
 
           <input
             className={styles.input}
-            placeholder="Password"
+            placeholder={t("form-password-placeholder")}
             type="password"
             required
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
           <p className="text-font flex justify-center">
-            You don't have account?{" "}
+            {t("login-acc-message")}{" "}
             <a
               className="text-light pl-2 hover:text-font cursor-pointer"
               onClick={() => {
                 navigate("/register");
               }}
             >
-              Register here
+              {t("login-acc-link-text")}
             </a>
           </p>
           <button type="submit" className={styles.button}>
-            Login
+            {t("login-title")}
           </button>
         </form>
       </div>

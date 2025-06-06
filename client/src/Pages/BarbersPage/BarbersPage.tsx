@@ -3,9 +3,11 @@ import { useNavigate } from "react-router-dom";
 import BarberContext from "../../context/StateContext";
 import { Barber } from "../../Models/barber.model";
 import { Mail, Phone, Briefcase, Scissors, MapPin, User } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function BarbersPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { barbers } = useContext(BarberContext);
   const [displayBarbers, setDisplayBarbers] = useState<Barber[]>(barbers);
   const [search, setSearch] = useState("");
@@ -61,7 +63,7 @@ export default function BarbersPage() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-4">
           <input
             type="text"
-            placeholder="Search barbers..."
+            placeholder={t("barbers-search-placeholder")}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full md:w-1/2 px-4 py-3 rounded-xl border border-border bg-mid text-font placeholder:text-[#888] shadow-sm focus:outline-none focus:border-light"
@@ -72,27 +74,29 @@ export default function BarbersPage() {
               onChange={(e) => setFilter(e.target.value)}
               className="px-3 py-2 rounded-xl bg-mid text-font border border-border shadow-sm cursor-pointer"
             >
-              <option value="">Filter by</option>
-              <option value="name">Name</option>
-              <option value="city">City</option>
-              <option value="address">Address</option>
-              <option value="experience">Experience</option>
+              <option value="">{t("barbers-filter-deafult")}</option>
+              <option value="name">{t("barbers-filter-name")}</option>
+              <option value="city">{t("barbers-filter-city")}</option>
+              <option value="address">{t("barbers-filter-address")}</option>
+              <option value="experience">
+                {t("barbers-filter-experience")}
+              </option>
             </select>
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value)}
               className="px-3 py-2 rounded-xl bg-mid text-font border border-border shadow-sm cursor-pointer"
             >
-              <option value="">Sort by</option>
-              <option value="newest">Newest</option>
-              <option value="experience">Experience</option>
-              <option value="services">Services</option>
+              <option value="">{t("barbers-sort-deafult")}</option>
+              <option value="newest">{t("barbers-sort-newest")}</option>
+              <option value="experience">{t("barbers-sort-experience")}</option>
+              <option value="services">{t("barbers-sort-services")}</option>
             </select>
             <button
               className="px-4 py-3 rounded-xl bg-mid text-font border border-border shadow-sm transition cursor-pointer hover:bg-light hover:shadow-md"
               onClick={handleReset}
             >
-              Reset
+              {t("barbers-reset-button")}
             </button>
           </div>
         </div>
@@ -131,7 +135,10 @@ export default function BarbersPage() {
                   </div>
                   <div className="flex items-center justify-center gap-2">
                     <Briefcase size={17} />{" "}
-                    <span>Experience: {barber.experience}</span>
+                    <span>
+                      {" "}
+                      {t("barbers-card-experience-title")} {barber.experience}
+                    </span>
                   </div>
                 </div>
                 <div className="w-full mt-4">
@@ -155,14 +162,14 @@ export default function BarbersPage() {
                   onClick={() => navigate(`/barbers/${barber.id}/booking`)}
                   className="mt-6 bg-dark hover:bg-light text-font px-6 py-2 rounded-xl transition cursor-pointer"
                 >
-                  Book Now
+                  {t("barbers-card-button-text")}
                 </button>
               </div>
             ))}
           </div>
         ) : (
           <div className="text-center text-font text-lg mt-20">
-            Oops! No barbers found. Try adjusting your search or filters.
+            {t("barbers-not-found-message")}
           </div>
         )}
       </div>

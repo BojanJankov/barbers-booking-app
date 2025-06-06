@@ -2,12 +2,14 @@ import { useContext, useEffect, useState } from "react";
 import { api } from "../../services/api";
 import { AvailableTerm } from "../../Models/terms.model";
 import BarberContext from "../../context/StateContext";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   barberId: number | undefined;
 };
 
 export default function CalendarWithTerms({ barberId }: Props) {
+  const { t } = useTranslation();
   const { fetchAvailableTerms, availableTerms } = useContext(BarberContext);
   const [displayAvailableTerms, setDisplayAvailableTerms] = useState<
     AvailableTerm[]
@@ -119,7 +121,9 @@ export default function CalendarWithTerms({ barberId }: Props) {
       </div>
       {selectedDay && (
         <div className="space-y-4">
-          <h3 className="text-xl font-bold">Terms for {selectedDay}</h3>
+          <h3 className="text-xl font-bold">
+            {t("calendar-terms-text")} {selectedDay}
+          </h3>
 
           <div className="flex gap-2">
             <input
@@ -132,7 +136,7 @@ export default function CalendarWithTerms({ barberId }: Props) {
               onClick={addTimeToDay}
               className="bg-light border-border hover:bg-dark text-font p-2 rounded cursor-pointer"
             >
-              Add Term
+              {t("calendar-add-term-button")}
             </button>
           </div>
 
@@ -156,7 +160,7 @@ export default function CalendarWithTerms({ barberId }: Props) {
             onClick={handleSave}
             className="bg-light border-border hover:bg-dark text-font p-2 rounded cursor-pointer"
           >
-            Save Terms
+            {t("calendar-save-term-button")}
           </button>
         </div>
       )}

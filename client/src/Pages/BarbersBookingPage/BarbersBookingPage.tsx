@@ -6,8 +6,10 @@ import BarberContext from "../../context/StateContext";
 import { AvailableTerm } from "../../Models/terms.model";
 import { api } from "../../services/api";
 import { Service } from "../../Models/service.model";
+import { useTranslation } from "react-i18next";
 
 export default function BarberBookingPage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { barberId } = useParams();
   const { availableTerms, fetchAvailableTerms } = useContext(BarberContext);
@@ -94,13 +96,17 @@ export default function BarberBookingPage() {
   if (success) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen">
-        <h1 className="text-2xl font-bold text-light">🎉 Booking Confirmed!</h1>
-        <p className="mt-2 text-font">We sent you a confirmation email.</p>
+        <h1 className="text-2xl font-bold text-light">
+          🎉 {t("barbers-booking-confirm-message-one")}
+        </h1>
+        <p className="mt-2 text-font">
+          {t("barbers-booking-confirm-message-two")}
+        </p>
         <p
           className="mt-2 text-font hover:underline hover:text-light cursor-pointer"
           onClick={() => navigate("/barbers")}
         >
-          Go back to barbers page!
+          {t("barbers-booking-confirm-link")}
         </p>
       </div>
     );
@@ -109,7 +115,7 @@ export default function BarberBookingPage() {
   return (
     <div className="max-w-4xl mx-auto p-6 flex flex-col gap-8">
       <h1 className="text-3xl font-bold text-center text-font">
-        Book Your Appointment
+        {t("barbers-booking-title")}
       </h1>
 
       <div className="flex justify-center">
@@ -123,7 +129,7 @@ export default function BarberBookingPage() {
       {selectedDate && (
         <div className="flex flex-col gap-4">
           <h2 className="text-xl font-semibold text-center text-font">
-            Available Times
+            {t("barbers-booking-available-title")}
           </h2>
           <div className="flex flex-wrap justify-center gap-3">
             {availableTimes.length > 0 ? (
@@ -141,7 +147,9 @@ export default function BarberBookingPage() {
                 </button>
               ))
             ) : (
-              <p className="text-gray-500">No available times for this day.</p>
+              <p className="text-gray-500">
+                {t("barbers-booking-no-available-message")}
+              </p>
             )}
           </div>
         </div>
@@ -154,7 +162,7 @@ export default function BarberBookingPage() {
               htmlFor="service-select"
               className="block text-lg font-medium text-font mb-1"
             >
-              Choose a service:
+              {t("barbers-booking-service-title")}
             </label>
             <select
               id="service-select"
@@ -168,7 +176,7 @@ export default function BarberBookingPage() {
               className="w-full px-4 py-2 border border-border bg-mid text-font rounded-lg focus:outline-none focus:ring-2 focus:ring-font transition"
             >
               <option value="" disabled>
-                Select a service
+                {t("barbers-booking-service-select-title")}
               </option>
               {services.map((service) => (
                 <option key={service.id} value={service.id}>
@@ -184,11 +192,11 @@ export default function BarberBookingPage() {
               className="flex flex-col gap-4 max-w-md mx-auto bg-mid p-6 shadow-md rounded-lg"
             >
               <h2 className="text-xl font-semibold text-center">
-                Your Details
+                {t("barbers-booking-details-title")}
               </h2>
               <input
                 type="text"
-                placeholder="Full Name"
+                placeholder={t("form-fullName-placeholder")}
                 value={formData.fullName}
                 onChange={(e) =>
                   setFormData({ ...formData, fullName: e.target.value })
@@ -200,7 +208,7 @@ export default function BarberBookingPage() {
               />
               <input
                 type="text"
-                placeholder="Phone Number"
+                placeholder={t("form-phoneNumber-placeholder")}
                 value={formData.phone}
                 onChange={(e) =>
                   setFormData({ ...formData, phone: e.target.value })
@@ -213,7 +221,7 @@ export default function BarberBookingPage() {
               />
               <input
                 type="email"
-                placeholder="Email Address"
+                placeholder={t("form-email-placeholder")}
                 value={formData.email}
                 onChange={(e) =>
                   setFormData({ ...formData, email: e.target.value })
@@ -226,7 +234,7 @@ export default function BarberBookingPage() {
                 type="submit"
                 className="mt-4 bg-light border-border text-font font-semibold py-3 rounded hover:bg-dark transition cursor-pointer"
               >
-                Confirm Booking
+                {t("barbers-booking-confirm-button")}
               </button>
             </form>
           )}
