@@ -10,6 +10,7 @@ import { compare, hash } from 'bcryptjs';
 import { CredentialsDto } from './dtos/credentials.dto';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { RoleType } from 'src/roles/roles.model';
 
 @Injectable()
 export class AuthService {
@@ -123,5 +124,52 @@ export class AuthService {
     } catch (error) {
       throw new ForbiddenException();
     }
+  }
+
+  async loginAdmin(credentials: CredentialsDto) {
+    const foundUser = await this.usersService.findUserByEmail(
+      credentials.email,
+    );
+
+    if (!foundUser) throw new UnauthorizedException('Invalid Credentials');
+
+    console.log(credentials.password);
+    console.log(foundUser.password);
+
+    if (foundUser.role !== RoleType.ADMIN)
+      throw new UnauthorizedException('Invalid Role Type');
+
+    const isPasswordValid = await compare(
+      credentials.password,
+      foundUser.password,
+    );
+
+    console.log(isPasswordValid);
+
+    if (!isPasswordValid)
+      throw new UnauthorizedException('Invalid Credentials');
+
+    const token = await this.jwtService.signAsync({ id: foundUser.id });
+
+    console.log('access-token', token);
+
+    const refreshToken = await this.jwtService.signAsync(
+      { id: foundUser.id },
+      {
+        secret: this.configService.get('REFRESH_TOKEN_SECRET'),
+        expiresIn: '7d',
+      },
+    );
+
+    await this.usersService.saveRefreshToken(foundUser.id, refreshToken);
+
+    delete foundUser.refreshTokens;
+    delete foundUser.password;
+
+    return {
+      user: foundUser,
+      token,
+      refreshToken,
+    };
   }
 }

@@ -38,6 +38,22 @@ export class AuthController {
     return response.json(user);
   }
 
+  @Post('admin/login')
+  @HttpCode(HttpStatus.OK)
+  async loginAdmin(
+    @Body() credentials: CredentialsDto,
+    @Res() response: Response,
+  ) {
+    const { token, refreshToken, user } =
+      await this.authService.loginAdmin(credentials);
+
+    // response.set('access-control-expose-headers', '*');
+    response.set('access-token', token);
+    response.set('refresh-token', refreshToken);
+
+    return response.json(user);
+  }
+
   @Get('logout')
   @HttpCode(HttpStatus.NO_CONTENT)
   logoutUser(@Headers('refresh-token') refreshToken: string) {
